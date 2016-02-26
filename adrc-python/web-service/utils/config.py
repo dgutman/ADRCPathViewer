@@ -1,6 +1,16 @@
+#!/usr/bin/python
+# - Reads the application configurations from app.cfg
+#   that will be used to setup the app.
+# - Use default values provided here to fill in missing
+#   configurations and settings
+
 import ConfigParser
 
 def get_app_configurations():
+	"""
+	Get user defined settings from the configurations file
+	and use default settings to fill in missing settings
+	"""
 	defaults = {
 			'db_host': 'localhost',
 			'db_port': 27017,
@@ -18,6 +28,7 @@ def get_app_configurations():
 	config.read("app.cfg")
 	configurations = {}
 
+	#go through every section, there is only one section
 	for section in config.sections():
 		tmp = config_section_map(section, config)
 		configurations.update(tmp)
@@ -25,6 +36,10 @@ def get_app_configurations():
 	return configurations
 
 def config_section_map(section, config):
+	"""
+	map the values of each section and add them
+	to a dictionary
+	"""
 	dict1 = {}
 	options = config.options(section)
 
