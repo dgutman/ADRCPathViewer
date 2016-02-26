@@ -28,15 +28,13 @@ from optparse import OptionParser
 from threading import Lock
 
 
-
-
 SLIDE_DIR = '.'
 SLIDE_CACHE_SIZE = 100
 DEEPZOOM_FORMAT = 'jpeg'
 DEEPZOOM_TILE_SIZE = 256
 DEEPZOOM_OVERLAP = 1
 DEEPZOOM_LIMIT_BOUNDS = True
-DEEPZOOM_TILE_QUALITY = 75	
+DEEPZOOM_TILE_QUALITY = 75
 
 
 #application = DispatcherMiddleware( { '/backend': backend })
@@ -172,6 +170,7 @@ def static_file(path):
 
 
 @app.route('/DZIMS/<path:path>.dzi')
+@crossdomain(origin='*')
 def dzi(path):
     slide = _get_slide(path)
     format = 'jpeg'
