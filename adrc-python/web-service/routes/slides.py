@@ -19,19 +19,21 @@ def _setup():
     global slide_db_ptr
     global load_errors_db
     slide_db_ptr, load_errors_db = connect(slides.config)
+    print slides.config,'hidave'
 
 ## adding decorators to allow cross origin access
+
 @slides.route('/api/v1/collections')
 @crossdomain(origin='*')
 def get_collections():
-    coll_list = slide_db_ptr.collection_names(False)
+    coll_list = slide_db_ptr['orig_slides'].distinct('pt_id')
     return jsonify( { 'Collections': sorted(coll_list) })
 
 @slides.route('/api/v1/collections/slides/<string:coll_name>')
 @crossdomain(origin='*')
 def get_slides( coll_name):
     """This will return the list of slides for a given collection aka tumor type """
-    return dumps( {'slide_list': dsa_combined_db[coll_name.upper()].find() })
+    return dumps( {'slide_list': slide_db_ptr['orig_slides'].find({'pt_id':coll_name})} ) 
 
 ##This will process and store files that were marked as bad...
 @slides.route('/api/v1/report_bad_image', methods=["POST"])
