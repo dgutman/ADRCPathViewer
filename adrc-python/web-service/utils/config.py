@@ -15,7 +15,7 @@ def get_app_configurations():
 		}
 
 	config = ConfigParser.SafeConfigParser(defaults)
-	config.read("config.cfg")
+	config.read("app.cfg")
 	configurations = {}
 
 	for section in config.sections():
