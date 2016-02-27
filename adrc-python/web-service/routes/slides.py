@@ -19,9 +19,6 @@ def _setup():
     global slide_db_ptr
     global load_errors_db
     slide_db_ptr, load_errors_db = connect(slides.config)
-    print slides.config,'hidave'
-
-## adding decorators to allow cross origin access
 
 @slides.route('/api/v1/collections')
 @crossdomain(origin='*')

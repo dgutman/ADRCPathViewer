@@ -5,19 +5,15 @@ from utils.deepzoom import _get_slide, _SlideCache
 import pymongo, os, gridfs
 from utils.db import connect
 
-ADRC_Routes = Blueprint('ADRC_Routes', __name__)
+ADRC_Routes = Blueprint('ADRC_Routes', __name__, static_folder='../dsa_adrc/static/')
 
-
-
-@ADRC_Routes.route('/static/<path:path>')
-def static_proxy(path):
+@ADRC_Routes.route('/')
+def static_proxy():
   # send_static_file will guess the correct MIME type
   print "tring a static route??"
-  return app.send_static_file(os.path.join('../../dsa_adrc/static/', path))
+  #print os.path.join('../dsa_adrc/static/', path)
+  return ADRC_Routes.send_static_file('index.html')
 
-@ADRC_Routes.route('/<path:path>')
-def static_file(path):
-    print "Should be looking for inde.html???"
-    return app.send_static_file('../../dsa_adrc/static/'+index.html)
+
 
 
