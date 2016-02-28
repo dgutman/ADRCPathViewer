@@ -1,19 +1,14 @@
-from flask import request, url_for, jsonify, make_response, Blueprint, current_app as app
-from bson.json_util import dumps
+from flask import Blueprint
 from utils.crossdomains import crossdomain
-from utils.deepzoom import _get_slide, _SlideCache
-import pymongo, os, gridfs
-from utils.db import connect
+from utils.config import get_app_configurations
 
-ADRC_Routes = Blueprint('ADRC_Routes', __name__, static_folder='../dsa_adrc/static/')
+config = get_app_configurations()
+adrc = Blueprint('ADRC_Routes', __name__, static_folder=config['static_dir'])
 
-@ADRC_Routes.route('/')
-def static_proxy():
-  # send_static_file will guess the correct MIME type
-  print "tring a static route??"
-  #print os.path.join('../dsa_adrc/static/', path)
-  return ADRC_Routes.send_static_file('index.html')
+@adrc.route('/')
+def index():
+  return adrc.send_static_file('index.html')
 
-
-
-
+@adrc.route('/<path:path>')
+def send_static_page(path):
+  return adrc.send_static_file(path)
