@@ -8,13 +8,19 @@ Clone the repo
 
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
-Create the flask environment for testing using [Anaconda](https://www.continuum.io/downloads) if you with
+Create the flask environment for testing using [Anaconda](https://www.continuum.io/downloads) if you wish
 
     conda create --name ADRCFlask jupyter flask
 
 Activate the environment
 
     source activate ADRCFlask
+
+Browse to `ADRC_ROOT/adrc-python/web-service`
+    cd ADRC_ROOT/adrc-python/web-service
+
+Run the web service
+    python main.py
 
 Exactly, and if you:
 $ conda list -e > req.txt
