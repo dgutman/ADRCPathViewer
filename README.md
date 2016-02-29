@@ -5,12 +5,15 @@ This is a development workspace for a pathology viewer for the ADRC @ Emory usin
 Instuctions
 =====================
 Clone the repo
+
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
 Create the flask environment for testing, if you with
+
     conda create --name ADRCFlask jupyter flask
 
 Activate the environment
+
     source activate ADRCFlask
 
 Exactly, and if you:
