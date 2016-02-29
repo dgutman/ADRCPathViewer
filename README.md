@@ -20,31 +20,38 @@ Browse to `ADRC_ROOT/adrc-python/web-service`
 
     cd ADRC_ROOT/adrc-python/web-service
 
-Make changes to the application configurations in `app.cfg`, some of the settings you can change are:
-
-`db_host`: localhost (default)
-`db_port`: 27017 (default)
-db_name: DSA_ADRC
-
-#app/web service host and port
-ws_host: 0.0.0.0
-ws_port: 5050
-
-#flask settings
-#this path is relative to the directory where the blueprint is located
-static_dir: ../../dsa_adrc/static
-
-slides_dir: /mnt/GAUSS_SCRATCH/NDPI_VAULT/ADRC
-tile_size: 256
-overlap: 1
-limit_bounds: 0
-slide_cache_size: 1000
-deepzoom_format: jpeg
-
-
 Run the web service
 
     python main.py
+
+Application configurations
+===========================
+You make changes to the application configurations in `app.cfg`, some of the settings you can change are:
+
+`db_host`: localhost (default)
+
+`db_port`: 27017 (default)
+
+`db_name`: your mongodb collection name
+
+`ws_host`: 0.0.0.0 (default web service address)
+
+`ws_port`: web service port
+
+`static_dir`: location of static pages relative to the directory where the blueprint is located
+
+`slides_dir`: location of the whole-slide images
+
+`tile_size`: 256 (default)
+
+`overlap`: 1 (default)
+
+`limit_bounds`: 0 (default)
+
+`slide_cache_size`: 1000 (default)
+
+`deepzoom_format`: jpeg (default)
+
 
 Exactly, and if you:
 $ conda list -e > req.txt
