@@ -9,11 +9,18 @@ dz = Blueprint('deepzoom', __name__)
 
 @dz.record
 def record_params(setup_state):
+    """
+    Apply the main app configurations to the blueprint
+    """
     app = setup_state.app
     dz.config = app.config
 
 @dz.before_app_first_request
 def _setup():
+    """
+    Initialize openslide with some parmeters defined in the application
+    configuration file
+    """
     opts = {
        'tile_size': int(dz.config['tile_size']),
        'overlap': int(dz.config['overlap']),
@@ -25,6 +32,10 @@ def _setup():
 @dz.route('/DZIMS/<path:path>.dzi')
 @crossdomain(origin='*')
 def dzi(path):
+    """
+    Service while slide images using openslide
+    images are encolded in XML format
+    """
     slide = _get_slide(dz.config['slides_dir'], path)
     resp = make_response(slide.get_dzi(dz.config['deepzoom_format']))
     resp.mimetype = 'application/xml'
@@ -35,17 +46,13 @@ def tile(path, level, col, row, format):
     slide = _get_slide(dz.config['slides_dir'], path)
     format = format.lower()
     if format != 'jpeg' and format != 'png':
-        # Not supported by Deep Zoom
         abort(404)
     try:
         tile = slide.get_tile(level, (col, row))
     except ValueError:
-        # Invalid level or coordinates
         abort(404)
     buf = PILBytesIO()
  
-
-#   tile.save(buf, format, quality=app.config['DEEPZOOM_TILE_QUALITY'])
     tile.save(buf, 'jpeg', quality=90)
     resp = make_response(buf.getvalue())
     resp.mimetype = 'image/%s' % format
