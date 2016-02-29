@@ -52,7 +52,6 @@ You make changes to the application configurations in `app.cfg`, some of the set
 
 `deepzoom_format`: jpeg (default)
 
-
 Exactly, and if you:
 $ conda list -e > req.txt
 then you can install the environment using
