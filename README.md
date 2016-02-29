@@ -17,9 +17,11 @@ Activate the environment
     source activate ADRCFlask
 
 Browse to `ADRC_ROOT/adrc-python/web-service`
+
     cd ADRC_ROOT/adrc-python/web-service
 
 Run the web service
+
     python main.py
 
 Exactly, and if you:
