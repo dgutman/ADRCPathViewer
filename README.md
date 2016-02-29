@@ -8,7 +8,7 @@ Clone the repo
 
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
-Create the flask environment for testing, if you with
+Create the flask environment for testing using [Anaconda](https://www.continuum.io/downloads) if you with
 
     conda create --name ADRCFlask jupyter flask
 
