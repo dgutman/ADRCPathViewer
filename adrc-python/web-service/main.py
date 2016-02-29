@@ -1,3 +1,8 @@
+#!/usr/bin/python
+# initialize the flask app
+# add configuration to the application
+# register the blueprints with the app
+
 from routes.deepzoom import dz
 from routes.slides import slides
 from routes.ADRC_static import adrc
