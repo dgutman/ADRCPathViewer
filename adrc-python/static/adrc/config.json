@@ -1,0 +1,8 @@
+{
+"study_name_url":"http://node15.cci.emory.edu/CDSA_DEV/local_php/datagroup_combo_connector.php",
+"thumb_list_url":"http://node15.cci.emory.edu/CDSA/local_php/get_slide_list_from_db.php?tumor_type=",
+"query_db_enabled":true,
+"query_db_url":"fetch.php?pid=",
+"report_bad_image_enabled":true,
+"report_bad_image_url":"report_bad_image.php"
+}
