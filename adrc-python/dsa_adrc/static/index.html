@@ -134,13 +134,12 @@
 
 <body>
     <script>
-    base_host = "http://cancer.digitalslidearchive.emory.edu"
+    //base_host = "http://cancer.digitalslidearchive.emory.edu"
+    base_host = ""
         //base_host='';    
         //Defining urls for data grab functions
     datagroup_apiurl = base_host + '/api/v1/collections';
     
-	
-
 	//Change this image to be dyanmic loaded from a config.json file
 
     </script>
@@ -224,7 +223,6 @@
     var mousetracker;
     var osd;
     var PRECISION = 3;
-
 
     //consider this slider http://bxslider.com/ content slider
 
@@ -361,7 +359,6 @@
 
                 load_thumbnail_data(recent_study_name);
                 sel_image_expanded = false;
-
 
             }
         });
@@ -519,7 +516,11 @@
             //now want to load the data into the data table object
             html_for_dt = []; //html for data table input
             $.each(data.slide_list, function(idx, sld_info) {
-                    var html = sld_info.slide_name + '#' + sld_info.slide_url + '#' + sld_info.slide_name + '#' + sld_info.thumbnail_image;
+
+		//converted_URL for local src =..
+		// add thumbnail as well
+
+                    var html = sld_info.slide_name + '#' + sld_info.slide_w_path+ '#' + sld_info.slide_name + '#' + sld_info.thumbnail_image;
                     html_for_dt.push([html]);
                     //console.log(html);
 
@@ -705,7 +706,7 @@
     //See http://www.datatables.net/forums/discussion/1959/image-thumbs-in-table-column-lazy-loading/p1 for example
     function customFnRowCallback(nRow, aData, iDisplayIndex) {
         var rowdata = aData[0].split('#');
-        //     console.log(rowdata);
+             console.log(rowdata);
         var html = '<a href=\"javascript:;\" onclick=\"load_image(\'' + rowdata[0] + '\',\'' + rowdata[1] + '\')\">' + rowdata[2] + '<br /><img src=\"' + rowdata[3] + '\"></a>';
         $('td:eq(0)', nRow).html(html);
         return nRow;
