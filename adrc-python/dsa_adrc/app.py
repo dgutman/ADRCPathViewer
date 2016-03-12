@@ -87,22 +87,24 @@ def getThumbnail(path):
     """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
     print "Looking in ",path,'for thumbnail.... which sould be expanded  I hope'
 
-    slide = _get_slide(path)
+    path = os.path.abspath(os.path.join(app.basedir, path))
+    osr = OpenSlide(path)
     format = 'jpeg'
-    level=0
-    col=0
-    row=0 
-    ## I believe this is the defaults for level 0.
+
     format = format.lower()
     if format != 'jpeg' and format != 'png':
         # Not supported by Deep Zoom
         abort(404)
     try:
-        tile = slide.get_tile(level, (col, row))
+        thumb = osr.get_thumbnail( (300,300))
     except ValueError:
         # Invalid level or coordinates
         abort(404)
     buf = PILBytesIO()
+    thumb.save(buf, 'jpeg', quality=90)
+    resp = make_response(buf.getvalue())
+    resp.mimetype = 'image/%s' % format
+    return resp
 
 @app.route('/DZIMS/<path:path>.dzi')
 @crossdomain(origin='*')
@@ -136,13 +138,13 @@ def tile(path, level, col, row, format):
     resp.mimetype = 'image/%s' % format
     return resp
 
-
-
 class PILBytesIO(BytesIO):
     def fileno(self):
         '''Classic PIL doesn't understand io.UnsupportedOperation.'''
         raise AttributeError('Not supported')
 
+
+### I need/want to add in a THUMB cache as well, as these are honestly the most used parameters...
 
 class _SlideCache(object):
     def __init__(self, cache_size, dz_opts):
