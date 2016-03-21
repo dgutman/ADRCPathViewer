@@ -23,14 +23,14 @@ def _setup():
 @slides.route('/api/v1/collections')
 @crossdomain(origin='*')
 def get_collections():
-    coll_list = slide_db_ptr['orig_slides'].distinct('pt_id')
+    coll_list = slide_db_ptr['DSA_Slide_Data'].distinct('pt_id')
     return jsonify( { 'Collections': sorted(coll_list) })
 
 @slides.route('/api/v1/collections/slides/<string:coll_name>')
 @crossdomain(origin='*')
 def get_slides( coll_name):
     """This will return the list of slides for a given collection aka tumor type """
-    return dumps( {'slide_list': slide_db_ptr['orig_slides'].find({'pt_id':coll_name})} ) 
+    return dumps( {'slide_list': slide_db_ptr['DSA_Slide_Data'].find({'pt_id':coll_name})} ) 
 
 ##This will process and store files that were marked as bad...
 @slides.route('/api/v1/report_bad_image', methods=["POST"])

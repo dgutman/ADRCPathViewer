@@ -4,6 +4,8 @@ from utils.crossdomains import crossdomain
 from utils.deepzoom import _get_slide, _SlideCache
 import pymongo, os, gridfs
 from utils.db import connect
+from utils.deepzoom import PILBytesIO
+from openslide import OpenSlide
 
 dz = Blueprint('deepzoom', __name__)
 
@@ -39,6 +41,32 @@ def dzi(path):
     slide = _get_slide(dz.config['slides_dir'], path)
     resp = make_response(slide.get_dzi(dz.config['deepzoom_format']))
     resp.mimetype = 'application/xml'
+    return resp
+
+@dz.route('/thumbnail/<path:path>')
+@crossdomain(origin='*')
+def getThumbnail(path):
+    """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
+    print "Looking in ",path,'for thumbnail.... which sould be expanded  I hope'
+
+    path = os.path.abspath(os.path.join(dz.config['slides_dir'], path))
+    osr = OpenSlide(path)
+    format = 'jpeg'
+
+    format = format.lower()
+    if format != 'jpeg' and format != 'png':
+        # Not supported by Deep Zoom
+        abort(404)
+    try:
+        thumb = osr.get_thumbnail( (300,300))
+    except ValueError:
+        # Invalid level or coordinates
+        abort(404)
+
+    buf = PILBytesIO()
+    thumb.save(buf, 'jpeg', quality=90)
+    resp = make_response(buf.getvalue())
+    resp.mimetype = 'image/%s' % format
     return resp
 
 @dz.route('/DZIMS/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')
