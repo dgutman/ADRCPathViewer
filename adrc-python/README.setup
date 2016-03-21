@@ -1,3 +1,0 @@
-conda create --name ADRCFlask --file requirements.txt
-source activate ADRCFlask
-
