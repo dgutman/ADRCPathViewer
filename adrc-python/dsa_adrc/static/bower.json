@@ -1,0 +1,32 @@
+{
+  "name": "DSA Bower Install",
+  "homepage": "https://github.com/dgutman/ADRCPathViewer",
+  "authors": [
+    "David Gutman <dagutman@gmail.com>"
+  ],
+  "description": "Pulls dependencies for dsa portal",
+  "main": "index.html",
+  "moduleType": [
+    "es6",
+    "globals"
+  ],
+  "keywords": [
+    "adrc",
+    "osd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "grunt": "^0.4.5",
+    "jquery-ui": "jqueryui#^1.11.4",
+    "font-awesome": "fontawesome#^4.5.0",
+    "openseadragon": "^2.1.0"
+  }
+}
