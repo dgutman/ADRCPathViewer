@@ -10,18 +10,18 @@ from utils.config import get_app_configurations
 
 #get app configurations
 config = get_app_configurations()
-adrc = Blueprint('ADRC_Routes', __name__, static_folder = config['static_dir'])
+static = Blueprint('ADRC_Routes', __name__, static_folder = config['static_dir'])
 
-@adrc.route('/')
+@static.route('/')
 def serve_index():
 	"""
 	The default request will serve index.html page
 	"""
-	return adrc.send_static_file('index.html')
+	return static.send_static_file('index.html')
 
-@adrc.route('/<path:path>')
+@static.route('/<path:path>')
 def serve_static_page(path):
 	"""
 	Serve the page specified in the path
 	"""
-	return adrc.send_static_file(path)
+	return static.send_static_file(path)

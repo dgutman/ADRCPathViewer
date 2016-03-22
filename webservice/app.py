@@ -5,7 +5,7 @@
 
 from routes.deepzoom import dz
 from routes.slides import slides
-from routes.ADRC_static import adrc
+from routes.static import static
 from  flask import Flask
 from utils.config import get_app_configurations
 
@@ -19,9 +19,4 @@ app.config.update(get_app_configurations())
 #register the route blueprints to the app
 app.register_blueprint(dz)
 app.register_blueprint(slides)
-app.register_blueprint(adrc)
-
-app.run(
-		host=app.config['ws_host'], 
-		port=int(app.config['ws_port']), 
-		debug=True)
+app.register_blueprint(static)
