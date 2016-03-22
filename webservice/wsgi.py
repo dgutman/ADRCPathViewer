@@ -1,3 +1,5 @@
+# run: gunicorn --bind 0.0.0.0:8000 wsgi
+
 from app import app as application
 from utils.config import get_app_configurations
 
