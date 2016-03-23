@@ -10,7 +10,7 @@ from utils.config import get_app_configurations
 
 #get app configurations
 config = get_app_configurations()
-static = Blueprint('ADRC_Routes', __name__, static_folder = config['static_dir'])
+static = Blueprint('static', __name__, static_folder = config['static_dir'])
 
 @static.route('/')
 def serve_index():

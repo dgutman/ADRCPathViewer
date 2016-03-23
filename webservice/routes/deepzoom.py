@@ -47,7 +47,6 @@ def dzi(path):
 @crossdomain(origin='*')
 def getThumbnail(path):
     """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
-    print "Looking in ",path,'for thumbnail.... which sould be expanded  I hope'
 
     path = os.path.abspath(os.path.join(dz.config['slides_dir'], path))
     osr = OpenSlide(path)

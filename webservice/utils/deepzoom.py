@@ -50,16 +50,11 @@ class _SlideFile(object):
 def _get_slide(slides_dir, path):
     
     path = os.path.abspath(os.path.join(slides_dir, path))
-    print path,"Is where I am looking";
 
     if not path.startswith(slides_dir + os.path.sep):
         # Directory traversal
-        print os.path.sep,"is the separator??",slidepath
-        print "failing at the first part..."
         abort(404)
     if not os.path.exists(path):
-        print "failing at the second part"
-
         abort(404)
     try:
         slide = app.cache.get(path)
