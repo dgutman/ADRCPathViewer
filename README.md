@@ -2,15 +2,23 @@ ADRCPathViewer
 =====================
 This is a development workspace for a pathology viewer for the ADRC @ Emory using the DSA CodeBase. The repo contains two parts. The web service which used Python Flask and OpenSlide to serve whole-slide images, serve static pages and endpoints to the database. The web applications which contains the viewer.
 
+Packages requried
+=====================
+virtualenv: to create a virtual python enviroment for the ADRC project
+    pip install virtualenv
+
 Instuctions
 =====================
-Clone the repo
+Make a parent directory for our ADRC project. Move into the directory after you create it:
+    mkdir ~/adrc
+    cd ~/adrc
 
+Clone the ADRC repo
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
-Create the flask environment for testing using [Anaconda](https://www.continuum.io/downloads) if you wish
+Create the flask environment for testing using python virtualenv (pip install virtualenv)
 
-    conda create --name ADRCFlask jupyter flask
+    virtualenv adrc_env
 
 Activate the environment
 
