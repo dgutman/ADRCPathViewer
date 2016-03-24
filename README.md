@@ -38,13 +38,13 @@ Browse to `ADRC_ROOT/app/webservice`
 
     cd ADRC_ROOT/app/webservice
 
-Run the web service using gunicorn on port 8000, in the foreground
+Run the web service using gunicorn on port 8001, in the foreground
 
-    gunicorn --bind 0.0.0.0:8000 wsgi
+    gunicorn --bind 0.0.0.0:8001 wsgi
 
 Or you can run gunicorn in the background
 
-    gunicorn --bind 0.0.0.0:8080 wsgi &
+    gunicorn --bind 0.0.0.0:8001 wsgi &
 
 Configure Nginx
 ==========================
@@ -54,7 +54,7 @@ Create a new server block configuration file in Nginx `sites-available` director
 
     sudo vi /etc/nginx/sites-available/adrc
 
-Tell Nginx to listen on port 8000 and to route the traffic to the web service. To do so copy the following into adrc server block file
+Tell Nginx to listen on port 8000 and to route the traffic to the web service running on port 8001. To do so copy the following into adrc server block file
 
     server {
         listen 0.0.0.0:8000;
@@ -63,8 +63,6 @@ Tell Nginx to listen on port 8000 and to route the traffic to the web service. T
                 proxy_pass http://0.0.0.0:8001;
         }
     }
-
-
 
 Application configurations
 ===========================
