@@ -2,20 +2,21 @@ ADRCPathViewer
 =====================
 This is a development workspace for a pathology viewer for the ADRC @ Emory using the DSA CodeBase. The repo contains two parts. The web service which used Python Flask and OpenSlide to serve whole-slide images, serve static pages and endpoints to the database. The web applications which contains the viewer.
 
-Packages requried
+Prerequisites
 =====================
 virtualenv: to create a virtual python enviroment for the ADRC project
 
     pip install virtualenv
 
 openslide: to serve whole-slide images. Follow the instructions [here](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation) to install openslide
+
 Instuctions
 =====================
 Make a parent directory for our ADRC project. Move into the directory after you create it:
 
-    mkdir ~/adrc
+    mkdir ADRC_ROOT
 
-    cd ~/adrc
+    cd ADRC_ROOT
 
 Clone the ADRC repo
 
@@ -29,13 +30,17 @@ Activate the environment
 
     source adrc_env/bin/activate
 
-Browse to `ADRC_ROOT/adrc-python/web-service`
+Within the environment install Flask, bson, Pillow, gunicorn, openslide-python, pymongo and wheel
 
-    cd ADRC_ROOT/adrc-python/web-service
+    pip install bson Pillow gunicorn openslide-python pymongo wheel
 
-Run the web service
+Browse to `ADRC_ROOT/app/webservice`
 
-    python main.py
+    cd ADRC_ROOT/app/webservice
+
+Run the web service using gunicorn on port 8000, for instance
+
+    gunicorn --bind 0.0.0.0:8000 wsgi
 
 Application configurations
 ===========================
