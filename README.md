@@ -8,6 +8,7 @@ virtualenv: to create a virtual python enviroment for the ADRC project
 
     pip install virtualenv
 
+openslide: to serve whole-slide images. Follow the instructions [here](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation) to install openslide
 Instuctions
 =====================
 Make a parent directory for our ADRC project. Move into the directory after you create it:
@@ -20,13 +21,13 @@ Clone the ADRC repo
 
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
-Create the flask environment for testing using python virtualenv (pip install virtualenv)
+Create the flask environment for testing using python virtualenv
 
     virtualenv adrc_env
 
 Activate the environment
 
-    source activate ADRCFlask
+    source adrc_env/bin/activate
 
 Browse to `ADRC_ROOT/adrc-python/web-service`
 
