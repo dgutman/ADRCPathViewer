@@ -48,6 +48,23 @@ Or you can run gunicorn in the background
 
 Configure Nginx
 ==========================
+If you want you can setup Nginx to proxy requests to the ADRC web service.
+
+Create a new server block configuration file in Nginx `sites-available` directory
+
+    sudo vi /etc/nginx/sites-available/adrc
+
+Tell Nginx to listen on port 8000 and to route the traffic to the web service. To do so copy the following into adrc server block file
+
+    server {
+        listen 0.0.0.0:8000;
+
+        location / {
+                proxy_pass http://0.0.0.0:8001;
+        }
+    }
+
+
 
 Application configurations
 ===========================
