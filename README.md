@@ -38,9 +38,16 @@ Browse to `ADRC_ROOT/app/webservice`
 
     cd ADRC_ROOT/app/webservice
 
-Run the web service using gunicorn on port 8000, for instance
+Run the web service using gunicorn on port 8000, in the foreground
 
     gunicorn --bind 0.0.0.0:8000 wsgi
+
+Or you can run gunicorn in the background
+
+    gunicorn --bind 0.0.0.0:8080 wsgi &
+
+Configure Nginx
+==========================
 
 Application configurations
 ===========================
