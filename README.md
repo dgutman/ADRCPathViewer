@@ -64,6 +64,14 @@ Tell Nginx to listen on port 8000 and to route the traffic to the web service ru
         }
     }
 
+Test the server block syntax by typing
+
+    sudo nginx -t
+
+If there are no issues in the syntax restart Nginx
+
+    sudo service nginx restart
+
 Application configurations
 ===========================
 You make changes to the application configurations in `app.cfg`, some of the settings you can change are:
@@ -92,15 +100,4 @@ You make changes to the application configurations in `app.cfg`, some of the set
 
 `deepzoom_format`: jpeg (default)
 
-Exactly, and if you:
-$ conda list -e > req.txt
-then you can install the environment using
-$ conda create -n new environment --file req.txt
 
-#We are now using bower to to package management
-#Make sure node.js is install
-npm install -g bower
-
-
-
-#I may also want to look into grunt to install bower dependencies-- apparently grunt-wiredep helps with this
