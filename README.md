@@ -5,15 +5,19 @@ This is a development workspace for a pathology viewer for the ADRC @ Emory usin
 Packages requried
 =====================
 virtualenv: to create a virtual python enviroment for the ADRC project
+
     pip install virtualenv
 
 Instuctions
 =====================
 Make a parent directory for our ADRC project. Move into the directory after you create it:
+
     mkdir ~/adrc
+
     cd ~/adrc
 
 Clone the ADRC repo
+
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
 Create the flask environment for testing using python virtualenv (pip install virtualenv)
