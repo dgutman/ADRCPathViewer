@@ -64,6 +64,10 @@ Tell Nginx to listen on port 8000 and to route the traffic to the web service ru
         }
     }
 
+To enable the Nginx server block configuration we've just created, link the file to the sites-enabled directory:
+
+    sudo ln -s /etc/nginx/sites-available/adrc /etc/nginx/sites-enabled
+
 Test the server block syntax by typing
 
     sudo nginx -t
