@@ -72,6 +72,8 @@ If there are no issues in the syntax restart Nginx
 
     sudo service nginx restart
 
+You should now be able to go to your server's domain name (domain_name:8000) or IP address in your web browser and see the ADRC application.
+
 Application configurations
 ===========================
 You make changes to the application configurations in `app.cfg`, some of the settings you can change are:
