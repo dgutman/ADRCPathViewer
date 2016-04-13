@@ -4,16 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
     <title>DSA Viewer</title>
-	<!-- bower:css -->
-	<!-- endbower -->
-
-
- <!-- bower:js -->
- <script src="bower_components/jquery/dist/jquery.js"></script>
- <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
- <script src="bower_components/jquery-ui/jquery-ui.js"></script>
- <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
- <!-- endbower -->
+	
+     <!-- bower:js -->
+     <script src="bower_components/jquery/dist/jquery.js"></script>
+     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+     <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
+     <!-- endbower -->
 
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.min.css" />
@@ -149,7 +146,7 @@
     base_host = ""
         //base_host='';    
         //Defining urls for data grab functions
-    datagroup_apiurl = base_host + '/api/v1/collections';
+    datagroup_apiurl = base_host + '/api/v1/slides';
     
 	//Change this image to be dyanmic loaded from a config.json file
 
@@ -522,7 +519,7 @@
         recent_study_name = name;
         var html_for_dt = [];
 
-        $.getJSON(base_host + '/api/v1/collections/slides/' + name).then(function(data) {
+        $.getJSON(base_host + '/api/v1/slides/' + name).then(function(data) {
             thumbs[name] = data.slide_list;
             //now want to load the data into the data table object
             html_for_dt = []; //html for data table input
