@@ -21,7 +21,8 @@ def get_app_configurations():
 			'slide_cache_size': 1000,
 			'deepzoom_format': 'jpeg',
 			'ws_host': '0.0.0.0',
-			'ws_port': 5051
+			'ws_port': 5051,
+			'static_dir': '../static/'
 		}
 
 	config = ConfigParser.SafeConfigParser(defaults)

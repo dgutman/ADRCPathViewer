@@ -6,10 +6,13 @@
 
 from flask import Blueprint
 from utils.crossdomains import crossdomain
-from utils.config import get_app_configurations
+from utils.config import get_app_configurations as gac
 
 #get app configurations
-config = get_app_configurations()
+config = gac()
+print config,"is the current config I received"
+#config['static_dir'] = '../../static/'
+
 static = Blueprint('static', __name__, static_folder = config['static_dir'])
 
 @static.route('/')

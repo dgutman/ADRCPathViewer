@@ -2,6 +2,7 @@
 # initialize the flask app
 # add configuration to the application
 # register the blueprints with the app
+#from __future__ import absolute_import
 
 from routes.deepzoom import dz
 from routes.slides import slides
@@ -15,6 +16,9 @@ app = Flask('dsa_adrc')
 #attach configurations stored in app.cfg to the app
 app.config.from_envvar('DEEPZOOM_MULTISERVER_SETTINGS', silent=True)
 app.config.update(get_app_configurations())
+
+#print app.config
+#print "App Config was read"
 
 #register the route blueprints to the app
 app.register_blueprint(dz)
