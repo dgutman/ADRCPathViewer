@@ -20,17 +20,19 @@ def _setup():
     global edb
     sdb, edb = connect(slides.config)
 
-@slides.route('/api/v1/slides')
+@slides.route('/api/v2/slideSet')
 @crossdomain(origin='*')
 def get_collections():
-    coll_list = sdb[slides.config["slides_collection"]].distinct('pt_id')
+    coll_list = sdb[slides.config["slides_collection"]].distinct('slideGroup')
     return jsonify( { 'Collections': sorted(coll_list) })
 
-@slides.route('/api/v1/slides/<string:id>')
+
+
+@slides.route('/api/v2/slideSet/<string:id>')
 @crossdomain(origin='*')
 def get_slides( id):
-    """This will return the list of slides for a given collection aka tumor type """
-    return dumps( {'slide_list': sdb[slides.config["slides_collection"]].find({'pt_id':id})} ) 
+    """This will return the list of slides for a given collection aka slideSet aka tumor type  aka patientID"""
+    return dumps( {'slide_list': sdb[slides.config["slides_collection"]].find({'slideGroup':id})} ) 
 
 ##This will process and store files that were marked as bad...
 @slides.route('/api/v1/slides/<string:id>/report', methods=["POST"])
