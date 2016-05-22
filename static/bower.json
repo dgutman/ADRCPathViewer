@@ -6,10 +6,7 @@
   ],
   "description": "Pulls dependencies for dsa portal",
   "main": "index.html",
-  "moduleType": [
-    "es6",
-    "globals"
-  ],
+  "moduleType": [],
   "keywords": [
     "adrc",
     "osd"
