@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
-    <title>DSA Viewer</title>
+    <title>ADRC DSA Viewer</title>
 	
      <!-- bower:js -->
      <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -12,132 +12,30 @@
      <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
      <!-- endbower -->
 
+<link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+<link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
+<link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.min.css" />
+     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.theme.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.structure.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.dataTables.css" />
     <link href="css/bootstrap-switch.css" rel="stylesheet" media="screen">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js" type="text/javascript"></script> 
     <!-- really should move to bootstrap3 -->
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="js/openseadragon.min.js" type="text/javascript"></script>
     <script src="js/openseadragon_setup_functions.js"></script>
     <script src="js/colornames_to_hex_hash.js"></script>
     <script src="js/mousetrap.min.js"></script>
-    <script type="text/javascript" src="js/annotations.js"></script>
-    <script type="text/javascript" src="js/annotationState_control_functions.js"></script>
-    <script type="text/javascript" src="js/bootstrap-switch.js"></script>
-    <script type="text/javascript" src="js/colornames_to_hex_hash.js"></script>
     <script type="text/javascript" src="osd-filters/osd_filters.js"></script>
-    <style>
-    body {
-        margin: 0px;
-        padding: 0px;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        overflow: hidden;
-    }
     
-    #cur_color {
-        width: 30px;
-        height: 30px;
-        background-color: #00FF00;
-        border: 2px solid black;
-        display: inline-block;
-        margin-bottom: -15px;
-    }
-    
-    #image_zoomer {
-        width: 100%;
-        height: 600px;
-        color: #333;
-    }
-    
-    #sel_image_frame {
-        /*padding-left: 10px;*/
-        height: 100%;
-    }
-    
-    #sel_image_scroll {
-        overflow: scroll;
-        padding: 5px;
-    }
-    
-    #sel_image {
-        width: 100%;
-        height: 100%;
-    }
-    
-    #sel_patient {
-        margin-top: 10px;
-        padding: 5px;
-    }
-    
-    #dynamic {
-        padding: 5px;
-    }
-    
-    #status_bar {
-        background-color: #666;
-        border-top: 1px solid #999;
-        /*border-bottom: 1px solid #000;*/
-        width: 100%;
-        color: #eee;
-        position: absolute;
-        bottom: -2px;
-        left: 0px;
-        height: 28px;
-        padding: 10px;
-    }
-    
-    #status_label {
-        margin-left: 10px;
-    }
-    
-    #zoom_frame {
-        background-color: #333;
-    }
-    /* code to update datatable
-    dataTables_filter
-*/
-    
-    .dataTables_filter {
-        float: left;
-    }
-    
-    .navbar {
-        margin-bottom: 0px;
-    }
-    
-    .container-fluid {
-        margin: 0px;
-        padding: 0px;
-    }
-    
-    .row-fluid[class*="span"] {
-        margin: 0px;
-        padding: 0px;
-    }
-    
-    .row-fluid .span9 {
-        width: 75%;
-        margin: 0px;
-        padding: 0px;
-    }
-    
-    .row-fluid .span3 {
-        width: 25%;
-        margin: 0px;
-        padding: 0px;
-    }
-    </style>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dsa.css" />
+ 
+
+    <script src="js/dsa_main.js"></script>
+  
 </head>
 
 <body>
@@ -146,7 +44,7 @@
     base_host = ""
         //base_host='';    
         //Defining urls for data grab functions
-    datagroup_apiurl = base_host + '/api/v1/slides';
+    datagroup_apiurl = base_host + '/api/v2/slideSet';
     
 	//Change this image to be dyanmic loaded from a config.json file
 
@@ -157,12 +55,9 @@
                 <a class="brand" href="#">
                     <img src="img/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;Digital Slide Viewer</a>
                 <ul class="nav">
-                    <li class="active"><a href="#">Home</a>
-                    </li>
-                    <li><a href="#">ADRC Resources</a>
-                    </li>
-                    <li><a href="#">Help</a>
-                    </li>
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">ADRC Resources</a></li>
+                    <li><a href="#">Help</a></li>
                 </ul>
             </div>
         </div>
@@ -177,7 +72,7 @@
                     <div class="control-group" id="sel_patient">
                         <label class="control-label" for="data_group">Select Patient</label>
                         <div class="controls">
-                            <span id="stain_filter">Stain HERE</span>
+                            <span id="stain_filter">Stain Filters:</span>
 				<select id="data_group" class="input"></select>
 				
                             <span class="help-inline">Available Slides:
@@ -207,12 +102,7 @@
     <div style="clear:both"></div>
     <div class="" id="status_bar">Main Status Bar</div>
     <script>
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
+ 
     var config;
     var sel_image_expanded = false;
     var study_name = [];
@@ -221,7 +111,7 @@
     var thumbs_expanded = {};
     var recent_study_name;
     var viewer;
-    var annotationState;
+    
     var pid;
     var patient_data = {};
     var temp;
@@ -234,31 +124,8 @@
 
     //consider this slider http://bxslider.com/ content slider
 
-    // also check out this one..http://sachinchoolur.github.io/lightslider/examples.html
-    function handleResize() {
-
-        console.log('resize');
-
-        // this is expensive, easier to just save these long term, but oh well.
-
-        var nav_height = $(".navbar").height();
-        var status_bar_height = $('#status_bar').height();
-        var select_patient_height = $("#sel_patient").height();
-        var left_width = $('#sel_image_frame').width();
-
-        console.log(nav_height, status_bar_height, select_patient_height, left_width);
-
-        $('#sel_image_scroll').height(window.innerHeight - (nav_height + status_bar_height + select_patient_height + 70));
-        $('#zoom_frame').width(window.innerWidth - left_width - 10);
-        $('#image_zoomer').width(window.innerWidth - left_width - 10);
-        $('#image_zoomer').height(window.innerHeight - (nav_height + status_bar_height));
-        $('.openseadragon-container').height(window.innerHeight - (nav_height + status_bar_height));
-    }
-
-    window.onresize = handleResize;
 
     $(document).ready(function() {
-
         handleResize();
 
         var xhr = $.ajax({
@@ -328,15 +195,7 @@
             width: 'auto'
         });
 
-        $("#show_metadata").click(function() {
-            $("#query_db_dialog").dialog('open');
-
-            //annotation_setup_code();
-            console.log('metadata  code loaded');
-            return false;
-            //come back here
-        });
-
+      
 
         $(".sel_image_action").click(function() {
 
@@ -386,354 +245,11 @@
     });
 
     $(function() {
-        // initialize the image viewer and annotation state
-        viewer = OpenSeadragon({
-            id: "image_zoomer",
-            prefixUrl: "images/",
-        });
-
-        viewer.addHandler('open-failed', function(evt) {
-            console.log('tile source opening failed', evt);
-        });
-
-        viewer.addHandler('animation', function() {
-            var bounds = viewer.viewport.getBounds();
-            var message = bounds.x + ':' + bounds.y + ':' + bounds.width + ':' + bounds.height;
-            $('.wsi-toolbar').text(message);
-        });
-
-        var annotationState = window.annotationState = new AnnotationState();
-        annotationState.setSeadragonViewer(viewer);
-        annotation_setup_code(annotationState);
-
-        function showMouse(event) {
-            // getMousePosition() returns position relative to page,
-            // while we want the position relative to the viewer
-            // element. so subtract the difference.
-            var pixel = OpenSeadragon.getMousePosition(event).minus(OpenSeadragon.getElementPosition(viewer.element));
-
-            document.getElementById("mousePixels").innerHTML = toString(pixel, true);
-
-            if (!viewer.isOpen()) {
-                return;
-            }
-
-            var point = viewer.viewport.pointFromPixel(pixel);
-            document.getElementById("mousePoints").innerHTML = toString(point, true);
-        }
-
-        // showMouse doesn't exist, commented this out - jake
-        OpenSeadragon.addEvent(viewer.element, "mousemove", showMouse);
-        mousetracker = new OpenSeadragon.MouseTracker({
-            element: viewer.element,
-            clickTimeThreshold: 50,
-            clickDistThreshold: 50,
-            moveHandler: function(event) {
-                console.log(event.position);
-            }
-        });
-        console.log(mousetracker);
-
-
-        // $('#sel_image_arrow').click(sel_image_expand);
-
-        $('#data_group').change(function() {
-            if (!sel_image_expanded) {
-                //load_thumbs($("#data_group option:selected").val());
-                load_thumbnail_data($("#data_group option:selected").val());
-            } else {
-                load_expanded_thumbnail_data($("#data_group option:selected").val());
-            }
-        });
-
-        $('#query_db_entry').change(function() {
-            //            query_db($("#query_db_entry option:selected").val());
-            new_query_db( pid,   $("#query_db_entry option:selected").text()); //Since I am changing the way the drop down works I am now using text instead of val..
-
-
-        });
-
-        $('#report_bad_image_btn').click(function() {
-            var url = '/api/v1/report_bad_image';
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    filename: current_filename,
-                    slide_url: current_slide_url,
-                    data_group: recent_study_name
-
-                },
-                async: false
-            });
-        })
-    });
-
-
-    /* Current data sources returns all the data for the patient as separate elements  in an array , and it just key/value pairs 
-           I should push the data to patient_data[pid][i]['data']  if I wnat to use this functionalit
-     http://node15.cci.emory.edu/DSA_LiveDev/php/lzhan_fetch.php?pid=TCGA-OR-A5J1  */
-
-    function new_query_db(pid,csv_datasrc) {
-        //Check and see if I alrady have the data or not for this database
-    	if (!patient_data.hasOwnProperty(pid))  {  patient_data[pid] = {}; }  
-    		//http://digitalslidearchive.emory.edu:5001/api/v1/clin_datasources/nationwidechildrens.org_biospecimen_slide_acc/TCGA-OR-A5J3-01A
-        if( !patient_data[pid][csv_datasrc] ) { console.log('need data')  }
-        $.getJSON( '/api/v1/clin_datasources/'+csv_datasrc+'/'+pid ).complete( function(data) {  
-                                       console.log(data.responseJSON);
-                                       patient_data[pid][csv_datasrc] = data.responseJSON;
-
-
-        //This needs major refactor
-        $('#query_db_table_div').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="query_db_table"></table>');
-        $('#query_db_table').dataTable({
-            "aaData": patient_data[pid][csv_datasrc]['data'],
-            "bLengthChange": false,
-            "bSort": false,
-            "bSortClasses": false,
-            "iDisplayLength": 10,
-            "bDeferRender": true,
-            "aoColumns": [{
-                "sTitle": "Key",
-                "sClass": "left",
-                "sType": "html"
-            }, {
-                "sTitle": "Value",
-                "sClass": "left",
-                "sType": "html"
-            }]
-        });
-
+      
+        
+        
     
-  });
-
-    }
-
-
-
-    /*
-     New code for loading in image data from the mongo database
-    */
-
-    function load_thumbnail_data(name) {
-        recent_study_name = name;
-        var html_for_dt = [];
-
-        $.getJSON(base_host + '/api/v1/slides/' + name).then(function(data) {
-            thumbs[name] = data.slide_list;
-            //now want to load the data into the data table object
-            html_for_dt = []; //html for data table input
-            $.each(data.slide_list, function(idx, sld_info) {
-
-		//converted_URL for local src =..
-		// add thumbnail as well
-
-                    var html = sld_info.slide_name + '#' + sld_info.slide_w_path+ '#' + sld_info.slide_name + '#' + sld_info.thumbnail_image;
-                    html_for_dt.push([html]);
-                    //console.log(html);
-
-                })
-                //   console.log(html_for_dt);
-                //return false; //http://stackoverflow.com/questions/8224375/jquery-each-stop-loop-and-return-object
-            load_slides_into_datatable(html_for_dt, 1); //This is a single column view
-            //return html_for_dt;  //TO DO: Explain why if I return this here it's blank; need to clarify async functionality
-        })
-
-    }
-
-
-
-    function load_slides_into_datatable(html_for_dataTable, images_per_row) {
-
-        //Below formats the data for either a 1 or 5 column data view
-        //There are also separate call back functions for the single and 5 column viewer... but at least I consolidated
-        // the function calls
-
-        if (images_per_row == 1) {
-            aoColumns = [{
-                "sTitle": "Image",
-                "sClass": "center",
-                "sType": "html"
-            }];
-            callback_to_use = customFnRowCallback;
-        } else if (images_per_row == 5) {
-            aoColumns = [{
-                "sTitle": "Image",
-                "sClass": "center",
-                "sType": "html"
-            }, {
-                "sTitle": "Image",
-                "sClass": "center",
-                "sType": "html"
-            }, {
-                "sTitle": "Image",
-                "sClass": "center",
-                "sType": "html"
-            }, {
-                "sTitle": "Image",
-                "sClass": "center",
-                "sType": "html"
-            }, {
-                "sTitle": "Image",
-                "sClass": "center",
-                "sType": "html"
-            }]
-
-            callback_to_use = customFnRowCallback_expanded;
-
-        }
-        console.log(aoColumns);
-
-        ///I am currently using data tables for the thumbnail browser on the left, this code below loads it
-        $('#count_patient').text(html_for_dataTable.length);
-        $('#dynamic').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>');
-        oTable = $('#example').dataTable({
-            "aaData": html_for_dataTable,
-            "bLengthChange": false,
-            "bSort": false,
-            "bSortClasses": false,
-            "iDisplayLength": 6,
-            "bDeferRender": true,
-            "fnRowCallback": callback_to_use,
-            "aoColumns": aoColumns
-        });
-
-
-
-    }
-
-
-
-
-
-    function load_expanded_thumbnail_data(name) {
-
-        //This is a slightly different endpoint as instead of loading a column of data, I am loading 5 columns of data at a time...
-        //but basic functionality is similar to above
-        //all this is doing is basically reformatting the data for datatables
-
-
-        recent_study_name = name;
-        var html_for_expanded_dt = [];
-        //This actually doesn't require me to load any data...
-        //now want to load the data into the data table object
-        //Now I need to load 5 slides per row, instead of 1
-        if (!thumbs_expanded.hasOwnProperty(name)) {
-            thumbs_expanded[name] = [];
-            console.log(thumbs[name]);
-            for (var i = 0; i <= thumbs[name].length - thumbs[name].length % 5; i += 5) {
-                if (i == thumbs[name].length) break; //may need to make sure I don't need to push whatever is in the current row
-                var row = [];
-                for (var j = 0; j < 5 && ((i + j) < thumbs[name].length); j++) {
-
-                    //Each row actually has the following info
-                    var cur_html = thumbs[name][i + j].slide_name + '#' + thumbs[name][i + j].slide_url + '#' + thumbs[name][i + j].slide_name + '#' + thumbs[name][i + j].thumbnail_image;
-
-                    row.push(cur_html);
-                    //console.log(thumbs[name[i+j]]);
-                }
-                while (row.length < 5) {
-                    row.push("");
-                }
-
-                thumbs_expanded[name].push(row);
-                console.log(row);
-            }
-        }
-
-        //console.log(html);
-
-        load_slides_into_datatable(thumbs_expanded[name], 5);
-    }
-
-
-    function load_path_report(pid) {
-        /* Given the patient ID, this will call the API and see if theres a pathology report */
-
-        console.log('Should load path report for' + pid);
-        $("#path_report_dialog").empty();
-        $("#path_report_dialog").html(`<embed src="http://cancer.digitalslidearchive.emory.edu/api/v1/path_reports/${pid}" width="600" height="575" >`);
-
-    }
-
-    function load_image(filename, image_url) {
-
-        if (sel_image_expanded) {
-            $('#sel_image_frame').addClass('span3');
-            $('#sel_image_frame').removeClass('span12');
-
-            $('#zoom_frame').show();
-
-            load_thumbnail_data(recent_study_name);
-            sel_image_expanded = false;
-        }
-
-        annotationState.clearAnnotations();
-        viewer.open(image_url);
-
-
-        //Once an image is selected, buttons become clickable depending on the data source
-        $('#show_annotator').removeAttr('disabled');
-        $("#show_metadata").removeAttr('disabled');
-        $('#show_filter').removeAttr('disabled');
-        current_filename = filename;
-        current_slide_url = image_url;
-        $('#report_bad_image_btn').removeAttr('disabled');
-     	$("#status_bar").text("Current image:"+current_filename); //update status bar to show current image name
-
-
-        /// I am now loading the database function here..
-        pid = filename.substring(0, 12);
-
-        /* Ill get the path report here */
-        load_path_report(pid);
-
-        $.getJSON('/api/v1/clin_datasources/' + recent_study_name).complete(function(data) {
-        	if (!patient_data.hasOwnProperty(pid))  {  patient_data[pid] = {}; }  
-            // console.log(data.responseJSON) 
-            $("#query_db_entry").empty(); //Clear the current select options
-            data_sources = data.responseJSON["Filtered_Source_List"]; //For now I am only exposing a subclass of CSV files as theere are lots of not relevant ones
-            console.log(data_sources);
-            $.each(data_sources, function(idx, val) {
-                //Now append these to an option list
-                $("#query_db_entry").append(`<option id="${idx}" value="${idx}">${val}</option">`);
-                patient_data[pid][val] = {};  //At this Point I have not retrieved info on this entry 
-
-            })
-        })
-
-
-        //I also need to query the database and grab some basic data..
-        //            $('#query_db').removeAttr('disabled');
-
-    }
-
-
-
-    //Function for Delayed loading of thumbnails
-    //See http://www.datatables.net/forums/discussion/1959/image-thumbs-in-table-column-lazy-loading/p1 for example
-    function customFnRowCallback(nRow, aData, iDisplayIndex) {
-        var rowdata = aData[0].split('#');
-             console.log(rowdata);
-        var html = '<a href=\"javascript:;\" onclick=\"load_image(\'' + rowdata[0] + '\',\'' + rowdata[1] + '\')\">' + rowdata[2] + '<br /><img src=\"' + rowdata[3] + '\"></a>';
-        $('td:eq(0)', nRow).html(html);
-        return nRow;
-    }
-
-    function customFnRowCallback_expanded(nRow, aData, iDisplayIndex) {
-        for (var i = 0; i < 5; i++) {
-            if (aData[i] == "") {
-                $('td:eq(' + i + ')', nRow).html('');
-                continue;
-            }
-            var rowdata = aData[i].split('#');
-            var html = '<a href=\"javascript:;\" onclick=\"load_image(\'' + rowdata[0] + '\',\'' + rowdata[1] + '\')\">' + rowdata[2] + '<br /><img src=\"' + rowdata[3] + '\"></a>';
-            $('td:eq(' + i + ')', nRow).html(html);
-        }
-        return nRow;
-    }
-
-
+    });
 
     /*Adding code for a floating debug window... */
     $('#annotationState_dialog').dialog({
@@ -772,12 +288,7 @@
     <div id="path_report_dialog" title="Pathology Report">
         Path Reports will appear here
     </div>
-    <div id="query_db_dialog">
-        CSV Name:
-        <select id="query_db_entry"></select>
-        <div id="query_db_table_div"></div>
-        <div id="available_ds"></div>
-    </div>
+   
     </div>
     <div id="annotation_dialog">
     </div>
@@ -804,5 +315,4 @@
         </span>
     </div>
 </body>
-
 </html>
