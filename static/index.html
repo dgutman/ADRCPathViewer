@@ -16,32 +16,43 @@
 
     <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/theme.css" />
     <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/jquery-ui.css"/>
+
+
+    <script src="bower_components/webix/codebase/webix.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css">
+
+
 
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
-   <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.min.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.theme.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.structure.css" />
   
+
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.dataTables.css" />
-    <link href="css/bootstrap-switch.css" rel="stylesheet" media="screen">
     <!-- really should move to bootstrap3 -->
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+<!--     <script src="js/bootstrap.min.js" type="text/javascript"></script>
+ -->    <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="js/openseadragon_setup_functions.js"></script>
-    <script src="js/colornames_to_hex_hash.js"></script>
+     <script src="js/colornames_to_hex_hash.js"></script>
     <script src="js/mousetrap.min.js"></script>
     <script type="text/javascript" src="osd-filters/osd_filters.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="css/dsa.css" />
+    
+
+    <script src="js/dsa_load.js"></script>
     <script src="js/dsa_main.js"></script>
 </head>
 
 <body>
     <script>
-    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
-        //base_host = ""
-        //base_host='';    
         //Defining urls for data grab functions
-    datagroup_apiurl = base_host + '/api/v2/slideSet';
+    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
+    base_host = "http://adrcdev.digitalslidearchive.emory.edu:5091"
+        //base_host = ""
+    use_webix = true;
+
+
+    if (use_webix)  {datagroup_apiurl = base_host + '/api/wbx/slideSet';}
+    else { datagroup_apiurl = base_host + '/api/v2/slideSet';}
 
     //Change this image to be dyanmic loaded from a config.json file
     </script>
@@ -65,11 +76,14 @@
                     <a class="btn btn-small sel_image_action pull-right">
                         <span class="icon-fullscreen"></span>
                     </a>
-                    <div class="control-group" id="sel_patient">
-                        <label class="control-label" for="data_group">Select Patient</label>
+                    <div class="control-group" id="sel_groupName">
+                        <label class="control-label" for="slideGroup_sel">Select SlideSet</label>
+
                         <div class="controls">
                             <span id="stain_filter">Stain Filters:</span>
-                            <select id="data_group" class="input"></select>
+                            
+                            <select id="slideGroup_sel" class="input"></select>
+
                             <span class="help-inline">Available Slides:
                                 <span id="count_patient"></span>
                             </span>
@@ -81,6 +95,9 @@
                     </div>
                 </div>
             </div>
+            
+
+
             <div class="span9" id="zoom_frame">
                 <div class="btn-group">
                     <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse" disabled>
@@ -95,153 +112,7 @@
     </div>
     <div style="clear:both"></div>
     <div class="" id="status_bar">Main Status Bar</div>
-    <script>
-    var config;
-    var sel_image_expanded = false;
-    var study_name = [];
-    var thumbs_xml;
-    var thumbs = {};
-    var thumbs_expanded = {};
-    var recent_study_name;
-    var viewer;
-
-    var pid;
-    var patient_data = {};
-    var temp;
-    var oTable;
-    var current_filename;
-    var current_slide_url;
-    var mousetracker;
-    var osd;
-    var PRECISION = 3;
-
-    //consider this slider http://bxslider.com/ content slider
-
-
-    $(document).ready(function() {
-        handleResize();
-
-        var xhr = $.ajax({
-            type: "GET",
-            url: "config.json",
-            async: false
-        });
-        config = JSON.parse(xhr.responseText);
-        xhr = $.ajax({
-            type: "GET",
-            url: config.study_name_url,
-            async: false
-        });
-
-        //New Cleaner way to get the data from Mongo ..
-        //This pulls the data groups /tumor types and populates the main dropdown box
-
-        $.getJSON(datagroup_apiurl).then(function(data) {
-            $.each(data.Collections, function(idx, value) {
-                $('#data_group').append('<option value="' + value + '" id="' + value + '">' + value + '</option>');
-            })
-        });
-
-        //This code would allow me to instead of loading the default data group and/or select statement
-        //would allow me to pass a URL parameter to go to a specific gtumor group
-        if (getParameterByName('data_grp') == "") {
-            load_thumbnail_data(study_name[0]);
-        } else {
-            $('#data_group').val(getParameterByName('data_grp'));
-            load_thumbnail_data(getParameterByName('data_grp'));
-        }
-        //create the filter dialog  as a model
-        $("#filter_dialog").dialog({
-            autoOpen: false,
-            width: 'auto'
-        });
-        //Filter dialog only opens on click....
-        $('#show_filter').click(function() {
-            $('#filter_dialog').dialog('open');
-            return false;
-        });
-
-        $("#debug_dialog").dialog({
-            autoOpen: false,
-            width: 'auto'
-        });
-        $("#show_debug").click(function() {
-            $("#debug_dialog").dialog('open');
-            return false;
-        });
-
-        $("#query_db_dialog").dialog({
-            autoOpen: false,
-            width: 'auto'
-        });
-
-
-
-        $(".sel_image_action").click(function() {
-
-            if (!sel_image_expanded) {
-
-                console.log('gets here');
-                //This code allows me to change the view from a single image thumb on the right to show multiple thumbs per page
-                // removing this in favor of class values
-                $('#sel_image_frame').removeClass('span3');
-                $('#sel_image_frame').addClass('span12');
-                $('#zoom_frame').hide();
-
-                load_expanded_thumbnail_data(recent_study_name);
-                sel_image_expanded = true;
-
-
-            } else {
-
-                console.log('gets here close');
-
-                $('#sel_image_frame').addClass('span3');
-                $('#sel_image_frame').removeClass('span12');
-                $('#zoom_frame').show();
-
-                load_thumbnail_data(recent_study_name);
-                sel_image_expanded = false;
-
-            }
-        });
-
-     
-        $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
-
-    });
-
    
-    /*Adding code for a floating debug window... */
-    $('#annotationState_dialog').dialog({
-        autoOpen: false,
-        modal: false,
-        draggable: true,
-        width: 550,
-        height: 375,
-    });
-
-    $('#AnnotationDialogButton').on('click', function() {
-        $('#annotationState_dialog').dialog('open');
-    });
-
-    /* This second debug window displays the color and shape that was selected */
-    $('#annotationControlPanel_dialog').dialog({
-        autoOpen: false,
-        modal: false,
-        draggable: true,
-        width: 575,
-        height: 375,
-    });
-
-    $('#AnnotationControlButton').on('click', function() {
-        $('#annotationControlPanel_dialog').dialog('open');
-    });
-
-
-
-    //  window.annotationStateControls = new AnnotationStateControl();
-    </script>
     <!-- This serves as the landing spot for the SVG color filter code -->
     <div id="filter_dialog" title="Apply Filters">
         Filter set will appear here
