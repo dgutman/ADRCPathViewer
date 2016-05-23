@@ -19,31 +19,33 @@ var PRECISION = 3;
 
 $(document).ready(function() {
     handleResize();
+    window.onresize = handleResize;
 
-    // var xhr = $.ajax({
-    //     type: "GET",
-    //     url: "config.json",
-    //     async: false
-    // });
-    // config = JSON.parse(xhr.responseText);
-    // xhr = $.ajax({
-    //     type: "GET",
-    //     url: config.study_name_url,
-    //     async: false
-    // });
-window.onresize = handleResize;
 
+    load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
+
+
+    //Load the config.json and based on whatever features are enabled, such as drawing, path reports, clinical data viewers
+    // we load the proper js file and inject the necessary HTML to do this
+    // need to debate if we stub in divs and/or targets for all potential features, or just create a generic place called
+    //  addl_features and insert everything into there....
+
+    
     //New Cleaner way to get the data from Mongo ..
     //This pulls the data groups /tumor types and populates the main dropdown box
 
     //This code would allow me to instead of loading the default data group and/or select statement
     //would allow me to pass a URL parameter to go to a specific gtumor group
-    if (getParameterByName('data_grp') == "") {
-        load_thumbnail_data(study_name[0]);
-    } else {
-        $('#data_group').val(getParameterByName('data_grp'));
-        load_thumbnail_data(getParameterByName('data_grp'));
-    }
+    // if (getParameterByName('data_grp') == "") {
+    //     load_thumbnail_data(study_name[0]);
+    // } else {
+    //     $('#data_group').val(getParameterByName('data_grp'));
+    //     load_thumbnail_data(getParameterByName('data_grp'));
+    // }
+
+
+
+    
     //create the filter dialog  as a model
     $("#filter_dialog").dialog({
         autoOpen: false,

@@ -23,21 +23,52 @@
 
       //http://docs.webix.com/desktop__active_content.html
 
-      // data:[
-      //     { id:1, title:"The Shawshank Redemption", year:1994, rank:1},
-      //     { id:2, title:"The Godfather", year:1972,  rank:2},
-      //     { id:3, title:"The Godfather: Part II", year:1974, rank:3}
-      // ]
-
 
       wbx_thumb_dv = webix.ui({
           view: "dataview",
-          container: "webix_thumb_dv",
-          template: "<div class='webix_strong'>#slide_name#<br> <img width=200 src=#thumbnail_image#></div>",
+          container: "wbx_thumb_target",
+          template: "<div class='webix_strong'> HEY DIDE!!!@?!@ #slide_name#<br> <img width=200 src=#thumbnail_image#></div>",
+          select: true,
+          width: 250,
+          type:  { height: 300},
       });
 
 
   }
+
+
+
+webix.ready(function(){
+            // webix.ui({
+            //     view: "button",
+            //     container: "btnDiv",
+            //     value: "Click me",
+            //     inputWidth: 120,
+            //     click:"$$('dataview2').select([2, 3, 4], false, true);"
+            // });
+slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/ADRC51-33";
+
+            console.log(slideDataUrl);
+            console.log('you suck!');
+          webix.ui({
+                view:"dataview", 
+                id:"dataview1",
+                container:"wbx_thumb_target",
+                select:true,
+                type: {
+                    height: 260, width:250
+                },
+                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
+                data:[
+                    { id:1, title:"The Shawshank Redemption", year:1994, votes:678790, rating:9.2, rank:1},
+                    { id:2, title:"The Godfather", year:1972, votes:511495, rating:9.2, rank:2},
+               
+                ]
+            });
+            
+});
+
+
 
 
 
