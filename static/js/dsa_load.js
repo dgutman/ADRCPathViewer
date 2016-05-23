@@ -44,8 +44,26 @@ $(document).ready(function() {
     // }
 
 
+slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/ADRC51-33";
 
-    
+            console.log(slideDataUrl);
+            base_host = "http://adrcdev.digitalslidearchive.emory.edu:5091";
+          webix.ui({
+                view:"dataview", 
+                id:"dataview1",
+                container:"wbx_thumb_target",
+                select:true,
+                width: 250,
+                height:250,
+                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
+                datatype: "json",
+                url: slideDataUrl
+            });
+
+
+
+
+
     //create the filter dialog  as a model
     $("#filter_dialog").dialog({
         autoOpen: false,

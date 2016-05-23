@@ -38,7 +38,7 @@
 
 
 
-webix.ready(function(){
+//webix.ready(function(){
             // webix.ui({
             //     view: "button",
             //     container: "btnDiv",
@@ -46,27 +46,8 @@ webix.ready(function(){
             //     inputWidth: 120,
             //     click:"$$('dataview2').select([2, 3, 4], false, true);"
             // });
-slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/ADRC51-33";
-
-            console.log(slideDataUrl);
-            console.log('you suck!');
-          webix.ui({
-                view:"dataview", 
-                id:"dataview1",
-                container:"wbx_thumb_target",
-                select:true,
-                type: {
-                    height: 260, width:250
-                },
-                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
-                data:[
-                    { id:1, title:"The Shawshank Redemption", year:1994, votes:678790, rating:9.2, rank:1},
-                    { id:2, title:"The Godfather", year:1972, votes:511495, rating:9.2, rank:2},
-               
-                ]
-            });
             
-});
+//});
 
 
 
