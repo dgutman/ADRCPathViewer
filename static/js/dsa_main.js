@@ -42,27 +42,9 @@
   function wbx_load_thumbnail_data(slideGroupName) {
 
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/"+slideGroupName;
-
-            console.log(slideDataUrl);
-            base_host = "http://adrcdev.digitalslidearchive.emory.edu:5091";
-          webix.ui({
-                view:"dataview", 
-                id:"dataview1",
-                container:"wbx_thumb_target",
-                select:true,
-                width: 280,
-                height:250,
-                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
-                datatype: "json",
-                url: slideDataUrl,
-                on: {
-                  "onItemClick": function(id, e, node){
-                    alert(base_host + "/DZIMS/" + this.getItem(id).slide_name + ".dzi");
-                  }
-
-                }
-            });
-
+    $$("dataview1").clearAll();
+    $$("dataview1").load( slideDataUrl);
+          
 
   }
 

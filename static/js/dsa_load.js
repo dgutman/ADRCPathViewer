@@ -24,6 +24,35 @@ $(document).ready(function() {
 
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
 
+     slideGroupName="ADRC51-33";
+     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/"+slideGroupName;
+
+            webix.ui({
+                view:"dataview", 
+                id:"dataview1",
+                container:"wbx_thumb_target",
+                select:true,
+                width: 280,
+                height: 600,
+                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
+                datatype: "json",
+                type:{ 
+                    height: 200,     //  dimensions of each dataview item
+                    width: 250 
+                },
+
+                url: slideDataUrl,
+                on: {
+                  "onItemClick": function(id, e, node){
+                    console.log(this.getItem(id).iip_slide_w_path);
+                    viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
+                    // /alert(base_host + "/DZIMS/" + this.getItem(id).slide_w_path );
+                    //viewer.open()
+                  }
+
+                }
+            });
+
 
     //Load the config.json and based on whatever features are enabled, such as drawing, path reports, clinical data viewers
     // we load the proper js file and inject the necessary HTML to do this
@@ -43,23 +72,6 @@ $(document).ready(function() {
     //     load_thumbnail_data(getParameterByName('data_grp'));
     // }
 
-/*
-    slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/ADRC51-33";
-
-            console.log(slideDataUrl);
-            base_host = "http://adrcdev.digitalslidearchive.emory.edu:5091";
-          webix.ui({
-                view:"dataview", 
-                id:"dataview1",
-                container:"wbx_thumb_target",
-                select:true,
-                width: 280,
-                height:250,
-                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
-                datatype: "json",
-                url: slideDataUrl
-            });
-*/
 
 
 
