@@ -43,8 +43,8 @@ $(document).ready(function() {
     //     load_thumbnail_data(getParameterByName('data_grp'));
     // }
 
-
-slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/ADRC51-33";
+/*
+    slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/ADRC51-33";
 
             console.log(slideDataUrl);
             base_host = "http://adrcdev.digitalslidearchive.emory.edu:5091";
@@ -53,13 +53,13 @@ slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideS
                 id:"dataview1",
                 container:"wbx_thumb_target",
                 select:true,
-                width: 250,
+                width: 280,
                 height:250,
                 template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
                 datatype: "json",
                 url: slideDataUrl
             });
-
+*/
 
 
 

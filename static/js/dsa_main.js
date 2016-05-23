@@ -1,58 +1,3 @@
-
-
-
-
-  var wbx_thumb_dv;
-
-  function doOnLoad() {
-
-      //will use wbx to start javascript variables, and webix for the actual div names
-
-
-      thumbit = {
-          view: "dataview",
-          id: "dataview1",
-          width: 250,
-          select: true,
-          type: {
-              height: 300
-          },
-          template: "<div class='webix_strong'>#slide_name#<br> <img width=200 src=#thumbnail_image#></div>",
-
-      };
-
-      //http://docs.webix.com/desktop__active_content.html
-
-
-      wbx_thumb_dv = webix.ui({
-          view: "dataview",
-          container: "wbx_thumb_target",
-          template: "<div class='webix_strong'> HEY DIDE!!!@?!@ #slide_name#<br> <img width=200 src=#thumbnail_image#></div>",
-          select: true,
-          width: 250,
-          type:  { height: 300},
-      });
-
-
-  }
-
-
-
-//webix.ready(function(){
-            // webix.ui({
-            //     view: "button",
-            //     container: "btnDiv",
-            //     value: "Click me",
-            //     inputWidth: 120,
-            //     click:"$$('dataview2').select([2, 3, 4], false, true);"
-            // });
-            
-//});
-
-
-
-
-
   // also check out this one..http://sachinchoolur.github.io/lightslider/examples.html
   function handleResize() {
 
@@ -96,6 +41,27 @@
 
   function wbx_load_thumbnail_data(slideGroupName) {
 
+    slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/"+slideGroupName;
+
+            console.log(slideDataUrl);
+            base_host = "http://adrcdev.digitalslidearchive.emory.edu:5091";
+          webix.ui({
+                view:"dataview", 
+                id:"dataview1",
+                container:"wbx_thumb_target",
+                select:true,
+                width: 280,
+                height:250,
+                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
+                datatype: "json",
+                url: slideDataUrl,
+                on: {
+                  "onItemClick": function(id, e, node){
+                    alert(base_host + "/DZIMS/" + this.getItem(id).slide_name + ".dzi");
+                  }
+
+                }
+            });
 
 
   }
@@ -227,7 +193,7 @@
 
 
        $('#slideGroup_sel').change(function() {
-          load_thumbnail_data($("#slideGroup_sel option:selected").val());
+          wbx_load_thumbnail_data($("#slideGroup_sel option:selected").val());
       });
 
 
