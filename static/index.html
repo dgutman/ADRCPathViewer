@@ -93,7 +93,7 @@
                     <input type="button" id="report_bad_image_btn" value="Report Bad Image" class="btn btn-small btn-inverse" disabled>
                     <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
                     <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse" disabled>
-                    <input type="button" id="show_metadata" value="Query Metadata" class="btn btn-small btn-inverse" disabled>
+                   
                 </div>
                 <div id="image_zoomer"></div>
             </div>
@@ -177,30 +177,12 @@
             return false;
         });
 
-        $("#annotation_dialog").dialog({
-            autoOpen: false,
-            width: 'auto'
-        });
-        $("#show_annotator").click(function() {
-            $("#annotation_dialog").dialog('open');
-
-            //annotation_setup_code();
-            console.log('annotation code loaded');
-            return false;
-            //come back here
-        });
-
-        $("#query_db_dialog").dialog({
-            autoOpen: false,
-            width: 'auto'
-        });
 
       
 
         $(".sel_image_action").click(function() {
 
-            console.log('here?');
-
+           
             if (!sel_image_expanded) {
 
                 console.log('gets here');
@@ -221,7 +203,6 @@
 
                 $('#sel_image_frame').addClass('span3');
                 $('#sel_image_frame').removeClass('span12');
-
                 $('#zoom_frame').show();
 
                 load_thumbnail_data(recent_study_name);
@@ -230,63 +211,20 @@
             }
         });
 
-        $("#path_report_dialog").dialog({
-            autoOpen: false,
-            modal: false,
-            draggable: true,
-            width: 'auto'
-        });
 
-        load_thumbnail_data('acc'); //Need to change this to the value of the first item selected
+//        load_thumbnail_data('acc'); //Need to change this to the value of the first item selected
 
 
         $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
     });
 
-    $(function() {
-      
-        
-        
-    
-    });
 
-    /*Adding code for a floating debug window... */
-    $('#annotationState_dialog').dialog({
-        autoOpen: false,
-        modal: false,
-        draggable: true,
-        width: 550,
-        height: 375,
-    });
-
-    $('#AnnotationDialogButton').on('click', function() {
-        $('#annotationState_dialog').dialog('open');
-    });
-
-    /* This second debug window displays the color and shape that was selected */
-    $('#annotationControlPanel_dialog').dialog({
-        autoOpen: false,
-        modal: false,
-        draggable: true,
-        width: 575,
-        height: 375,
-    });
-
-    $('#AnnotationControlButton').on('click', function() {
-        $('#annotationControlPanel_dialog').dialog('open');
-    });
-
-
-
-    //  window.annotationStateControls = new AnnotationStateControl();
+  
     </script>
     <!-- This serves as the landing spot for the SVG color filter code -->
     <div id="filter_dialog" title="Apply Filters">
         Filter set will appear here
-    </div>
-    <div id="path_report_dialog" title="Pathology Report">
-        Path Reports will appear here
     </div>
    
     </div>

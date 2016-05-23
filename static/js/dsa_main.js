@@ -173,9 +173,7 @@
         pid = filename.substring(0, 12);
 
         /* Ill get the path report here */
-        load_path_report(pid);
-
-
+        
     }
 
 
