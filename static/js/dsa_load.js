@@ -23,11 +23,8 @@ $(document).ready(function() {
 
 
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
-
-     slideGroupName="ADRC51-33";
-     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/"+slideGroupName;
-
-            webix.ui({
+            
+    webix.ui({
                 view:"dataview", 
                 id:"dataview1",
                 container:"wbx_thumb_target",
@@ -40,18 +37,19 @@ $(document).ready(function() {
                     height: 200,     //  dimensions of each dataview item
                     width: 250 
                 },
-
-                url: slideDataUrl,
                 on: {
                   "onItemClick": function(id, e, node){
                     console.log(this.getItem(id).iip_slide_w_path);
                     viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
                     // /alert(base_host + "/DZIMS/" + this.getItem(id).slide_w_path );
                     //viewer.open()
+                  },
+                  "onAfterLoad": function(){
+                    iip_slide_w_path = $$("dataview1").getItem($$("dataview1").getFirstId()).iip_slide_w_path;
+                    viewer.open( iip_host+iip_slide_w_path);
                   }
-
                 }
-            });
+    });
 
 
     //Load the config.json and based on whatever features are enabled, such as drawing, path reports, clinical data viewers

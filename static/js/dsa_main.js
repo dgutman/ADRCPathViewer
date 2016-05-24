@@ -33,7 +33,9 @@
 
           $.each(data, function(idx, row) {
             $('#slideGroup_sel').append('<option value="' + row.id + '" id=' + row.id + '">' + row.id +'</option>');
-                                      })
+          });
+
+          wbx_load_thumbnail_data(data[0].id);
       });
 	//Once this has finished loaded, it should load the first value/slide into the viewer so it's not blank
 	
@@ -54,8 +56,6 @@
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
     $$("dataview1").clearAll();
     $$("dataview1").load( slideDataUrl);
-          
-
   }
 
 //NEED TO ADD AN EVENT LISTENER FOR SLIDEGROUP_SEL FOR ONCHANGE..
