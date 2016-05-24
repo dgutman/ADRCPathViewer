@@ -41,12 +41,14 @@ $(document).ready(function() {
                   "onItemClick": function(id, e, node){
                     console.log(this.getItem(id).iip_slide_w_path);
                     viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
+                    $("#status_bar").html(this.getItem(id).slide_name);
                     // /alert(base_host + "/DZIMS/" + this.getItem(id).slide_w_path );
                     //viewer.open()
                   },
                   "onAfterLoad": function(){
-                    iip_slide_w_path = $$("dataview1").getItem($$("dataview1").getFirstId()).iip_slide_w_path;
-                    viewer.open( iip_host+iip_slide_w_path);
+                    first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
+                    viewer.open( iip_host + first_slide.iip_slide_w_path);
+                    $("#status_bar").html(first_slide.slide_name);
                   }
                 }
     });
