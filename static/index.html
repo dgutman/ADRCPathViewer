@@ -4,22 +4,24 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
     <title>ADRC DSA Viewer</title>
-	
-     <!-- bower:js -->
-     <script src="bower_components/jquery/dist/jquery.js"></script>
-     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-     <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
-     <!-- endbower -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
+    <!-- endbower -->
+    <link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap-theme.css" />
+    <link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
 
-<link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
-<link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap-theme.css"/>
-<link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/theme.css" />
+    <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
-     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.min.css" />
+   <!--  <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.theme.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.structure.css" />
+    --> 
     <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.dataTables.css" />
     <link href="css/bootstrap-switch.css" rel="stylesheet" media="screen">
     <!-- really should move to bootstrap3 -->
@@ -29,25 +31,19 @@
     <script src="js/colornames_to_hex_hash.js"></script>
     <script src="js/mousetrap.min.js"></script>
     <script type="text/javascript" src="osd-filters/osd_filters.js"></script>
-    
-
     <link rel="stylesheet" type="text/css" media="screen" href="css/dsa.css" />
- 
-
     <script src="js/dsa_main.js"></script>
-  
 </head>
 
 <body>
     <script>
-    //base_host = "http://cancer.digitalslidearchive.emory.edu"
-    base_host = ""
+    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
+        //base_host = ""
         //base_host='';    
         //Defining urls for data grab functions
     datagroup_apiurl = base_host + '/api/v2/slideSet';
-    
-	//Change this image to be dyanmic loaded from a config.json file
 
+    //Change this image to be dyanmic loaded from a config.json file
     </script>
     <div class="navbar ">
         <div class="navbar-inner">
@@ -73,13 +69,11 @@
                         <label class="control-label" for="data_group">Select Patient</label>
                         <div class="controls">
                             <span id="stain_filter">Stain Filters:</span>
-				<select id="data_group" class="input"></select>
-				
+                            <select id="data_group" class="input"></select>
                             <span class="help-inline">Available Slides:
                                 <span id="count_patient"></span>
                             </span>
                         </div>
-			
                     </div>
                     <div id="sel_image_scroll">
                         <div id="dynamic"></div>
@@ -102,7 +96,6 @@
     <div style="clear:both"></div>
     <div class="" id="status_bar">Main Status Bar</div>
     <script>
- 
     var config;
     var sel_image_expanded = false;
     var study_name = [];
@@ -111,7 +104,7 @@
     var thumbs_expanded = {};
     var recent_study_name;
     var viewer;
-    
+
     var pid;
     var patient_data = {};
     var temp;
@@ -178,7 +171,7 @@
         });
 
 
-      
+
 
         $(".sel_image_action").click(function() {
 
@@ -187,7 +180,6 @@
 
                 console.log('gets here');
                 //This code allows me to change the view from a single image thumb on the right to show multiple thumbs per page
-
                 // removing this in favor of class values
                 $('#sel_image_frame').removeClass('span3');
                 $('#sel_image_frame').addClass('span12');
@@ -211,22 +203,30 @@
             }
         });
 
-
-//        load_thumbnail_data('acc'); //Need to change this to the value of the first item selected
-
-
         $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
     });
 
+<<<<<<< HEAD
+=======
+   
+    /*Adding code for a floating debug window... */
+    $('#annotationState_dialog').dialog({
+        autoOpen: false,
+        modal: false,
+        draggable: true,
+        width: 550,
+        height: 375,
+    });
 
-  
+    $('#AnnotationDialogButton').on('click', function() {
+        $('#annotationState_dialog').dialog('open');
+    });
     </script>
     <!-- This serves as the landing spot for the SVG color filter code -->
     <div id="filter_dialog" title="Apply Filters">
         Filter set will appear here
     </div>
-   
     </div>
     <div id="annotation_dialog">
     </div>
@@ -253,4 +253,5 @@
         </span>
     </div>
 </body>
+
 </html>

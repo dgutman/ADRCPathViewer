@@ -123,8 +123,8 @@
 
 		//converted_URL for local src =..
 		// add thumbnail as well
-
-                    var html = sld_info.slide_name + '#' + sld_info.slide_w_path+ '#' + sld_info.slide_name + '#' + sld_info.thumbnail_image;
+                    console.log(base_host)
+                    var html = sld_info.slide_name + '#' + sld_info.slide_w_path+ '#' + sld_info.slide_name + '#' + base_host+sld_info.thumbnail_image;
                     html_for_dt.push([html]);
 
                 })
@@ -155,6 +155,7 @@
             sel_image_expanded = false;
         }
 
+        image_url = base_host + image_url;
         //annotationState.clearAnnotations();
         viewer.open(image_url);
 
@@ -169,11 +170,6 @@
      	$("#status_bar").text("Current image:"+current_filename); //update status bar to show current image name
 
 
-        /// I am now loading the database function here..
-        pid = filename.substring(0, 12);
-
-        /* Ill get the path report here */
-        
     }
 
 
@@ -308,7 +304,7 @@ $(function() {
             callback_to_use = customFnRowCallback_expanded;
 
         }
-        console.log(aoColumns);
+       // console.log(aoColumns);
 
 
 

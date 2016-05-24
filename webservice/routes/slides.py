@@ -59,11 +59,16 @@ def wbx_get_slides( slideGroupId):
     curSlideGroup = sdb[slides.config["slides_collection"]].find({'slideGroup':slideGroupId})
     ### Need to iterate througuh the current slide group and turn it into the proper format for WEBIX
     slideList = []
+    slideCount = 0;
     for cs in curSlideGroup:
         ### Need to insert an id field for wbx, I am going to use the _id field
-        cs['id'] = str(cs['_id'])  ## This is still going to make this an objectID object..
+#        cs['id'] = str(cs['_id'])  ## This is still going to make this an objectID object..
+        csd = {}
+        slideCount+=1;
+        csd['id'] =slideCount
+        csd['slide_name'] = cs['slide_name']
+        csd['thumbnail_image'] = cs['thumbnail_image']
         slideList.append(cs)
-
     return dumps(slideList)
 
 #    return dumps( {'slide_list': sdb[slides.config["slides_collection"]].find({'slideGroup':id})} ) 
