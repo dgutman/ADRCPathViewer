@@ -20,7 +20,6 @@
   window.onresize = handleResize;
 
 
-
   //For now creating a globally scoped variable called
   wbx_slideSet_Info = []
 
@@ -36,12 +35,22 @@
             $('#slideGroup_sel').append('<option value="' + row.id + '" id=' + row.id + '">' + row.id +'</option>');
                                       })
       });
+	//Once this has finished loaded, it should load the first value/slide into the viewer so it's not blank
+	
+
+
+		//if I change this to last.. it loads the last option
+		$("#slideGroup_sel").val($("#slideGroup_sel option:first").val());
+		group_to_load = $("#slideGroup_sel").val()
+		$('#slideGroup_sel').change();  //This will force the onchange event fo fire
+		console.log('on change event should have been fired...');
+	//wbx_load_thumbnail_data(group_to_load);
+
   }
 
 
   function wbx_load_thumbnail_data(slideGroupName) {
 
-    slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/"+slideGroupName;
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
     $$("dataview1").clearAll();
     $$("dataview1").load( slideDataUrl);
