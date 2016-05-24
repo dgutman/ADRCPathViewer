@@ -26,14 +26,12 @@ def get_collections():
     coll_list = sdb[slides.config["slides_collection"]].distinct('slideGroup')
     return jsonify( { 'Collections': sorted(coll_list) })
 
-
 @slides.route('/api/wbx/slideSet')
 @crossdomain(origin='*')
 def get_wbx_collections():
     slideGroupList = sdb[slides.config["slides_collection"]].distinct('slideGroup')
     ### May want to add in some additional filters here.... i.e. don't return empty slidegroups??
     ### FOR NOW MUST REMEMBER DISTINCT RETURNS A SLIDE GROUP!!!
-
     sgl = []
     
     for sg,idx in enumerate(slideGroupList):
@@ -43,7 +41,6 @@ def get_wbx_collections():
         sgl_info['id'] = idx
         sgl.append(sgl_info)
     return dumps(sgl)
-
 
 @slides.route('/api/v2/slideSet/<string:id>')
 @crossdomain(origin='*')
@@ -71,8 +68,6 @@ def wbx_get_slides( slideGroupId):
         slideList.append(cs)
     return dumps(slideList)
 
-#    return dumps( {'slide_list': sdb[slides.config["slides_collection"]].find({'slideGroup':id})} ) 
-#    return dumps( {'slide_list': sdb[slides.config["slides_collection"]].find({'slideGroup':id})} ) 
 
 
 ##This will process and store files that were marked as bad...
