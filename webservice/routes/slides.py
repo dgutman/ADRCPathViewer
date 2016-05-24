@@ -32,7 +32,6 @@ def get_wbx_collections():
     slideGroupList = sdb[slides.config["slides_collection"]].distinct('slideGroup')
     ### May want to add in some additional filters here.... i.e. don't return empty slidegroups??
     ### FOR NOW MUST REMEMBER DISTINCT RETURNS A SLIDE GROUP!!!
-
     sgl = []
     
     for sg,idx in enumerate(slideGroupList):

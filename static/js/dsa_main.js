@@ -195,38 +195,3 @@
   });
 
 
-
-
-  function load_slides_into_datatable(html_for_dataTable, images_per_row) {
-
-      //Below formats the data for either a 1 or 5 column data view
-      //There are also separate call back functions for the single and 5 column viewer... but at least I consolidated
-      // the function calls
-
-      if (images_per_row == 1) {
-          aoColumns = [{
-              "sTitle": "Image",
-              "sClass": "center",
-              "sType": "html"
-          }];
-          callback_to_use = customFnRowCallback;
-
-      }
-
-      ///I am currently using data tables for the thumbnail browser on the left, this code below loads it
-      $('#count_patient').text(html_for_dataTable.length);
-      $('#dynamic').html('<table cellpadding="0" cellspacing="0" border="0" class="display" id="example"></table>');
-      oTable = $('#example').dataTable({
-          "aaData": html_for_dataTable,
-          "bLengthChange": false,
-          "bSort": false,
-          "bSortClasses": false,
-          "iDisplayLength": 6,
-          "bDeferRender": true,
-          "fnRowCallback": callback_to_use,
-          "aoColumns": aoColumns
-      });
-
-
-
-  }
