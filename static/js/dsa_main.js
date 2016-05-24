@@ -42,6 +42,7 @@
   function wbx_load_thumbnail_data(slideGroupName) {
 
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu:5091/api/wbx/slideSet/"+slideGroupName;
+    slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
     $$("dataview1").clearAll();
     $$("dataview1").load( slideDataUrl);
           

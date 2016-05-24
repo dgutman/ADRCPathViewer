@@ -18,7 +18,7 @@ app.config.from_envvar('DEEPZOOM_MULTISERVER_SETTINGS', silent=True)
 app.config.update(get_app_configurations())
 
 #print app.config
-#print "App Config was read"
+print "App Config was read"
 
 #register the route blueprints to the app
 app.register_blueprint(dz)
