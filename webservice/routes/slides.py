@@ -35,7 +35,6 @@ def get_wbx_collections():
     sgl = []
     
     for sg,idx in enumerate(slideGroupList):
-        print sg,idx
         sgl_info = {}
         sgl_info['name'] = sg
         sgl_info['id'] = idx
@@ -67,7 +66,6 @@ def wbx_get_slides( slideGroupId):
         csd['thumbnail_image'] = cs['thumbnail_image']
         slideList.append(cs)
     return dumps(slideList)
-
 
 
 ##This will process and store files that were marked as bad...

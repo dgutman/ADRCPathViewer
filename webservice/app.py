@@ -11,23 +11,25 @@ from  flask import Flask
 from utils.config import get_app_configurations
 
 
-from flask.ext.cache import Cache ### Adding in memcached backend
+from cache import cache
 
 #start the flask app
 app = Flask('dsa_adrc')
+app.config['CACHE_TYPE'] = 'memcached'
 
-cache = Cache(app,config={'CACHE_TYPE': 'memcached'})
+
+cache.init_app(app)
+
+
+
+#Cache(app,config={'CACHE_TYPE': 'memcached'})
 
 #attach configurations stored in app.cfg to the app
 app.config.from_envvar('DEEPZOOM_MULTISERVER_SETTINGS', silent=True)
 app.config.update(get_app_configurations())
 
-<<<<<<< HEAD
-#print app.config
-print "App Config was read"
-=======
->>>>>>> master
-
+	
+	
 #register the route blueprints to the app
 app.register_blueprint(dz)
 app.register_blueprint(slides)

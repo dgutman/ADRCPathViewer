@@ -104,30 +104,6 @@
 
 
 
-  //Function for Delayed loading of thumbnails
-  //See http://www.datatables.net/forums/discussion/1959/image-thumbs-in-table-column-lazy-loading/p1 for example
-  function customFnRowCallback(nRow, aData, iDisplayIndex) {
-      var rowdata = aData[0].split('#');
-      console.log(rowdata);
-      var html = '<a href=\"javascript:;\" onclick=\"load_image(\'' + rowdata[0] + '\',\'' + rowdata[1] + '\')\">' + rowdata[2] + '<br /><img src=\"' + rowdata[3] + '\"></a>';
-      $('td:eq(0)', nRow).html(html);
-      return nRow;
-  }
-
-  function customFnRowCallback_expanded(nRow, aData, iDisplayIndex) {
-      for (var i = 0; i < 5; i++) {
-          if (aData[i] == "") {
-              $('td:eq(' + i + ')', nRow).html('');
-              continue;
-          }
-          var rowdata = aData[i].split('#');
-          var html = '<a href=\"javascript:;\" onclick=\"load_image(\'' + rowdata[0] + '\',\'' + rowdata[1] + '\')\">' + rowdata[2] + '<br /><img src=\"' + rowdata[3] + '\"></a>';
-          $('td:eq(' + i + ')', nRow).html(html);
-      }
-      return nRow;
-  }
-
-
   function getParameterByName(name) {
       name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
       var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

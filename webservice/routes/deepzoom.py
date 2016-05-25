@@ -9,6 +9,18 @@ from openslide import OpenSlide
 
 dz = Blueprint('deepzoom', __name__)
 
+
+from flask.ext.cache import Cache ### Adding in memcached backend
+
+
+#from flask.ext.cache import Cache ### Adding in memcached backend
+#cache = Cache(app,config={'CACHE_TYPE': 'memcached'})
+
+### Need to figure out how to import this from the main app.py
+#http://brunorocha.org/python/flask/using-flask-cache.html
+
+#http://stackoverflow.com/questions/31767322/how-to-use-decorators-and-functions-with-flask-blueprints
+
 @dz.record
 def record_params(setup_state):
     """
@@ -42,6 +54,9 @@ def dzi(path):
     resp = make_response(slide.get_dzi(dz.config['deepzoom_format']))
     resp.mimetype = 'application/xml'
     return resp
+
+
+##@cache.cached()  Want to add back in this decorator..
 
 @dz.route('/thumbnail/<path:path>')
 @crossdomain(origin='*')
