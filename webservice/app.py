@@ -21,7 +21,6 @@ app.config['CACHE_TYPE'] = 'memcached'
 cache.init_app(app)
 
 
-
 #Cache(app,config={'CACHE_TYPE': 'memcached'})
 
 #attach configurations stored in app.cfg to the app

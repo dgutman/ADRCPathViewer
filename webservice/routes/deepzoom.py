@@ -10,8 +10,7 @@ from openslide import OpenSlide
 dz = Blueprint('deepzoom', __name__)
 
 
-from flask.ext.cache import Cache ### Adding in memcached backend
-
+from cache import cache
 
 #from flask.ext.cache import Cache ### Adding in memcached backend
 #cache = Cache(app,config={'CACHE_TYPE': 'memcached'})
@@ -45,6 +44,7 @@ def _setup():
 
 @dz.route('/DZIMS/<path:path>.dzi')
 @crossdomain(origin='*')
+@cache.cached()
 def dzi(path):
     """
     Service while slide images using openslide
@@ -56,10 +56,9 @@ def dzi(path):
     return resp
 
 
-##@cache.cached()  Want to add back in this decorator..
-
 @dz.route('/thumbnail/<path:path>')
 @crossdomain(origin='*')
+@cache.cached()
 def getThumbnail(path):
     """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
 
@@ -84,6 +83,8 @@ def getThumbnail(path):
     return resp
 
 @dz.route('/DZIMS/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')
+@crossdomain(origin='*')
+@cache.cached()
 def tile(path, level, col, row, format):
     slide = _get_slide(dz.config['slides_dir'], path)
     format = format.lower()

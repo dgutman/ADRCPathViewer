@@ -31,6 +31,12 @@ $(document).ready(function() {
                 select:true,
                 width: 280,
                 height: 600,
+		pager:{
+		id:"pager",
+	        size:50,
+	        group:5,
+		container:"thumb_pager",
+		    },
                 template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
                 datatype: "json",
                 type:{ 

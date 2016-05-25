@@ -45,13 +45,11 @@
     <script>
         //Defining urls for data grab functions
     base_host = "http://adrcdev.digitalslidearchive.emory.edu"
-    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
 
     iip_host = "http://digitalslidearchive.emory.edu"
 
-        //base_host = ""
+    //base_host = ""
     use_webix = true;
-
 
     if (use_webix)  {datagroup_apiurl = base_host + '/api/wbx/slideSet';}
     else { datagroup_apiurl = base_host + '/api/v2/slideSet';}
@@ -85,11 +83,12 @@
                             <select id="slideGroup_sel" class="input"></select>
                              
                             
+			<div id="thumb_pager"></div>
 
                                 <span id="count_patient"></span>
                             <span class="help-inline">Available Slides:</span>
-
                         <div id="wbx_thumb_target"></div>
+
                     </div>
 
 
