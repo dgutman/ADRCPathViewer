@@ -67,6 +67,11 @@ def wbx_get_slides( slideGroupId):
         slideList.append(cs)
     return dumps(slideList)
 
+@slides.route('/api/v1/slides/<string:slide_id>/comment', methods=["POST"])
+def save_slide_comment(slide_id):
+    comment = request.form['comment']
+    sdb[slides.config["slides_collection"]].update({"slide_id": slide_id}, {"$set": {"comment": comment}})
+    return None
 
 ##This will process and store files that were marked as bad...
 @slides.route('/api/v1/slides/<string:id>/report', methods=["POST"])
@@ -76,3 +81,5 @@ def report_bad_images():
     data_group = request.form['data_group']
     edb['cdsa_live'].insert({ 'filename':filename, 'slide_url':slide_url, 'data_group':data_group})
     return 'OK'
+
+

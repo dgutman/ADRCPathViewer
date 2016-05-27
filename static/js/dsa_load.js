@@ -16,6 +16,7 @@ var current_slide_url;
 var mousetracker;
 var osd;
 var PRECISION = 3;
+var selected_slide_name;
 
 $(document).ready(function() {
     handleResize();
@@ -48,6 +49,7 @@ $(document).ready(function() {
                     console.log(this.getItem(id).iip_slide_w_path);
                     viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
                     $("#status_bar").html(this.getItem(id).slide_name);
+                    selected_slide_name = this.getItem(id).slide_name;
                     // /alert(base_host + "/DZIMS/" + this.getItem(id).slide_w_path );
                     //viewer.open()
                   },
@@ -55,6 +57,7 @@ $(document).ready(function() {
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
                     viewer.open( iip_host + first_slide.iip_slide_w_path);
                     $("#status_bar").html(first_slide.slide_name);
+                    selected_slide_name = first_slide.slide_name;
                   }
                 }
     });
@@ -80,7 +83,33 @@ $(document).ready(function() {
 
 
 
-
+    /*
+    * dialog box for addign slide comment
+    * If save button is clicked, a POST request is created and submitted to the webservice
+    * The URL of the POST request contains the slide name for which the comment is saved.
+    */
+    $("#comment_dialog").dialog({
+      modal: true,
+      autoOpen: false,
+      title: "Slide comment",
+      buttons: [
+        {   "text" : "Save", "click" : 
+                function() {
+                    var slide_comment = $("#slide_comment").val(); 
+                    if(slide_comment.length){
+                        $.ajax({
+                            type: "POST",
+                            url: base_host + "/api/v1/slides/" + selected_slide_name + "/comment",
+                            data: {"comment": slide_comment},
+                            dataType: "json"
+                        });
+                    }
+                    $(this).dialog("close"); 
+                } 
+        },
+        {   "text" : "Cancel", "click" : function(){ $(this).dialog("close"); } }
+      ]
+   });
 
     //create the filter dialog  as a model
     $("#filter_dialog").dialog({
@@ -99,6 +128,10 @@ $(document).ready(function() {
     });
     $("#show_debug").click(function() {
         $("#debug_dialog").dialog('open');
+        return false;
+    });
+    $("#show_comment_dialog").click(function() {
+        $("#comment_dialog").dialog('open');
         return false;
     });
 
