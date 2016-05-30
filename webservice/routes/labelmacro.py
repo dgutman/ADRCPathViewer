@@ -4,22 +4,16 @@ from flask import request, url_for, jsonify, make_response, Blueprint, current_a
 from bson.json_util import dumps
 from utils.crossdomains import crossdomain
 from openslide import OpenSlide
+import os
 
 from cache import cache
 
-
+from utils.deepzoom import PILBytesIO
 
 # from utils.db import connect
 # from utils.deepzoom import PILBytesIO
 
-
 labelmacro = Blueprint('labelmacro', __name__)
-
-
-@slides.route('/api/v2/label')
-@crossdomain(origin='*')
-def get_slidelabel():
-
 
 @labelmacro.record
 def record_params(setup_state):
@@ -33,26 +27,10 @@ def record_params(setup_state):
 ##TODO:  Allow me to specify the thumnail size
 
 
-@labelmacro.route('/labelImage/<path:path>')
-@crossdomain(origin='*')
-@cache.cached()
-def labelImage(path):
-    """
-    Service while slide images using openslide
-    images are encolded in XML format
-    """
-    slide = _get_slide(labelmacro.config['slides_dir'], path)
-    resp = make_response(slide.get_dzi(dz.config['deepzoom_format']))
-    resp.mimetype = 'application/xml'
-    return resp
-
-
-@dz.route('/macroImage/<path:path>')
+@labelmacro.route('/macroImage/<path:path>')
 @crossdomain(origin='*')
 @cache.cached()
 def getMacroImage(path):
-    """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
-
     path = os.path.abspath(os.path.join(labelmacro.config['slides_dir'], path))
     osr = OpenSlide(path)
     format = 'jpeg'
@@ -73,3 +51,35 @@ def getMacroImage(path):
     resp.mimetype = 'image/%s' % format
     return resp
 
+
+
+
+@labelmacro.route('/labelImage/<path:path>')
+@crossdomain(origin='*')
+@cache.cached()
+def getLabelImage(path):
+    """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
+    path = os.path.abspath(os.path.join(labelmacro.config['slides_dir'], path))
+    osr = OpenSlide(path)
+    format = 'jpeg'
+
+    print osr.associated_images.keys()
+    print "Found keys"
+
+    if 'label' in osr.associated_images.keys():
+
+        curLabelImage= osr.associated_images['label']
+        buf = PILBytesIO()
+        curLabelImage.save(buf, format, quality=90)
+        resp = make_response(buf.getvalue())
+        resp.mimetype = 'image/%s' % format
+        return resp
+    elif 'macro' in osr.associated_images.keys():
+        curLabelImage= osr.associated_images['macro']
+        buf = PILBytesIO()
+        curLabelImage.save(buf, format, quality=90)
+        resp = make_response(buf.getvalue())
+        resp.mimetype = 'image/%s' % format
+        return resp
+    else:
+        abort(404)

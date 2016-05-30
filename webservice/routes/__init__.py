@@ -1,1 +1,1 @@
-__all__ = ["static", "deepzoom", "slides"]
+__all__ = ["static", "deepzoom", "slides","labelmacro"]
