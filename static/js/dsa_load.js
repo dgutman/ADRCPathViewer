@@ -33,8 +33,8 @@ $(document).ready(function() {
                 height: 600,
 		pager:{
 		id:"pager",
-	        size:50,
-	        group:5,
+	        size:10,
+	        group:4,
 		container:"thumb_pager",
 		    },
                 template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
