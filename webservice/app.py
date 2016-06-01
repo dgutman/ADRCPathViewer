@@ -10,7 +10,7 @@ from routes.static import static
 from routes.labelmacro import labelmacro
 from  flask import Flask
 from utils.config import get_app_configurations
-
+from routes.slidefeedback import slidefeedback
 
 from cache import cache
 
@@ -35,3 +35,4 @@ app.register_blueprint(dz)
 app.register_blueprint(slides)
 app.register_blueprint(static)
 app.register_blueprint(labelmacro)
+app.register_blueprint(slidefeedback) ### May want to make this  a config option..

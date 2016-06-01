@@ -54,6 +54,9 @@
   function wbx_load_thumbnail_data(slideGroupName) {
 
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
+
+    slide_info.slideDataUrl = slideDataUrl;
+
     $$("dataview1").clearAll();
     $$("dataview1").load( slideDataUrl);
   }
@@ -98,10 +101,6 @@
       current_slide_url = image_url;
       $("#status_bar").text("Current image:" + current_filename); //update status bar to show current image name
   }
-
-
-
-
 
 
   function getParameterByName(name) {
@@ -163,9 +162,6 @@
        $('#slideGroup_sel').change(function() {
           wbx_load_thumbnail_data($("#slideGroup_sel option:selected").val());
       });
-
-
-
 
 
   });

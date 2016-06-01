@@ -1,19 +1,27 @@
 sample_xml = "/xmls/ADRC60-110/ADRC60-110_1A_aBeta.xml"
 
+//To do... see if it's already created
+annotationState = new AnnotationState();
+
+
+var    cur_aperio_xml = {}
+
 function aperioController(xml_file) {
     //first clear the annotation state
     annotationState.clearAnnotations(); //is global for now
-
-    cur_aperio_xml = {}
+    console.log(" HI DAVE!");
     $.get(xml_file).done(function(response) {
+		console.log("Am I loading anything?");
+		console.log(response);
 
+		cur_aperio_xml = response;
             layers = []
             var layerIndex = 0;
             //for every annotation create a layers and add markups
-            $('Annotation', response.data).each(function() {
+            $('Annotation', response).each(function() {
                 color = this.getAttribute("LineColor").toString(16);
                 color = rgb2hex(color);
-
+		console.log(color);
                 //we treat every region as a layer in DSA
                 $('Region', this).each(function() {
                     curRegionmarkups = getRegionMarkups(this, color);
@@ -26,7 +34,7 @@ function aperioController(xml_file) {
 
             });
  
-        }  //end of get xml
+        })  //end of get xml
     } //end of aperiocontroller function
 
 
@@ -44,7 +52,7 @@ function aperioController(xml_file) {
 /**
  * Convert RGB to HEX color codes
  */
-rgb2hex = function(rgb) {
+function rgb2hex(rgb) {
     rgb = "0".repeat(9 - rgb.length) + rgb;
     var r = parseInt(rgb.substring(0, 3));
     var g = parseInt(rgb.substring(3, 3));
@@ -58,7 +66,7 @@ rgb2hex = function(rgb) {
 
 
 
-getRegionMarkups = function(vertices, color) {
+function getRegionMarkups(vertices, color) {
     var markups = {};
 
         //each set of vertices represents a markup
@@ -72,7 +80,7 @@ getRegionMarkups = function(vertices, color) {
             var pt = new OpenSeadragon.Point(Number(this.getAttribute("X")), Number(this.getAttribute("Y")));
 
             //convert the Aperio image coordinates to openseadragon viewport coordinates
-            var point = $window.DSAViewer.getViewer().viewport.imageToViewportCoordinates(pt);
+            var point = viewer.viewport.imageToViewportCoordinates(pt);
             points.push(point);
         });
 
@@ -80,8 +88,6 @@ getRegionMarkups = function(vertices, color) {
         //create overlay
         var overlayObj = {
             type: 'freehand',
-            index: $scope.index,
-            label: String($scope.index),
             points: points,
             color: color,
             alpha: 1

@@ -135,6 +135,28 @@ $(document).ready(function() {
         return false;
     });
 
+
+
+
+  $('#report_bad_image_btn').click(function() {
+            var url = '/api/v1/report_bad_image';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    filename: current_filename,
+                    slide_url: current_slide_url,
+                    data_group: recent_study_name
+
+                },
+                async: false
+            });
+        });
+
+
+
+
+
     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
 });
