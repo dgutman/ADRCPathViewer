@@ -72,6 +72,7 @@ $(document).ready(function() {
     $("#comment_dialog").dialog({
       modal: true,
       autoOpen: false,
+       closed: true,
       title: "Slide comment",
       buttons: [
         {   "text" : "Save", "click" : 
@@ -93,13 +94,14 @@ $(document).ready(function() {
    });
 
     //create the filter dialog  as a model
-    $("#filter_dialog").dialog({ autoOpen: false,  width: 'auto'  });
+    $("#filter_dialog").dialog({ autoOpen: false,  closed: true, width: 'auto'  });
     //Filter dialog only opens on click....
     $('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
 
     $("#debug_dialog").dialog({
         autoOpen: false,
-        width: 'auto'
+        width: 'auto',
+         closed: true,
     });
 
 
