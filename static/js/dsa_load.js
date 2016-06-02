@@ -93,16 +93,15 @@ $(document).ready(function() {
       ]
    });
 
+    
+    //These can be generated vi direct markup of the DIV's...
     //create the filter dialog  as a model
     $("#filter_dialog").dialog({ autoOpen: false,  closed: true, width: 'auto'  });
+    
     //Filter dialog only opens on click....
     $('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
 
-    $("#debug_dialog").dialog({
-        autoOpen: false,
-        width: 'auto',
-         closed: true,
-    });
+    $("#debug_dialog").dialog({  autoOpen: false,  width: 'auto', closed: true, });
 
 
     $("#show_debug").click(function() {    $("#debug_dialog").dialog('open');  return false;  });
@@ -123,5 +122,11 @@ $(document).ready(function() {
             });
         });
     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
+
+
+    //Initializing select2 filters here
+
+///$("#dsa_layout").layout('collapse','east');
+    $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
 
 });

@@ -9,7 +9,6 @@
       var left_width = $('#sel_image_frame').width();
 
    //   console.log(nav_height, status_bar_height, select_patient_height, left_width);
-
       $('#sel_image_scroll').height(window.innerHeight - (nav_height + status_bar_height + select_patient_height + 70));
       $('#zoom_frame').width(window.innerWidth - left_width - 10);
       $('#image_zoomer').width(window.innerWidth - left_width - 10);
@@ -18,7 +17,6 @@
   }
 
   window.onresize = handleResize;
-
   //For now creating a globally scoped variable called
   wbx_slideSet_Info = []
 
@@ -33,11 +31,7 @@
           $.each(data, function(idx, row) {
             $('#slideGroup_sel').append('<option value="' + row.id + '" id=' + row.id + '">' + row.id +'</option>');
           });
-
-
-
-
-          wbx_load_thumbnail_data(data[0].id);
+          load_thumbnail_data(data[0].id);
       });
 	//Once this has finished loaded, it should load the first value/slide into the viewer so it's not blank
 	
@@ -50,7 +44,7 @@
   }
 
 
-  function wbx_load_thumbnail_data(slideGroupName) {
+  function load_thumbnail_data(slideGroupName) {
 
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
 
@@ -123,11 +117,8 @@
           }
       });
        $('#slideGroup_sel').change(function() {
-         
-          wbx_load_thumbnail_data($("#slideGroup_sel option:selected").val());
+          load_thumbnail_data($("#slideGroup_sel option:selected").val());
       });
-
-
   });
 
 

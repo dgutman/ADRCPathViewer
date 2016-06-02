@@ -41,7 +41,7 @@
     <script src="js/dsa_main.js"></script>
 </head>
 
-<body class="easyui-layout">
+<body id="dsa_layout" class="easyui-layout">
     <script>
     //Defining urls for data grab functions
     base_host = "http://adrcdev.digitalslidearchive.emory.edu"
@@ -49,7 +49,7 @@
     datagroup_apiurl = base_host + '/api/wbx/slideSet';
     //Change this image to be dyanmic loaded from a config.json file
     </script>
-    <div data-options="region:'north',title:'DSA',split:true" style="height:100px;">
+    <div data-options="region:'north',title:'DSA',split:true,collapsible:false" style="height:82px;">
         <div class="navbar navbar-inner">
             <a class="brand" href="#">
                 <img src="img/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;Digital Slide Viewer</a>
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div data-options="region:'east',title:'SlideInfo',split:true" style="width:100px;">TO BE DETERMINED</div>
-    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;">
+    <div data-options="region:'center',title:'Image Viewer'" style="padding:5px;background:#eee;">
         <div id="zoom_frame">
             <div class="btn-group">
                 <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse" disabled>
@@ -90,7 +90,7 @@
             <div id="image_zoomer"></div>
         </div>
     </div>
-    <div data-options="region:'south',title:'Status Bar',split:true" style="height:90px;">
+    <div data-options="region:'south',title:'Status Bar',split:true,collapsible:false,maxHeight:100" style="height:80px;">
         <div class="" id="status_bar">Main Status Bar</div>
     </div>
     <div style="clear:both"></div>
