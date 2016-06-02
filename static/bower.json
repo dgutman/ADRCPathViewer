@@ -24,7 +24,7 @@
     "grunt": "^0.4.5",
     "jquery-ui": "jqueryui#^1.11.4",
     "font-awesome": "fontawesome#^4.5.0",
-    "openseadragon": "^2.1.0",
+    "openseadragon": "2.1.0",
     "webix": "^3.3.2"
   }
 }
