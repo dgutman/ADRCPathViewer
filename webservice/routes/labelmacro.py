@@ -65,10 +65,14 @@ def getLabelImage(path):
 
     print osr.associated_images.keys()
     print "Found keys"
+    ### NEED TO CREATE A SMALLER DEFAULT IMAGE SIZE
+    ThumbWidth = (250,250)
 
-    if 'label' in osr.associated_images.keys():
-
+    if u'label' in osr.associated_images.keys():
         curLabelImage= osr.associated_images['label']
+      
+        curLabelImage.thumbnail( ThumbWidth )  ##inpalce operation
+ 
         buf = PILBytesIO()
         curLabelImage.save(buf, format, quality=90)
         resp = make_response(buf.getvalue())
@@ -77,6 +81,9 @@ def getLabelImage(path):
     elif 'macro' in osr.associated_images.keys():
         curLabelImage= osr.associated_images['macro']
         buf = PILBytesIO()
+
+        curLabelImage.thumbnail( ThumbWidth )  ##inpalce operation
+
         curLabelImage.save(buf, format, quality=90)
         resp = make_response(buf.getvalue())
         resp.mimetype = 'image/%s' % format

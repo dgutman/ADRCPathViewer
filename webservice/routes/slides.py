@@ -61,9 +61,12 @@ def wbx_get_slides( slideGroupId):
 #        cs['id'] = str(cs['_id'])  ## This is still going to make this an objectID object..
         csd = {}
         slideCount+=1;
+        csd = cs	
         csd['id'] =slideCount
         csd['slide_name'] = cs['slide_name']
         csd['thumbnail_image'] = cs['thumbnail_image']
+        csd['sld_properties'] = None
+
         slideList.append(cs)
     return dumps(slideList)
 
