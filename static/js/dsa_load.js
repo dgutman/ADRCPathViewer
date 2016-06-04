@@ -50,7 +50,11 @@ $(document).ready(function() {
                     console.log("updating CSO");
                     console.log(CSO);
 
+                    //let us update the button view for this slide
                     new SlideView({model: new SlideViewerModel(CSO)});
+
+                    //let us update the info view for this slide
+                    new SlideInfoView({model: new SlideViewerModel(CSO)});
                   },
                   "onAfterLoad": function(){
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
@@ -60,7 +64,12 @@ $(document).ready(function() {
                     selected_slide_name = first_slide.slide_name;
                     CSO= first_slide;
 
+                    //let us update the button view for this slide
                     new SlideView({model: new SlideViewerModel(CSO)});
+
+                    //let us update the info view for this slide
+                    new SlideInfoView({model: new SlideViewerModel(CSO)});
+                    
                     // show_slidelabel( CSO );
                   }
                 }
@@ -109,7 +118,7 @@ $(document).ready(function() {
     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
     //Filter dialog only opens on click....
-    //$('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
+    $('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
 
     $("#debug_dialog").dialog({  autoOpen: false,  width: 'auto', closed: true, });
 
