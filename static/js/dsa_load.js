@@ -49,6 +49,8 @@ $(document).ready(function() {
                     // show_slidelabel( CSO );  //this will go away soon1!!
                     console.log("updating CSO");
                     console.log(CSO);
+
+                    new SlideView({model: new SlideViewerModel(CSO)});
                   },
                   "onAfterLoad": function(){
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
@@ -58,6 +60,7 @@ $(document).ready(function() {
                     selected_slide_name = first_slide.slide_name;
                     CSO= first_slide;
 
+                    new SlideView({model: new SlideViewerModel(CSO)});
                     // show_slidelabel( CSO );
                   }
                 }
@@ -106,7 +109,7 @@ $(document).ready(function() {
     $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
     //Filter dialog only opens on click....
-    $('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
+    //$('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
 
     $("#debug_dialog").dialog({  autoOpen: false,  width: 'auto', closed: true, });
 
