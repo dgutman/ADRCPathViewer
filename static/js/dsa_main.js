@@ -57,22 +57,7 @@
 
 //NEED TO ADD AN EVENT LISTENER FOR SLIDEGROUP_SEL FOR ONCHANGE..
 
-  function load_image(filename, image_url) {
-
-      image_url = base_host + image_url;
-      //annotationState.clearAnnotations();
-    CSO.current_filename = filename;
-    CSO.current_slide_url = image_url;
-      
-
-
-      viewer.open(CSO.image_url);
-      //Once an image is selected, buttons become clickable depending on the data source
-      
-      //This should get replaced with a binding in backbone...
-      $("#status_bar").text("Current image:" + filename); //update status bar to show current image name
-  }
-
+ 
   $(function() {
       // initialize the image viewer and annotation state
       viewer = OpenSeadragon({
@@ -120,6 +105,20 @@
           load_thumbnail_data($("#slideGroup_sel option:selected").val());
       });
   });
+
+
+   function show_slidelabel( imageObject)
+    {
+
+      //call this when I load an image... load the thumbnail url if this is allowed
+
+      slideLabel_image_url = base_host + imageObject.slideLabel_image;
+      console.log(slideLabel_image_url);
+      
+      $("#curImgSlideLabel").attr('src',slideLabel_image_url);
+
+    }
+
 
 
   function getParameterByName(name) {

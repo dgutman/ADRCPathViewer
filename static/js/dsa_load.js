@@ -45,6 +45,10 @@ $(document).ready(function() {
                     viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
                     $("#status_bar").html(this.getItem(id).slide_name);
                     selected_slide_name = this.getItem(id).slide_name;
+                    CSO = this.getItem(id);  //NOW WE NEED TO BIND CSO
+                    // show_slidelabel( CSO );  //this will go away soon1!!
+                    console.log("updating CSO");
+                    console.log(CSO);
                   },
                   "onAfterLoad": function(){
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
@@ -52,6 +56,9 @@ $(document).ready(function() {
                     console.log(iip_host + first_slide.iip_slide_w_path);   
                     $("#status_bar").html(first_slide.slide_name);
                     selected_slide_name = first_slide.slide_name;
+                    CSO= first_slide;
+
+                    // show_slidelabel( CSO );
                   }
                 }
     });
