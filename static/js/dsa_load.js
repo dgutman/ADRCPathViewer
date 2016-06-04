@@ -100,11 +100,11 @@ $(document).ready(function() {
       ]
    });
 
-    
     //These can be generated vi direct markup of the DIV's...
     //create the filter dialog  as a model
     $("#filter_dialog").dialog({ autoOpen: false,  closed: true, width: 'auto'  });
-    
+    $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
+
     //Filter dialog only opens on click....
     $('#show_filter').click(function() {   $('#filter_dialog').dialog('open');  return false;  });
 
@@ -128,7 +128,7 @@ $(document).ready(function() {
                 async: false
             });
         });
-    $("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
+    
 
 
     //Initializing select2 filters here
