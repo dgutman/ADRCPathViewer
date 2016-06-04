@@ -1,17 +1,20 @@
 var SlideInfoView = Backbone.View.extend({
 	el: "#slide_info",
 
-	template: _.template("<div><%= slide_name %></div>"),
+	template: _.template(
+		"<div>Slide name: <%= slide_name %></div>"+
+		"<div>Slide group: <%= slideGroup %></div>"+
+		"<div>File size: <%= file_size %></div>"+
+		"<div>Dimensions: <%= width %> x <%= height %></div>"+
+		"<div>Original resulution: <%= orig_resolution %></div>"+
+		"<div>Patient ID: <%= pt_id %></div>"),
 
 	initialize: function(){
-		console.log("init slide info");
 		console.log(this.model.defaults);
-		//this.slidename.html(this.model.CSO.slide_name);
 		this.render();
 	},
 
 	render: function(){
-		console.log(this.model.toJSON());
 		this.$el.html(this.template(this.model.toJSON()));
 	}
 });
