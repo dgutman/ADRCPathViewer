@@ -8,6 +8,8 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
+    <script type="text/javascript" src="bower_components/underscore/underscore-min.js"></script>
+    <script type="text/javascript" src="bower_components/backbone/backbone-min.js"></script>
     <!-- endbower -->
     <!--    <link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link ref="stylesheet" type="text/css" media="screen" href="bower_components/bootstrap/dist/css/bootstrap-theme.css" />
@@ -39,6 +41,7 @@
     <script type="text/javascript" src="bower_components/jeasyui/jquery.easyui.min.js"></script>
     <script src="js/dsa_load.js"></script>
     <script src="js/dsa_main.js"></script>
+    <script src="js/slide_buttons.js"></script>
 </head>
 
 <body id="dsa_layout" class="easyui-layout">
@@ -80,8 +83,8 @@
     <div data-options="region:'east',title:'SlideInfo',split:true" style="width:100px;">TO BE DETERMINED</div>
     <div data-options="region:'center',title:'Image Viewer'" style="padding:5px;background:#eee;">
         <div id="zoom_frame">
-            <div class="btn-group">
-                <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse" disabled>
+            <div class="btn-group" id="slide_buttons">
+                <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
                 <input type="button" id="report_bad_image_btn" value="Report Bad Image" class="btn btn-small btn-inverse">
                 <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
                 <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse" disabled>
