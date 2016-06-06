@@ -94,20 +94,7 @@ $(document).ready(function() {
        closed: true,
       title: "Slide comment",
       buttons: [
-        {   "text" : "Save", "click" : 
-                function() {
-                    var slide_comment = $("#slide_comment").val(); 
-                    if(slide_comment.length){
-                        $.ajax({
-                            type: "POST",
-                            url: base_host + "/api/v1/slides/" + selected_slide_name + "/comment",
-                            data: {"comment": slide_comment},
-                            dataType: "json"
-                        });
-                    }
-                    $(this).dialog("close"); 
-                } 
-        },
+        {   "text" : "Save", "click" : function() {}},
         {   "text" : "Cancel", "click" : function(){ $(this).dialog("close"); } }
       ]
    });
@@ -129,7 +116,7 @@ $(document).ready(function() {
     //    return false;
     //});
 
-  $('#report_bad_image_btn').click(function() {
+  /*$('#report_bad_image_btn').click(function() {
             var url = '/api/v1/report_bad_image';
             $.ajax({
                 type: "POST",
@@ -139,7 +126,7 @@ $(document).ready(function() {
                 },
                 async: false
             });
-        });
+        });*/
     
 
 
