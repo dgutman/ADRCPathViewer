@@ -1,4 +1,4 @@
-sample_xml = "/xmls/ADRC60-110/ADRC60-110_1A_aBeta.xml"
+sample_xml = "http://adrcdev.digitalslidearchive.emory.edu/xmls/ADRC60-110/ADRC60-110_1A_aBeta.xml"
 
 //To do... see if it's already created
 annotationState = new AnnotationState();

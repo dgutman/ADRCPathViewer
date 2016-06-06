@@ -69,5 +69,9 @@ $(document).ready(function() {
         }
     });
 
+
+    $("#show_aperioxml").click( function() { console.log("HI DAVE")});
+
+
     $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
 });
