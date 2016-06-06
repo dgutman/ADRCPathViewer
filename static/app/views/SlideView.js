@@ -9,11 +9,14 @@ var SlideView = Backbone.View.extend({
 	},
 
 	initialize: function(){
-		this.filter = $("#show_filter");
-	  	this.report = $("#report_bad_image_btn");
-	  	this.debug = $("#show_debug");
-	  	this.annotateor = $("#show_annotator");
-	  	this.comment = $("#show_comment_dialog");
+		$("#comment_dialog").dialog({autoOpen: false, closed: true,
+      		buttons: [{"text" : "Save", "click" : function() {}}]
+   		});
+
+    	$("#filter_dialog").dialog({ autoOpen: false,  closed: true, width: 'auto'  });
+    	$("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
+
+    	$("#debug_dialog").dialog({  autoOpen: false,  width: 'auto', closed: true, });
 	},
 
 	report: function(){
