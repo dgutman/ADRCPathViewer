@@ -10,7 +10,7 @@ var SlideView = Backbone.View.extend({
 
 	initialize: function(){
 		$("#comment_dialog").dialog({autoOpen: false, closed: true,
-      		buttons: [{"text" : "Save", "click" : function() {}}]
+      		buttons: [{"text" : "Save", "click" : console.log("Save comment")}]
    		});
 
     	$("#filter_dialog").dialog({ autoOpen: false,  closed: true, width: 'auto'  });
