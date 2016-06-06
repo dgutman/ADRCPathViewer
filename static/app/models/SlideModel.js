@@ -1,5 +1,5 @@
 var SlideModel = Backbone.Model.extend({
-	urlRoot: "/slides",
+	urlRoot: "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/updateSlideInfo",
 
 	initialize: function(){
 		this.setId();

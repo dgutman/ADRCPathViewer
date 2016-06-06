@@ -21,7 +21,16 @@ var SlideView = Backbone.View.extend({
 
 	report: function(){
 		console.log("report bad slide");
-		this.model.save({"bad": true}, {
+		//Define parameters to pass
+		updateParams = {'updateType' : 'BadSlideInfo',
+		'CSO': CSO,
+		'SubmittedBy': "Gutman",
+		'HostWithBadImage': 'localhost',
+		'ClientBrowser' : 'TBD',
+		'ClientIP' : '1.2.3.4',
+		'bad' : true}
+
+		this.model.save(updateParams, {
 			success: function(model){console.log("model")}
 		})
 	}

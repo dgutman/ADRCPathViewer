@@ -24,7 +24,7 @@ $(document).ready(function() {
             id:"dataview1",
             container:"wbx_thumb_target",
             select:true,
-            width: 280,
+            
             height: 600,
     		pager:{
     		id:"pager",
@@ -48,6 +48,7 @@ $(document).ready(function() {
 
                     //let us update the info view for this slide
                     new SlideInfoView({model: new SlideModel(CSO)});
+                    new DebugInfoView({model: new SlideModel(CSO)});
             },
             "onAfterLoad": function(){
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
@@ -61,6 +62,8 @@ $(document).ready(function() {
                     //let us update the info view for this slide
                     new SlideInfoView({model: new SlideModel(CSO)});
 
+
+                    new DebugInfoView({model: new SlideModel(CSO)});
                     // show_slidelabel( CSO );
             }
         }
