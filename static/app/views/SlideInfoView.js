@@ -11,7 +11,13 @@ var SlideInfoView = Backbone.View.extend({
 	},
 
 	render: function(){
-		this.$el.html(JST["slide_info"](this.model.toJSON()));
+		var that = this;
+
+		$.get("http://localhost:8001/app/templates/SlideViewInfoTemplate.html", function(data){
+			template = _.template(data);
+			that.$el.html(template(that.model.toJSON()));
+		}, "html");
+
 		return this;
 	},
 
