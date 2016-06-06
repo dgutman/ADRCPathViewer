@@ -1,3 +1,6 @@
+backbone_base_url  = "";
+
+
 var SlideInfoView = Backbone.View.extend({
 	el: "#SlideInfoView",
 
@@ -13,7 +16,7 @@ var SlideInfoView = Backbone.View.extend({
 	render: function(){
 		var that = this;
 
-		$.get("http://localhost:8001/app/templates/SlideViewInfoTemplate.html", function(data){
+		$.get(backbone_base_url + "/app/templates/SlideViewInfoTemplate.html", function(data){
 			template = _.template(data);
 			that.$el.html(template(that.model.toJSON()));
 		}, "html");
