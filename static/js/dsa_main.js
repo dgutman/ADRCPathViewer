@@ -9,7 +9,6 @@
       var left_width = $('#sel_image_frame').width();
 
    //   console.log(nav_height, status_bar_height, select_patient_height, left_width);
-
       $('#sel_image_scroll').height(window.innerHeight - (nav_height + status_bar_height + select_patient_height + 70));
       $('#zoom_frame').width(window.innerWidth - left_width - 10);
       $('#image_zoomer').width(window.innerWidth - left_width - 10);
@@ -18,7 +17,6 @@
   }
 
   window.onresize = handleResize;
-
   //For now creating a globally scoped variable called
   wbx_slideSet_Info = []
 
@@ -33,11 +31,7 @@
           $.each(data, function(idx, row) {
             $('#slideGroup_sel').append('<option value="' + row.id + '" id=' + row.id + '">' + row.id +'</option>');
           });
-
-
-
-
-          wbx_load_thumbnail_data(data[0].id);
+          load_thumbnail_data(data[0].id);
       });
 	//Once this has finished loaded, it should load the first value/slide into the viewer so it's not blank
 	
@@ -50,7 +44,7 @@
   }
 
 
-  function wbx_load_thumbnail_data(slideGroupName) {
+  function load_thumbnail_data(slideGroupName) {
 
     slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
 
@@ -63,22 +57,7 @@
 
 //NEED TO ADD AN EVENT LISTENER FOR SLIDEGROUP_SEL FOR ONCHANGE..
 
-  function load_image(filename, image_url) {
-
-      image_url = base_host + image_url;
-      //annotationState.clearAnnotations();
-    CSO.current_filename = filename;
-    CSO.current_slide_url = image_url;
-      
-
-
-      viewer.open(CSO.image_url);
-      //Once an image is selected, buttons become clickable depending on the data source
-      
-      //This should get replaced with a binding in backbone...
-      $("#status_bar").text("Current image:" + filename); //update status bar to show current image name
-  }
-
+ 
   $(function() {
       // initialize the image viewer and annotation state
       viewer = OpenSeadragon({
@@ -123,12 +102,19 @@
           }
       });
        $('#slideGroup_sel').change(function() {
-         
-          wbx_load_thumbnail_data($("#slideGroup_sel option:selected").val());
+          load_thumbnail_data($("#slideGroup_sel option:selected").val());
       });
-
-
   });
+
+
+   function show_slidelabel( imageObject)
+    {
+      //call this when I load an image... load the thumbnail url if this is allowed
+      slideLabel_image_url = base_host + imageObject.slideLabel_image;
+      console.log(slideLabel_image_url);
+      $("#curImgSlideLabel").attr('src',slideLabel_image_url);
+    }
+
 
 
   function getParameterByName(name) {
