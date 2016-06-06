@@ -10,23 +10,21 @@ var mousetracker;
 var PRECISION = 3;
 var selected_slide_name;
 
-
 var CSO = {};  //This is what we bind everything to.. sets up the facets  CURRENT SLIDE OBJECT
-
 
 $(document).ready(function() {
     handleResize();
     window.onresize = handleResize;
 
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
-            
+            //just removed width nd height properties... this should now be handld
     webix.ui({
                 view:"dataview", 
                 id:"dataview1",
                 container:"wbx_thumb_target",
                 select:true,
-                width: 280,
-                height: 600,
+                height: 500,
+                
 		pager:{
 		id:"pager",
 	        size:10,

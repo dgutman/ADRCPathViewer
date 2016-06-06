@@ -109,14 +109,10 @@
 
    function show_slidelabel( imageObject)
     {
-
       //call this when I load an image... load the thumbnail url if this is allowed
-
       slideLabel_image_url = base_host + imageObject.slideLabel_image;
       console.log(slideLabel_image_url);
-      
       $("#curImgSlideLabel").attr('src',slideLabel_image_url);
-
     }
 
 
