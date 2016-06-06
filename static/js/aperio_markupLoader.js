@@ -6,11 +6,15 @@ annotationState = new AnnotationState();
 
 var    cur_aperio_xml = {}
 
-function aperioController(xml_file) {
+function aperioController( aperio_xml_file) {
     //first clear the annotation state
     annotationState.clearAnnotations(); //is global for now
     console.log(" HI DAVE!");
-    $.get(xml_file).done(function(response) {
+
+    console.log("Ishould be loading"+aperio_xml_file);
+
+
+    $.get(aperio_xml_file).done(function(response) {
 		console.log("Am I loading anything?");
 		console.log(response);
 

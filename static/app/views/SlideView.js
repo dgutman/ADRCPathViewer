@@ -5,7 +5,11 @@ var SlideView = Backbone.View.extend({
 		"click #show_filter": function(){$('#filter_dialog').dialog('open')},
 		"click #show_debug": function(){$('#debug_dialog').dialog('open')},
 		"click #show_comment_dialog": function(){$('#comment_dialog').dialog('open')},
-		"click #report_bad_image_btn": "report"
+		"click #report_bad_image_btn": "report",
+
+		"click #show_aperioxml": "show_aperio_annotations",
+
+
 	},
 
 	initialize: function(){
@@ -17,6 +21,11 @@ var SlideView = Backbone.View.extend({
     	$("#filter_dialog").html(color_filter_html); ///Loads the color filter selection for the disabled
 
     	$("#debug_dialog").dialog({  autoOpen: false,  width: 'auto', closed: true, });
+
+    	$("#show_aperioxml").attr('disabled', !this.model.attributes.HasAperioXML );
+
+    	console.log(this.model);
+    	
 	},
 
 	report: function(){
@@ -33,5 +42,20 @@ var SlideView = Backbone.View.extend({
 		this.model.save(updateParams, {
 			success: function(model){console.log("model")}
 		})
-	}
+	},
+
+	show_aperio_annotations: function(){
+
+		console.log(this.model);
+		console.log("Loading an Aperio XML??")
+		xml_url = base_host + '/' + this.model.attributes.AperioXMLUrl;
+		console.log('xml_url is'+ xml_url)
+
+		aperioController( xml_url);
+
+//AperioXMLUrl
+
+	},
+
+
 });
