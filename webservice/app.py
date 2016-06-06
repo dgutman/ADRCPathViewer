@@ -11,6 +11,7 @@ from routes.labelmacro import labelmacro
 from  flask import Flask
 from utils.config import get_app_configurations
 from routes.slidefeedback import slidefeedback
+from routes.getconfig import getconfig
 
 from cache import cache
 
@@ -18,17 +19,12 @@ from cache import cache
 app = Flask('dsa_adrc')
 app.config['CACHE_TYPE'] = 'memcached'
 
-
 cache.init_app(app)
-
-
-#Cache(app,config={'CACHE_TYPE': 'memcached'})
 
 #attach configurations stored in app.cfg to the app
 app.config.from_envvar('DEEPZOOM_MULTISERVER_SETTINGS', silent=True)
 app.config.update(get_app_configurations())
 
-	
 	
 #register the route blueprints to the app
 app.register_blueprint(dz)
@@ -36,3 +32,4 @@ app.register_blueprint(slides)
 app.register_blueprint(static)
 app.register_blueprint(labelmacro)
 app.register_blueprint(slidefeedback) ### May want to make this  a config option..
+app.register_blueprint(getconfig)
