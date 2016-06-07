@@ -76,11 +76,8 @@ var SlideView = Backbone.View.extend({
 			'bad' : true
 		};
 
-		console.log("send bad image");
-		console.log(this.model);
 		this.model.save(params, {
-			success: function(model){console.log("model")},
-			error: function(){console.log("error")}
+			success: function(model){console.log("model")}
 		});
 	},
 
