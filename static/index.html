@@ -85,15 +85,15 @@
     </div>
     <div data-options="region:'center'" style="background:#eee;height:100%">
         <div id="zoom_frame" style="height:100%">
-            <div class="btn-group">
+            <div class="btn-group" style="position:absolute;z-index:100;width:100%;background:#373737">
                 <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
                 <input type="button" id="report_bad_image_btn" value="Report Bad Image" class="btn btn-small btn-inverse">
                 <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
                 <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse" disabled>
                 <input type="button" id="show_comment_dialog" value="Comment" class="btn btn-small btn-inverse">
                 <input type="button" id="show_aperioxml" value="AperioXML" class="btn btn-small btn-inverse">
-            </div>  
-            <div id="image_zoomer"></div>
+            </div>
+            <div id="image_zoomer" style="position:absolute"></div>
         </div>
     </div>
     
