@@ -1,15 +1,29 @@
 var SlideView = Backbone.View.extend({
+
+	/*
+	* parent element to which we bind data to
+	*/
 	el: "#dsa_layout",
 
+	/*
+	* events binded to buttons
+	* <event elementId>: function()
+	*/
 	events:{
 		"click #show_filter": function(){$('#filter_dialog').dialog('open')},
 		"click #show_debug": function(){$('#debug_dialog').dialog('open')},
 		"click #show_comment_dialog": function(){$('#comment_dialog').dialog('open')},
 		"click #report_bad_image_btn": "report",
-		"click #show_aperioxml": "show_aperio_annotations",
+		"click #show_aperioxml": "importAperioFile",
 		"click .save": "updateSlideName"
 	},
 
+	/*
+	* initialize()
+	*   initialize dialog boxes associated with the slide buttons
+	*   attach listener to listen to model change
+	*   render the view
+	*/
 	initialize: function(){
 		$("#comment_dialog").dialog({autoOpen: false, closed: true,
       		buttons: [{"text" : "Save", "click" : console.log("Save comment")}]
@@ -26,6 +40,11 @@ var SlideView = Backbone.View.extend({
 		this.render();
 	},
 
+	/*
+	* render()
+	*   render the slide info view on the right panel
+	*   render the debug window view
+	*/
 	render: function(){
 		var that = this;
 
@@ -42,8 +61,12 @@ var SlideView = Backbone.View.extend({
 		return this;
 	},
 
+	/*
+	* report()
+	*    report a slide is bad
+	*/
 	report: function(){
-		var updateParams = {
+		var params = {
 			'updateType' : 'BadSlideInfo',
 			'CSO': CSO,
 			'SubmittedBy': "Gutman",
@@ -53,16 +76,25 @@ var SlideView = Backbone.View.extend({
 			'bad' : true
 		};
 
-		this.model.save(updateParams, {
+		this.model.save(params, {
 			success: function(model){console.log("model")}
-		})
+		});
 	},
 
-	show_aperio_annotations: function(){
-		xml_url = base_host + '/' + this.model.attributes.AperioXMLUrl;
-		aperioController( xml_url);
+	/*
+	* importAperioFile()
+	*   import aperio XML file
+	*/
+	importAperioFile: function(){
+		var url = base_host + '/' + this.model.attributes.AperioXMLUrl;
+		aperioController(url);
 	},
 
+	/*
+	* updateSlideName()
+	*   update slide model with a new slide name
+	*   send HTTP request to update the model in the database
+	*/
 	updateSlideName: function(){
 		this.model.updateName($("#new_slide_name").val());
 		this.model.save({slide_name: $("#new_slide_name").val()}, {
