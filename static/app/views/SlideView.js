@@ -36,7 +36,8 @@ var SlideView = Backbone.View.extend({
 
     	$("#show_aperioxml").attr('disabled', !this.model.attributes.HasAperioXML );
 
-    	this.model.on("change", this.render, this);
+    	//this.model.on("change", this.render, this);
+    	this.listenTo(this.model, "change", this.render);
 		this.render();
 	},
 
@@ -75,8 +76,11 @@ var SlideView = Backbone.View.extend({
 			'bad' : true
 		};
 
+		console.log("send bad image");
+		console.log(this.model);
 		this.model.save(params, {
-			success: function(model){console.log("model")}
+			success: function(model){console.log("model")},
+			error: function(){console.log("error")}
 		});
 	},
 
