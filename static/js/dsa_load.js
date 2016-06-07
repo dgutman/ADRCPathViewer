@@ -41,39 +41,21 @@ $(document).ready(function() {
                     viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
                     $("#status_bar").html(this.getItem(id).slide_name);
                     CSO = this.getItem(id);  //NOW WE NEED TO BIND CSO
-                    // show_slidelabel( CSO );  //this will go away soon1!!
                     
                     //let us update the button view for this slide
                     new SlideView({model: new SlideModel(CSO)});
-
-                    //let us update the info view for this slide
-                    new SlideInfoView({model: new SlideModel(CSO)});
-                    new DebugInfoView({model: new SlideModel(CSO)});
-
-                    console.log(CSO);
             },
             "onAfterLoad": function(){
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
                     viewer.open( iip_host + first_slide.iip_slide_w_path);
                     $("#status_bar").html(first_slide.slide_name);
                     CSO = first_slide;
-                    console.log(CSO);
+
                     //let us update the button view for this slide
                     new SlideView({model: new SlideModel(CSO)});
-
-                    //let us update the info view for this slide
-                    new SlideInfoView({model: new SlideModel(CSO)});
-
-
-                    new DebugInfoView({model: new SlideModel(CSO)});
-                    // show_slidelabel( CSO );
             }
         }
     });
-
-
-  
-
 
     $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
 });
