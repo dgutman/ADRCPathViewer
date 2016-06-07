@@ -58,7 +58,7 @@ def dzi(path):
 
 @dz.route('/thumbnail/<path:path>')
 @crossdomain(origin='*')
-@cache.cached()
+@cache.memoize()
 def getThumbnail(path):
     """This will return the 0/0 tile later whch in the case of an SVS image is actually the thumbnail..... """
 
@@ -84,7 +84,7 @@ def getThumbnail(path):
 
 @dz.route('/DZIMS/<path:path>_files/<int:level>/<int:col>_<int:row>.<format>')
 @crossdomain(origin='*')
-@cache.cached()
+@cache.memoize()
 def tile(path, level, col, row, format):
     slide = _get_slide(dz.config['slides_dir'], path)
     format = format.lower()

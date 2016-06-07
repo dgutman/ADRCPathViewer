@@ -48,6 +48,9 @@ def get_slides( id):
     return dumps( {'slide_list': sdb[slides.config["slides_collection"]].find({'slideGroup':id})} ) 
 
 
+
+badSlideNames = ['1000676.svs']
+
 @slides.route('/api/wbx/slideSet/<string:slideGroupId>')
 @crossdomain(origin='*')
 def wbx_get_slides( slideGroupId):
@@ -67,7 +70,8 @@ def wbx_get_slides( slideGroupId):
         csd['thumbnail_image'] = cs['thumbnail_image']
         csd['sld_properties'] = None
 
-        slideList.append(cs)
+        if csd['slide_name'] not in badSlideNames:
+            slideList.append(cs)
     return dumps(slideList)
 
 @slides.route('/api/v1/slides/<string:slide_id>/comment', methods=["POST"])

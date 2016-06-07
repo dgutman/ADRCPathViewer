@@ -19,7 +19,7 @@ from cache import cache
 app = Flask('dsa_adrc')
 app.config['CACHE_TYPE'] = 'memcached'
 
-cache.init_app(app)
+cache.init_app(app,config={'CACHE_TYPE':'memcached'})
 
 #attach configurations stored in app.cfg to the app
 app.config.from_envvar('DEEPZOOM_MULTISERVER_SETTINGS', silent=True)
