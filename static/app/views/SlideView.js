@@ -68,7 +68,6 @@ var SlideView = Backbone.View.extend({
 	report: function(){
 		var params = {
 			'updateType' : 'BadSlideInfo',
-			'CSO': CSO,
 			'SubmittedBy': "Gutman",
 			'HostWithBadImage': 'localhost',
 			'ClientBrowser' : 'TBD',
