@@ -17,14 +17,21 @@ $(document).ready(function() {
 
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
             //just removed width nd height properties... this should now be handld
-            
+        
+    $('body').layout('panel','west').panel({
+        onResize:function(){
+            var newWidth = $('body').layout('panel','west').width();
+            $$("dataview1").define("width",newWidth);
+            $$("dataview1").resize();
+        }
+    });
+
     webix.ui(
         {
             view:"dataview", 
             id:"dataview1",
             container:"wbx_thumb_target",
             select:true,
-            
             height: 600,
     		pager:{
     		id:"pager",
