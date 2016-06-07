@@ -23,6 +23,7 @@ def serve_index():
 	return static.send_static_file('index.html')
 
 @static.route('/<path:path>')
+@crossdomain(origin='*')
 def serve_static_page(path):
 	"""
 	Serve the page specified in the path
