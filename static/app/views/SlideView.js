@@ -7,7 +7,7 @@ var SlideView = Backbone.View.extend({
 
 	/*
 	* events binded to buttons
-	* <event elementId>: function()
+	* <event elementId>: <function>
 	*/
 	events:{
 		"click #show_filter": function(){$('#filter_dialog').dialog('open')},
