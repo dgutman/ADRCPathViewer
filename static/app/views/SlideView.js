@@ -1,15 +1,13 @@
 var SlideView = Backbone.View.extend({
-	el: "#SlideView",
+	el: "#dsa_layout",
 
 	events:{
 		"click #show_filter": function(){$('#filter_dialog').dialog('open')},
 		"click #show_debug": function(){$('#debug_dialog').dialog('open')},
 		"click #show_comment_dialog": function(){$('#comment_dialog').dialog('open')},
 		"click #report_bad_image_btn": "report",
-
 		"click #show_aperioxml": "show_aperio_annotations",
-
-
+		"click .save": "updateSlideName"
 	},
 
 	initialize: function(){
@@ -24,20 +22,36 @@ var SlideView = Backbone.View.extend({
 
     	$("#show_aperioxml").attr('disabled', !this.model.attributes.HasAperioXML );
 
-    	console.log(this.model);
-    	
+    	this.model.on("change", this.render, this);
+		this.render();
+	},
+
+	render: function(){
+		var that = this;
+
+		$.get("/app/templates/SlideViewInfoTemplate.html", function(data){
+			template = _.template(data);
+			that.$el.find("#SlideInfoView").html(template(that.model.toJSON()));
+		}, "html");
+
+		$.get("/app/templates/DebugInfoViewTemplate.html", function(data){
+			template = _.template(data);
+			that.$el.find("#backbone_debugger").html(template(that.model.toJSON()));
+		}, "html");
+
+		return this;
 	},
 
 	report: function(){
-		console.log("report bad slide");
-		//Define parameters to pass
-		updateParams = {'updateType' : 'BadSlideInfo',
-		'CSO': CSO,
-		'SubmittedBy': "Gutman",
-		'HostWithBadImage': 'localhost',
-		'ClientBrowser' : 'TBD',
-		'ClientIP' : '1.2.3.4',
-		'bad' : true}
+		var updateParams = {
+			'updateType' : 'BadSlideInfo',
+			'CSO': CSO,
+			'SubmittedBy': "Gutman",
+			'HostWithBadImage': 'localhost',
+			'ClientBrowser' : 'TBD',
+			'ClientIP' : '1.2.3.4',
+			'bad' : true
+		};
 
 		this.model.save(updateParams, {
 			success: function(model){console.log("model")}
@@ -45,17 +59,14 @@ var SlideView = Backbone.View.extend({
 	},
 
 	show_aperio_annotations: function(){
-
-		console.log(this.model);
-		console.log("Loading an Aperio XML??")
 		xml_url = base_host + '/' + this.model.attributes.AperioXMLUrl;
-		console.log('xml_url is'+ xml_url)
-
 		aperioController( xml_url);
-
-//AperioXMLUrl
-
 	},
 
-
+	updateSlideName: function(){
+		this.model.updateName($("#new_slide_name").val());
+		this.model.save({slide_name: $("#new_slide_name").val()}, {
+			success: function(model){console.log("model")}
+		});
+	}
 });
