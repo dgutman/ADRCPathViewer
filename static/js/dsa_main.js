@@ -22,7 +22,7 @@
 
   function load_slideGroups() {
       /* This loads the list of slideGroups for the currently selected projects... this doesn't need any parameters*/
-      $.getJSON(base_host + '/api/wbx/slideSet').done(function(data) {
+      $.getJSON(base_url + '/api/wbx/slideSet').done(function(data) {
           //First copy the list of slideGroups to a global array to keep track of..
           wbx_slideSet_Info = data;
           //Next... clear the current selector
@@ -46,7 +46,7 @@
 
   function load_thumbnail_data(slideGroupName) {
 
-    slideDataUrl = "http://adrcdev.digitalslidearchive.emory.edu/api/wbx/slideSet/"+slideGroupName;
+    slideDataUrl = base_url + "/api/wbx/slideSet/"+slideGroupName;
 
     CSO.slideDataUrl = slideDataUrl;
     CSO.curSlideSet = slideGroupName;

@@ -4,6 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
     <title>ADRC DSA Viewer</title>
+
+<script src="js/local_config.js"></script>
+
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -52,9 +55,12 @@
 <body id="dsa_layout" class="easyui-layout">
     <script>
     //Defining urls for data grab functions
-    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
-    iip_host = "http://digitalslidearchive.emory.edu"
-    datagroup_apiurl = base_host + '/api/wbx/slideSet';
+//    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
+//    iip_host = "http://digitalslidearchive.emory.edu"
+
+
+
+    datagroup_apiurl = base_url + '/api/wbx/slideSet';
     //Change this image to be dyanmic loaded from a config.json file
     </script>
     <div data-options="region:'north',split:true,collapsible:false" style="height:50px;">
@@ -68,7 +74,7 @@
             </ul>
         </div>
     </div>
-    <div data-options="region:'west',title:'DataSelector',split:true" style="width:250px;">
+     <div data-options="region:'west',title:'DataSelector',split:true,onCollapse:collapse_it" style="width:250px;">
         <div id="sel_image" class="">
             <div class="control-group" id="sel_groupName">
                 <label class="control-label" for="slideGroup_sel">Select SlideSet</label>
@@ -131,6 +137,25 @@
                 </table>
         </span>
     </div>
+
+<script>
+
+function collapse_it(title){
+title='ThumbNail'
+//	var region = $(this).panel('options').region;
+region='west';
+
+return '<div class="mytitle">'+'ThumbNailInfo'+'</div>';
+
+
+	if (region == 'north' || region == 'south'){
+		return title;
+	} else {
+		return '<div class="mytitle">'+title+'</div>';
+	}
+}
+</script>
+
 </body>
 
 </html>

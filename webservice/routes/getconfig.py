@@ -15,6 +15,8 @@ print config,"is the current config I received"
 
 getconfig = Blueprint('getconfig', __name__)
 
+
+
 @getconfig.route('/api/wbx/getConfig')
 def serve_config():
 	"""
@@ -23,3 +25,16 @@ def serve_config():
 	return dumps(config)
 
 
+### Write about a js file with certain info
+cfg_file = "../static/js/local_config.js"  ### this is relative to app.py
+
+
+def update_configjs( cfg_file ):
+    jscfg = open(cfg_file,"w")
+    jscfg.write('var base_url=' + config['local_url']+';\n' )
+    jscfg.write('var iip_url=' + config['iip_url']+';\n' )
+
+
+print config
+
+update_configjs(cfg_file)
