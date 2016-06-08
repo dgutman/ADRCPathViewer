@@ -45,7 +45,7 @@ $(document).ready(function() {
     	    group:4,
     		container:"thumb_pager",
         },
-        template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_url+ "#thumbnail_image#'> ",
+        template:"<div class='webix_strong'>#slide_name#</div> <img src='" + iip_url+ "#iip_thumbnail#'> ",
         datatype: "json",
         type:{ height: 200, width: 250 },
         on: {
@@ -75,3 +75,6 @@ $(document).ready(function() {
 
     $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
 });
+
+
+//Need to set a template for using IIP vs Python as the host... TO DO
