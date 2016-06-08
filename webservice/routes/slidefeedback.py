@@ -29,7 +29,7 @@ def _setup():
 
 
 ##This will process and store files that were marked as bad...
-@slidefeedback.route('/api/wbx/updateSlideInfo/<string:id>', methods=["POST","GET","PUT"])
+@slidefeedback.route('/api/wbx/updateSlideInfo/<string:id>', methods=["POST","GET","PUT", "OPTIONS"])
 @crossdomain(origin='*')
 def report_bad_images(id):
 
