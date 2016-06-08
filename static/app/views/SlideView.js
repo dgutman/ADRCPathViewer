@@ -102,6 +102,10 @@ var SlideView = Backbone.View.extend({
 		});
 	},
 
+	/*
+	* clear()
+	*   detach events handlers linked to the view
+	*/
 	clear: function() {
   		this.undelegateEvents();
 	}
