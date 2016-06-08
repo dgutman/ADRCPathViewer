@@ -8,8 +8,10 @@ var current_slide_url;
 var mousetracker;
 
 var PRECISION = 3;
-
+var annotationState;
+var cur_aperio_xml = {};
 var CSO = {};  //This is what we bind everything to.. sets up the facets  CURRENT SLIDE OBJECT
+var slideView = null;
 
 $(document).ready(function() {
     handleResize();
@@ -18,6 +20,7 @@ $(document).ready(function() {
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
             //just removed width nd height properties... this should now be handld
     
+    annotationState = new AnnotationState();
 
     //onresize event for the left panel
     //resize the webix dataview
@@ -47,14 +50,14 @@ $(document).ready(function() {
         type:{ height: 200, width: 250 },
         on: {
             "onItemClick": function(id, e, node){
-
                     viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
                     //$("#status_bar").html(this.getItem(id).slide_name);
                     $( "#footer" ).dialog('setTitle', this.getItem(id).slide_name);
                     CSO = this.getItem(id);  //NOW WE NEED TO BIND CSO
                     
                     //let us update the button view for this slide
-                    new SlideView({model: new SlideModel(CSO)});
+                    if(slideView != null) slideView.clear();
+                    slideView = new SlideView({model: new SlideModel(CSO)});
             },
             "onAfterLoad": function(){
                     first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
@@ -64,7 +67,8 @@ $(document).ready(function() {
                     CSO = first_slide;
 
                     //let us update the button view for this slide
-                    new SlideView({model: new SlideModel(CSO)});
+                    if(slideView != null) slideView.clear();
+                    slideView = new SlideView({model: new SlideModel(CSO)});
             }
         }
     });

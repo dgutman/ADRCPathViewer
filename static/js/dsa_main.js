@@ -62,7 +62,7 @@
       // initialize the image viewer and annotation state
       viewer = OpenSeadragon({
           id: "image_zoomer",
-          prefixUrl: "images/",
+          prefixUrl: "images/openseadragon/",
       });
 
       viewer.addHandler('open-failed', function(evt) {

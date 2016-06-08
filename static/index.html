@@ -31,7 +31,7 @@
     <script src="js/openseadragon_setup_functions.js"></script>
     <script src="js/colornames_to_hex_hash.js"></script>
     <script src="js/mousetrap.min.js"></script>
-    <script type="text/javascript" src="osd-filters/osd_filters.js"></script>
+    <script type="text/javascript" src="js/osd_filters.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="css/dsa.css" />
     <!-- Using CDN's until I finalize build ocess -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" rel="stylesheet" />
@@ -60,7 +60,7 @@
     <div data-options="region:'north',split:true,collapsible:false" style="height:50px;">
         <div class="navbar navbar-inner">
             <a class="brand" href="#">
-                <img src="img/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;Digital Slide Viewer</a>
+                <img src="images/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;Digital Slide Viewer</a>
             <ul class="nav">
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#">ADRC Resources</a></li>
@@ -85,15 +85,15 @@
     </div>
     <div data-options="region:'center'" style="background:#eee;height:100%">
         <div id="zoom_frame" style="height:100%">
-            <div class="btn-group">
+            <div class="btn-group" style="position:absolute;z-index:100;width:100%;background:#373737">
                 <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
                 <input type="button" id="report_bad_image_btn" value="Report Bad Image" class="btn btn-small btn-inverse">
                 <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
                 <input type="button" id="show_annotator" value="Draw Tools" class="btn btn-small btn-inverse" disabled>
                 <input type="button" id="show_comment_dialog" value="Comment" class="btn btn-small btn-inverse">
                 <input type="button" id="show_aperioxml" value="AperioXML" class="btn btn-small btn-inverse">
-            </div>  
-            <div id="image_zoomer"></div>
+            </div>
+            <div id="image_zoomer" style="position:absolute"></div>
         </div>
     </div>
     
