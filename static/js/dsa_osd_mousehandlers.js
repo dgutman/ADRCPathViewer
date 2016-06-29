@@ -50,3 +50,31 @@ function onMouseClick(event) {
         //nucleiSelect(); ///this is a double click handper...
     }
 }
+
+
+
+
+// // // Filter keystrokes for numeric input
+// function filter(event) {
+
+//   // Allow backspace, delete, tab, escape, enter and .  
+//   if( $.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+//     // Allow Ctrl-A
+//      (event.keyCode == 65 && event.ctrlKey === true) ||
+//     // Allow Ctrl-C
+//      (event.keyCode == 67 && event.ctrlKey === true) ||
+//     // Allow Ctrl-X
+//      (event.keyCode == 88 && event.ctrlKey === true) ||
+//     // Allow home, end, left and right
+//      (event.keyCode >= 35 && event.keyCode <= 39) ) {
+
+//       return;
+//   }
+
+//   // Don't allow if not a number
+//   if( (event.shiftKey || event.keyCode < 48 || event.keyCode > 57) &&
+//     (event.keyCode < 96 || event.keyCode > 105) ) {
+
+//       event.preventDefault();
+//   }
+// }

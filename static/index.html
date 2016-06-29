@@ -16,71 +16,53 @@
     <!--- BOOTSTRAP-- CAN REMOVE ONCE I FIX THE TOP PART -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" />
-    <1-- Jquery UI -->
-        <script src="bower_components/jquery-ui/jquery-ui.js"></script>
-        <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/theme.css" />
-        <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/jquery-ui.css" />
-        <!-- Backbone and dependencies -->
-        <script type="text/javascript" src="bower_components/underscore/underscore-min.js"></script>
-        <script type="text/javascript" src="bower_components/backbone/backbone-min.js"></script>
-        <!-- JeasyUI-- I am using this for layout....-->
-        <link rel="stylesheet" type="text/css" href="themes/ui-dark-hive/easyui.css">
-        <script type="text/javascript" src="bower_components/jeasyui/jquery.easyui.min.js"></script>
-        <!-- WEBIX COMPONENTS -->
-        <script src="bower_components/webix/codebase/webix.js"></script>
-        <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css">
-        <script src="js/dsa_osd_mousehandlers.js"></script>
-        <!-- this is layout related -->
-        <!-- <link rel="stylesheet" type="text/css" href="bower_components/jeasyui/themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="bower_components/jeasyui/themes/icon.css">
-     -->
-        <!-- Openseadragon;  currently not all the plugins I need are available in bower, so using local copy -->
-        <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
-        <script src="js/openseadragon-imaginghelper.min.js"></script>
-        <script src="js/openseadragon-viewerinputhook.min.js"></script>
-        <script type="text/javascript" src="js/osd_filters.js"></script>
-        <!-- These are local scripts I have written -->
-        <!-- <script src="js/openseadragon_setup_functions.js"></script> -->
-        <!-- <script src="js/colornames_to_hex_hash.js"></script> -->
-        <!-- <script src="js/mousetrap.min.js"></script> -->
-        <link rel="stylesheet" type="text/css" media="screen" href="css/dsa.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="css/mnv_style.css" />
-        <script src="js/annotations.js"></script>
-        <script src="js/aperio_markupLoader.js"></script>
-        <!--backbone app -->
-        <!-- <script src="app/main.js"></script>
-    <script src="app/models/SlideModel.js"></script>
-    <script src="app/views/SlideView.js"></script>
-     -->
-        <!-- main scripts -->
-        <script src="js/dsa_osd_knockout_bindings.js"></script>
-        <!-- These have the bindings for knockout js integration-->
-        <script src="js/dsa_main.js"></script>
-        <script src="js/dsa_load.js"></script>
-        <!-- This shold go last...-->
+    <!-- Jquery UI -->
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/theme.css" />
+    <link ref="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/jquery-ui.css" />
+    <!-- Backbone and dependencies -->
+    <!-- WEBIX COMPONENTS -->
+    <script src="bower_components/webix/codebase/webix.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css">
+    <!-- Openseadragon;  currently not all the plugins I need are available in bower, so using local copy -->
+    <script src="bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon.min.js"></script>
+    <script src="js/openseadragon-imaginghelper.min.js"></script>
+    <script src="js/openseadragon-viewerinputhook.min.js"></script>
+    <script src="js/dsa_osd_mousehandlers.js"></script>
+    <script type="text/javascript" src="js/osd_filters.js"></script>
+    <!-- These are local scripts I have written -->
+    <link rel="stylesheet" type="text/css" media="screen" href="css/dsa.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/mnv_style.css" />
+    <script src="js/annotations.js"></script>
+    <script src="js/aperio_markupLoader.js"></script>
+    <!-- main scripts -->
+    <script src="js/dsa_osd_knockout_bindings.js"></script>
+    <!-- These have the bindings for knockout js integration-->
+    <script src="js/dsa_main.js"></script>
+    <script src="js/dsa_load.js"></script>
+    <!-- This shold go last...-->
 </head>
 
-<body id="dsa_layout" class="easyui-layout">
-    <script>
-    //Defining urls for data grab functions
-    //    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
-    //    iip_host = "http://digitalslidearchive.emory.edu"
-    datagroup_apiurl = base_url + '/api/wbx/slideSet';
-    //Change this image to be dyanmic loaded from a config.json file
-    </script>
-    <div data-options="region:'north',split:true,collapsible:false" style="height:55px;">
-        <div class="navbar navbar-inner">
-            <a class="brand" href="#">
-                <img src="images/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;Digital Slide Viewer</a>
-            <ul class="nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">ADRC Resources</a></li>
-                <li><a href="#">Help</a></li>
-            </ul>
+<body>
+    <div webix-ui type="space">
+        <div height="35" id="header">
+            <div style="height:55px;">
+                <div class="navbar navbar-inner">
+                    <a class="brand" href="#">
+                        <img src="images/CDSA_Slide_50.png" style="float:left" height="25" width="75" />&emsp;Digital Slide Viewer</a>
+                    <ul class="nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#">DSA Resources</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="main_layout">
         </div>
     </div>
-    <div data-options="region:'west',title:'DataSelector',split:true,onCollapse:collapse_it" style="width:250px;">
+    <div style="width:250px;">
         <div id="sel_image" class="">
             <div class="control-group" id="sel_groupName">
                 <label class="control-label" for="slideGroup_sel">Select SlideSet</label>
@@ -92,7 +74,7 @@
             </div>
         </div>
     </div>
-    <div data-options="region:'east',title:'SlideInfo',split:true" style="width:350px;" id="SlideInfoView">
+    <div style="width:350px;" id="SlideInfoView">
         <!--img id="curImgSlideLabel" src="" -->
         <div data-bind="with: statusObj">
             <span>Mouse Pos: </span>
@@ -102,6 +84,9 @@
             <span data-bind="text:(haveImage() &&  haveMouse()) ? mouseImgY().toFixed(0) : '-'"></span>
             <span>)</span>
         </div>
+        
+
+
         <div data-bind="with: slideInfoObj">
             <span>Slide Size:</span>
             <span>(</span>
@@ -117,9 +102,9 @@
             <span id="object_count"></span>
         </div>
     </div>
-    <div data-options="region:'center'" style="background:#eee;height:100%">
-        <div id="zoom_frame" style="height:100%;position:fixed">
-            <div class="btn-group" style="width:100%;background:#373737">
+    <div style="background:#eee;height:1200px" id="osd_main_container">
+        <div id="zoom_frame" > <!-- style="height:100%;position:fixed" REMOVED THAT BECAUSE IT WASN"T BEI--> 
+            <div class="btn-group" style=";background:#373737">
                 <input type="button" id="show_filter" value="Apply Filters" class="btn btn-small btn-inverse">
                 <input type="button" id="report_bad_image_btn" value="Report Bad Image" class="btn btn-small btn-inverse">
                 <input type="button" id="show_debug" value="Show Debug Info" class="btn btn-small btn-inverse">
@@ -128,7 +113,8 @@
                 <input type="button" id="show_aperioxml" value="AperioXML" class="btn btn-small btn-inverse">
             </div>
             <div id="imageViewerContainer" class="relative-fill-container">
-                <div id="image_zoomer" class="openseadragon-view"></div>
+            
+                <div id="image_zoomer" class="openseadragon-view" style="height:500px"></div>
                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="overlaySvg" data-bind="withL svgOverlayVM" visibility="hidden" pointer-events="none" zoomAndPan="disable">
                     <defs></defs>
                     <!-- TODO - Can't get the binding to work with the transform function. 
@@ -141,7 +127,7 @@
             </div>
         </div>
     </div>
-    <div data-options="region:'south',title:'Status Bar',split:true,collapsible:false" style="height:35px;" id="footer"></div>
+    <div style="height:35px;" id="footer"></div>
     <div style="clear:both"></div>
     <!-- This serves as the landing spot for the SVG color filter code -->
     <div id="filter_dialog" title="Apply Filters">Filter set gets injected here</div>
@@ -150,45 +136,7 @@
         <label>Comment:</label>
         <textarea rows="2" cols="50" name="slide_comment" id="slide_comment"></textarea>
     </div>
-    <div id="debug_dialog">
-        <div id="backbone_debugger"></div>
-        <span id="mouse_nav_box">
-            <div id="wsi_toolbar ">
-                <table id="output " style="border:1px solid black; float:right ">
-                    <tr>
-                        <th class="name ">&nbsp;</th>
-                        <th class="value ">Pixels</th>
-                        <th class="value ">Points</th>
-                    </tr>
-                    <tr>
-                        <th>Mouse position</th>
-                        <td id="mousePixels">-</td>
-                        <td id="mousePoints">-</td>
-                    </tr>
-                    <tr>
-                        <th>Image Size</th>
-                        <td id="dziSizePixels">-</td>
-                        <td id="dziSizePoints"></td>
-                    </tr>
-                </table>
-        </span>
-    </div>
-    <script>
-    function collapse_it(title) {
-        title = 'ThumbNail'
-            //  var region = $(this).panel('options').region;
-        region = 'west';
-
-        return '<div class="mytitle">' + 'ThumbNailInfo' + '</div>';
-
-
-        if (region == 'north' || region == 'south') {
-            return title;
-        } else {
-            return '<div class="mytitle">' + title + '</div>';
-        }
-    }
-    </script>
+    <div id="debug_dialog"></div>
 </body>
 
 </html>
