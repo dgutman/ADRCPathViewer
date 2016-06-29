@@ -1,3 +1,4 @@
+
   // also check out this one..http://sachinchoolur.github.io/lightslider/examples.html
   function handleResize() {
 
@@ -36,11 +37,15 @@
 	//Once this has finished loaded, it should load the first value/slide into the viewer so it's not blank
 	
   	//if I change this to last.. it loads the last option
-		$("#slideGroup_sel").val($("#slideGroup_sel option:first").val());
-		group_to_load = $("#slideGroup_sel").val()
-		$('#slideGroup_sel').change();  //This will force the onchange event fo fire
-		console.log('on change event should have been fired...');
-	
+	//	$("#slideGroup_sel").val($("#slideGroup_sel option:first").val()).trigger("change");
+	//	group_to_load = $("#slideGroup_sel").val()
+	//	$('#slideGroup_sel').change();  //This will force the onchange event fo fire
+	//	console.log('on change event should have been fired...');
+	group_to_load = $("#slideGroup_sel option:first").val()
+
+	$slideSelector.val(group_to_load).trigger("change");
+
+	console.log(group_to_load);
   }
 
 

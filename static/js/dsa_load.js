@@ -13,9 +13,15 @@ var cur_aperio_xml = {};
 var CSO = {};  //This is what we bind everything to.. sets up the facets  CURRENT SLIDE OBJECT
 var slideView = null;
 
+
+var $slideSelector ;   //this is the slide /select2 selector
+
 $(document).ready(function() {
     handleResize();
     window.onresize = handleResize;
+
+
+$slideSelector =    $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
 
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
             //just removed width nd height properties... this should now be handld
@@ -31,6 +37,18 @@ $(document).ready(function() {
             $$("dataview1").resize();
         }
     });
+
+
+//Creating Multiple Templates using this new logic...
+webix.type(webix.ui.dataview, {
+    name: "typeA",
+    template: "<div class=''>#rank#.</div>"+
+            "<div class='title'>#title#</div>"+
+            "<div class='year'>#year# year</div>"
+});
+
+
+
 
     webix.ui(
         {
@@ -50,7 +68,13 @@ $(document).ready(function() {
         type:{ height: 200, width: 250 },
         on: {
             "onItemClick": function(id, e, node){
-                    viewer.open( iip_url+this.getItem(id).iip_slide_w_path);
+		
+		use_iip = false;
+
+		use_iip ?   dzi_url = iip_url+this.getItem(id).iip_slide_w_path :    dzi_url = base_url + this.getItem(id).slide_w_path;
+
+
+                    viewer.open(dzi_url);
                     //$("#status_bar").html(this.getItem(id).slide_name);
                     $( "#footer" ).dialog('setTitle', this.getItem(id).slide_name);
                     CSO = this.getItem(id);  //NOW WE NEED TO BIND CSO
@@ -73,7 +97,9 @@ $(document).ready(function() {
         }
     });
 
-    $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
+
+
+
 });
 
 
