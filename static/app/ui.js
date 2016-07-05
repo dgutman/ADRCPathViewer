@@ -23,6 +23,13 @@ define("ui", ["config", "webix"], function(config){
     function build(zoomer){
         
 
+
+        // {
+        //     view:"pager", id:"pagerA",
+        //     size:50,
+        //     group:5
+        // }]
+
         var IIP_URL = "http://cancer.digitalslidearchive.net";
 
         //Thumbnail panel that contains list of thumbnails for a slide group
@@ -31,11 +38,7 @@ define("ui", ["config", "webix"], function(config){
             id: "thumbnails_panel",
             select: true,
             height: 800,
-            pager: {
-                id: "pager",
-                size: 10,
-                group: 4
-            },
+            pager: "thumbPager",
             template: "<div class='webix_strong'>#slide_name#</div><img src='" + IIP_URL + "#iip_thumbnail#' width='210'/>",
             datatype: "json",
             type: { width: 200, height: 180 },
@@ -71,11 +74,21 @@ define("ui", ["config", "webix"], function(config){
             }
         };
 
+        thumbPager = {
+            view:"pager",
+            id: "thumbPager",
+            size:10,
+            group:4
+
+        }
+
+
+         
         //slides panel is the left panel, contains two rows 
         //containing the slide group dropdown and the thumbnails panel 
         slidesPanel = { header: "Slide Controls",
                         body:{rows: [ 
-                            dropdown, thumbnailsPanel
+                            dropdown,  {'template': "FILTERS", height:50},thumbPager, thumbnailsPanel
                         ]},
                         width: 220
                        }; 
@@ -109,7 +122,7 @@ define("ui", ["config", "webix"], function(config){
         };
 
         //the main body, below the header, contain three columns
-        body = {cols:[slidesPanel, { view: "resizer" }, viewerPanel, { view: "resizer" }, infoPanel]};
+        body = {cols:[slidesPanel,  viewerPanel, { view: "resizer" }, infoPanel]};
 
         //render the layout
         webix.ui({
