@@ -1,4 +1,7 @@
 
+
+
+
 define(["viewer", "ui", "webix"], function(viewer, ui) {
   
    	webix.ready(function(){
@@ -6,6 +9,8 @@ define(["viewer", "ui", "webix"], function(viewer, ui) {
    		ui.build(zoomer);
 
 	});
+	
+
 	
 });
 

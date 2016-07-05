@@ -1,4 +1,4 @@
-define("viewer", ["osd", "osdhelper", "osdhook", "ko"], function(osd, helper, hook, ko){
+define("viewer", ["osd", "osdhelper", "osdhook"], function(osd, helper, hook){
 
 	function init(){
 		var viewer = osd({
@@ -20,6 +20,9 @@ define("viewer", ["osd", "osdhelper", "osdhook", "ko"], function(osd, helper, ho
 
 		return viewer;
 	}
+
+
+
 
 	return{
 		init: init

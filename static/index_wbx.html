@@ -7,8 +7,21 @@
     <!--link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css"-->
     <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/skins/material.css">
     <link rel="stylesheet" type="text/css" href="css/dsa.css">
+
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/knockout/dist/knockout.js"></script>
     <script data-main="main" src="bower_components/requirejs/require.js"></script>
+
+
+
+    <script src="app/public_knockout.js"></script>
+
     <script>
+
+        //This is a temporary shim.. but let's make things i care about public
+        
+
 		requirejs.onResourceLoad = function(context, map, depArray) {
     		console.log(map.id, "loaded");
 		}
