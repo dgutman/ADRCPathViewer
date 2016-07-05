@@ -18,8 +18,6 @@ var slideView = null;
 datagroup_apiurl = base_url + '/api/wbx/slideSet';
 //Change this image to be dyanmic loaded from a config.json file
  
-
-
    wbxDataViewer = {
         view: "dataview",
         id: "dataview1",
@@ -73,13 +71,6 @@ $(document).ready(function() {
     //just removed width and height properties... this should now be handled elsewhere
 
     annotationState = new AnnotationState();
-    //onresize event for the left panel
-    //resize the webix dataview
-    // $('body').layout('panel', 'west').panel({
-    //    onResize: function() {
-   //         var newWidth = $('body').layout('panel', 'west').width();
-      //      $$("dataview1").define("width", newWidth);
-        //    $$("dataview1").resize();
    
     leftPanel = {  
                         rows: [ { 'type': "header", 'template': "Slide Control"},
@@ -120,7 +111,6 @@ webix.ui({
     }
 })
 
-
     webix.ui({
                 view:"window",
                 id:"win3",
@@ -150,4 +140,11 @@ webix.ui({
 // Apply binsing for knockout.js - Let it keep track of the image info
 // and mouse positions
 //
-
+ //onresize event for the left panel
+    //resize the webix dataview
+    // $('body').layout('panel', 'west').panel({
+    //    onResize: function() {
+   //         var newWidth = $('body').layout('panel', 'west').width();
+      //      $$("dataview1").define("width", newWidth);
+        //    $$("dataview1").resize();
+   

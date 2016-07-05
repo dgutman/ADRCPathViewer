@@ -25,14 +25,12 @@
 //
 //
 var annoGrpTransformFunc;
-var IIPServer = "";
+
 var slideCnt = 0;
 var curSlide = "";
 var curDataset = null;
 
-
 var clickCount = 0;
-var curSlideInfo = {}; //This object stores state information and properties for the current slide
 
 var viewer = null;
 var imgHelper = null,
@@ -52,11 +50,9 @@ var boundsLeft = 0,
 var panned = false;
 var pannedX, pannedY;
 
-var slideReq = null;
-
 var osdImagePrefix = "images/openseadragon/"
 
-
+var IIPServer = "";
 
 //
 // Initialization
@@ -67,17 +63,19 @@ var osdImagePrefix = "images/openseadragon/"
 //   Register event handlers
 //
 
-$(function() {
-    //   slideReq = $_GET('slide');
 
+//TODO:  ADD wsi-toolbar
+
+
+
+
+$(function() {
     //   // Create the slide zoomer, update slide count etc...
     //   // We will load the tile pyramid after the slide list is loaded
     //   //
     viewer = new OpenSeadragon.Viewer({ showNavigator: true, id: "image_zoomer", prefixUrl: osdImagePrefix, animationTime: 0.5 });
 
-    viewer.addHandler('open-failed', function(evt) {
-        console.log('tile source opening failed', evt);
-    })
+    viewer.addHandler('open-failed', function(evt) { console.log('tile source opening failed', evt); })
 
     viewer.addHandler('animation', function() {
         var bounds = viewer.viewport.getBounds();
@@ -119,6 +117,12 @@ $(function() {
         statusObj.imgHeight(imgHelper.imgHeight);
         statusObj.imgAspectRatio(imgHelper.imgAspectRatio);
         statusObj.scaleFactor(imgHelper.getZoomFactor());
+
+        //Note I am keeping track of the image info in two objects
+        //this is to not break some of mike's older code
+        slideInfoObj.slideWidth( imgHelper.imgWidth);
+        slideInfoObj.slideHeight( imgHelper.imgHeight);
+
     });
 
 
