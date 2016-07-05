@@ -3,15 +3,14 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
-    <title>ADRC DSA Viewer</title>
+    <title>DSA Viewer</title>
     <script src="js/local_config.js"></script>
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="css/jquery.dataTables.css" />
  -->
     <!--- Filterable input selector that I am using, may be able to swap out for something diff -->
-    <link href="bower_components/select2/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="bower_components/select2/dist/js/select2.min.js"></script>
+    
     <script src="bower_components/knockout/dist/knockout.js"></script>
     <!--- BOOTSTRAP-- CAN REMOVE ONCE I FIX THE TOP PART -->
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -70,10 +69,11 @@
                 <div id="thumb_pager"></div>
                 <span id="count_patient"></span>
                 <span class="help-inline">Available Slides:</span>
-                <div id="wbx_thumb_target"></div>
+              
             </div>
         </div>
     </div>
+      
     <div style="width:350px;" id="SlideInfoView">
         <!--img id="curImgSlideLabel" src="" -->
         <div data-bind="with: statusObj">

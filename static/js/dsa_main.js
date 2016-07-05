@@ -210,8 +210,6 @@ function updatePyramid() {
 
     //Adding in some logic right here to get the number of objects segmented on this
     console.log('Loading segmented objects ...');
-
-
     // Zoomer needs '.dzi' appended to the end of the filename
     //#pyramid = "DeepZoom="+pyramids[$('#slide_sel').prop('selectedIndex')]+".dzi";
     //I alrady set the .dzi property on the python server side
@@ -312,9 +310,10 @@ function load_slideGroups() {
         wbx_slideSet_Info = data;
         //Next... clear the current selector
         $('#slideGroup_sel').empty();
-
+        
         $.each(data, function(idx, row) {
-            $('#slideGroup_sel').append('<option value="' + row.id + '" id=' + row.id + '">' + row.id + '</option>');
+            console.log(row);
+            $('#slideGroup_sel').append('<option value="' + row.value + '" id=' + row.value + '">' + row.value + '</option>');
         });
         load_thumbnail_data(data[0].id);
     });
@@ -327,7 +326,7 @@ function load_slideGroups() {
     //  console.log('on change event should have been fired...');
     group_to_load = $("#slideGroup_sel option:first").val()
 
-    $slideSelector.val(group_to_load).trigger("change");
+   
 
     slideInfoObj.slideGroupName = group_to_load;
 
@@ -343,7 +342,7 @@ function load_thumbnail_data(slideGroupName) {
     slideDataUrl = base_url + "/api/wbx/slideSet/" + slideGroupName;
     CSO.slideDataUrl = slideDataUrl;
     CSO.curSlideSet = slideGroupName;
-    $$("dataview1").clearAll();
+   // $$("dataview1").clearAll();
     $$("dataview1").load(slideDataUrl);
 }
 

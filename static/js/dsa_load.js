@@ -17,11 +17,11 @@ var slideView = null;
 //    iip_host = "http://digitalslidearchive.emory.edu"
 datagroup_apiurl = base_url + '/api/wbx/slideSet';
 //Change this image to be dyanmic loaded from a config.json file
- 
+ //container: "wbx_thumb_target",
    wbxDataViewer = {
         view: "dataview",
         id: "dataview1",
-        container: "wbx_thumb_target",
+        
         select: true,
         height: 600,
         pager: {
@@ -49,6 +49,9 @@ datagroup_apiurl = base_url + '/api/wbx/slideSet';
             },
             "onAfterLoad": function() {
                 first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
+                
+                console.log(first_slide);
+
                 viewer.open(iip_url + first_slide.iip_slide_w_path);
                 //$("#status_bar").html(first_slide.slide_name);
                 //$("#footer").dialog('setTitle', first_slide.slide_name);
@@ -59,13 +62,12 @@ datagroup_apiurl = base_url + '/api/wbx/slideSet';
     };   
 
 
-var $slideSelector; //this is the slide /select2 selector
 
 $(document).ready(function() {
     handleResize();
     window.onresize = handleResize;
 
-    $slideSelector = $("#slideGroup_sel").select2() //Initialize the select2 plugin filter
+   
 
     load_slideGroups(); //load Slide Groups on initial load... may want to add a clalback function for loading slides?
     //just removed width and height properties... this should now be handled elsewhere
@@ -75,6 +77,7 @@ $(document).ready(function() {
     leftPanel = {  
                         rows: [ { 'type': "header", 'template': "Slide Control"},
                         {'template': "FILTERME", height:150},
+                        { view: "template",  content: "sel_groupName",width:250 },
                         wbxDataViewer, 
                         ],
 
