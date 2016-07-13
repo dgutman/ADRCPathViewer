@@ -115,7 +115,7 @@ define("ui", ["config", "obs", "webix"], function(config, obs){
             height: 50,
             css: "header",
             cols:[
-                {view: "template",  template: "<img src='images/CDSA_Slide_50.png' height='40'/>", type: "clean"} 
+                {view: "template",  template: "<img src='img/CDSA_Slide_50.png' height='40'/>", type: "clean"} 
             ]
         };
 
