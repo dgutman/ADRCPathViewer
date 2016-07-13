@@ -9,7 +9,7 @@
 
 
 
-define("ui", ["config", "obs", "webix"], function(config, obs){
+define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer){
 
     /**
      * build()
@@ -20,16 +20,8 @@ define("ui", ["config", "obs", "webix"], function(config, obs){
      * @param  {OpenSeaDragon} zoomer
      * @return {} None
      */
-    function build(zoomer){
-        //console.log(v.vm.slideInfoObj.slidename);
-
-
-        // {
-        //     view:"pager", id:"pagerA",
-        //     size:50,
-        //     group:5
-        // }]
-
+    function build(){
+        
         var IIP_URL = "http://cancer.digitalslidearchive.net";
 
         //Thumbnail panel that contains list of thumbnails for a slide group
@@ -45,16 +37,14 @@ define("ui", ["config", "obs", "webix"], function(config, obs){
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
-                    //url = config.BASE_URL + slide.iip_slide_w_path;
                     obs.slideInfoObj.slidename(slide.slide_name);
                     url = IIP_URL + slide.iip_slide_w_path;
                     console.log(url+"is the url I am trying to load");
-                    zoomer.open(url);
+                    viewer.open(url);
                 },
                 "onAfterLoad": function() {
                    slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
-                   //zoomer.open(config.BASE_URL + slide.slide_w_path);
-                   zoomer.open(IIP_URL + slide.iip_slide_w_path);
+                   viewer.open(IIP_URL + slide.iip_slide_w_path);
                 }
             }
         };

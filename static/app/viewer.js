@@ -1,26 +1,18 @@
 define("viewer", ["osd", "osdhelper", "osdhook", "ko", "jquery", "obs"], function(osd, helper, hook, ko, $, obs){
 
-	var viewer;
-	
-	function init(){
-		//console.log(obs);
-			
-		viewer = osd({
-			id: 'image_viewer',
-			prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-			navigatorPosition: "BOTTOM_LEFT",
-			showNavigator: true,
-			tileSources: "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi"
-		});
+	var viewer = osd({
+		id: 'image_viewer',
+		prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
+		navigatorPosition: "BOTTOM_LEFT",
+		showNavigator: true,
+		tileSources: "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi"
+	});
 
-		imgHelper = viewer.activateImagingHelper({ onImageViewChanged: onImageViewChanged });
-		viewer.addHandler('open', onImageOpen);
-		viewer.addHandler('close', onImageClose);
-		viewer.addHandler('open-failed', function(evt) {console.log('tile source opening failed', evt)});
-	    viewer.addHandler('animation', function() {console.log(viewer.viewport.getBounds())});
-	   
-		return viewer;
-	}
+	imgHelper = viewer.activateImagingHelper({ onImageViewChanged: onImageViewChanged });
+	viewer.addHandler('open', onImageOpen);
+	viewer.addHandler('close', onImageClose);
+	viewer.addHandler('open-failed', function(evt) {console.log('tile source opening failed', evt)});
+	viewer.addHandler('animation', function() {console.log(viewer.viewport.getBounds())});
 
 	function onImageViewChanged(event) {
 		var boundsRect = viewer.viewport.getBounds(true);
@@ -66,8 +58,6 @@ define("viewer", ["osd", "osdhelper", "osdhook", "ko", "jquery", "obs"], functio
 	    osdCanvas = null;
 	}
 
-	return{
-		init: init
-	}
+	return viewer
 });
 
