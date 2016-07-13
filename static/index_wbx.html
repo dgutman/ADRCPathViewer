@@ -7,20 +7,8 @@
     <!--link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css"-->
     <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/skins/material.css">
     <link rel="stylesheet" type="text/css" href="css/dsa.css">
-
-
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/knockout/dist/knockout.js"></script>
     <script data-main="main" src="bower_components/requirejs/require.js"></script>
-
-
-    <script src="app/public_knockout.js"></script>
-
     <script>
-
-        //This is a temporary shim.. but let's make things i care about public
-        
-
 		requirejs.onResourceLoad = function(context, map, depArray) {
     		console.log(map.id, "loaded");
 		}
@@ -31,6 +19,16 @@
 
     <div id="main_layout" style="height:100%"></div>
     <div id="image_viewer" style="width: 100%; height:600px"></div>   
-
+    <div id="slide_info_obj" data-bind="with: slideInfoObj">
+            <span>Slide Size:</span>
+            (<span data-bind="text:slideWidth()"></span>, <span data-bind="text:slideHeight()"></span>)
+            
+            <br>Tumor Type:
+            <span data-bind="text:TumorType()"></span>
+            <br>Slide Name:<span data-bind="text:slidename()"></span>
+            <br>Has Annotations:<span data-bind="text:HasAnnotations()"></span>
+            <br>Segmented Objects:<span data-bind="text:SegObjects()"></span>
+            <span id="object_count"></span>
+        </div>
 </body>
 </html>

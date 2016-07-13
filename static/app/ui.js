@@ -9,7 +9,7 @@
 
 
 
-define("ui", ["config", "webix"], function(config){
+define("ui", ["config", "obs", "webix"], function(config, obs){
 
     /**
      * build()
@@ -21,7 +21,7 @@ define("ui", ["config", "webix"], function(config){
      * @return {} None
      */
     function build(zoomer){
-        
+        //console.log(v.vm.slideInfoObj.slidename);
 
 
         // {
@@ -46,7 +46,7 @@ define("ui", ["config", "webix"], function(config){
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
                     //url = config.BASE_URL + slide.iip_slide_w_path;
-
+                    obs.slideInfoObj.slidename(slide.slide_name);
                     url = IIP_URL + slide.iip_slide_w_path;
                     console.log(url+"is the url I am trying to load");
                     zoomer.open(url);
@@ -82,8 +82,6 @@ define("ui", ["config", "webix"], function(config){
 
         }
 
-
-         
         //slides panel is the left panel, contains two rows 
         //containing the slide group dropdown and the thumbnails panel 
         slidesPanel = { header: "Slide Controls",
@@ -95,7 +93,7 @@ define("ui", ["config", "webix"], function(config){
 
         //info panel is right panel
         infoPanel = {header: "Slide Info",
-                     body:{view: "template", template: "SlideInfoView"},
+                     body:{view: "template", content: "slide_info_obj"},
                      width:250};
 
         //slide button that appear on the top if the slide

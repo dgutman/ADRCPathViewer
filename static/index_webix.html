@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html ng-app="mouse">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <link rel="stylesheet" href="bower_components/webix/codebase/webix.css" type="text/css">
+    <script data-main="text/javascript" src="bower_components/webix/codebase/webix.js"></script>
+    
+    <script>
+        //Defining urls for data grab functions
+    base_host = "http://adrcdev.digitalslidearchive.emory.edu"
+    iip_host = "http://digitalslidearchive.emory.edu"
+    //base_host = ""
+    use_webix = true;
+    if (use_webix)  {datagroup_apiurl = base_host + '/api/wbx/slideSet';}
+    else { datagroup_apiurl = base_host + '/api/v2/slideSet';}
+    //Change this image to be dyanmic loaded from a config.json file
+    </script>
+</head>
+
+<body>
+
+<div id="main_layout"></div>
+<div id="slice_viewer"></div>
+
+<script type="text/javascript">
+/*var slides_panel = webix.ui({
+                view:"dataview", 
+                id:"dataview1",
+                //container:"wbx_thumb_target",
+                select:true,
+                width: 280,
+                height: 600,
+        pager:{
+        id:"pager",
+            size:10,
+            group:4,
+        container:"thumb_pager",
+            },
+                template:"<div class='webix_strong'>#slide_name#</div> <img src='" + base_host+ "#thumbnail_image#'> ",
+                datatype: "json",
+                type:{ 
+                    height: 200,     //  dimensions of each dataview item
+                    width: 250 
+                },
+                on: {
+                  "onItemClick": function(id, e, node){
+                    console.log(this.getItem(id).iip_slide_w_path);
+                    //viewer.open( iip_host+this.getItem(id).iip_slide_w_path);
+                    //$("#status_bar").html(this.getItem(id).slide_name);
+                    //selected_slide_name = this.getItem(id).slide_name;
+                    // /alert(base_host + "/DZIMS/" + this.getItem(id).slide_w_path );
+                    //viewer.open()
+                  },
+                  "onAfterLoad": function(){
+                    first_slide = $$("dataview1").getItem($$("dataview1").getFirstId());
+                    //viewer.open( iip_host + first_slide.iip_slide_w_path);
+                    //$("#status_bar").html(first_slide.slide_name);
+                    //selected_slide_name = first_slide.slide_name;
+                  }
+                }
+    });*/
+
+webix.ui({
+    container:"main_layout",
+    id:"layout",
+    rows:
+        [
+            {
+                template:"row 1"
+            },
+            {
+              cols:
+                [
+                    {
+                        template:"row 1"
+                    },
+                    { view: "resizer" },
+                    { view: "template", content: "slice_viewer", height: "100%"}
+                ]  
+            }
+        ]
+});
+</script>
+</body>
+</html>
