@@ -19,12 +19,13 @@
 
     <div id="main_layout" style="height:100%"></div>
     <div id="image_viewer" style="width: 100%; height:800px"></div>   
-    <div id="slide_info_obj" data-bind="with: slideInfoObj">
-        <span>Slide dimensions:</span>
-        <span data-bind="text:width()"></span> x <span data-bind="text:height()"></span>
-            
-        <br>Slide name:<span data-bind="text:name()"></span>
-        <br>Group:<span data-bind="text:group()"></span>
+    <div webix-ui type="material" id="slide_info_obj" data-bind="with: slideInfoObj">
+        <div>Slide name:<span data-bind="text:name()"></span></div>
+        <div><span>Slide dimensions:</span>
+        <span data-bind="text:width()"></span> x <span data-bind="text:height()"></span></div>
+        <div>Group:<span data-bind="text:group()"></span></div>
+        <div>Slide label <input data-bind="value:label()"/><button data-bind="click:updateLabel">Update</button></div>
     </div>
+    
 </body>
 </html>

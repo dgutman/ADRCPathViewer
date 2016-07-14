@@ -1,4 +1,4 @@
-define("obs", ["ko"], function(ko){
+define("obs", ["ko", "jquery"], function(ko, $){
 
 	var statusObj = {
 	    haveImage: ko.observable(false),
@@ -39,13 +39,20 @@ define("obs", ["ko"], function(ko){
 	    segObjects: ko.observable(0),
 	    slidename_full: ko.observable(null),
 	    featureFileDB: ko.observable(null),
-	    slideDataUrl: ko.observable(null)
+	    slideDataUrl: ko.observable(null),
+
+	    updateLabel: function(){
+	    	data = {id: this.slide_name(), label: this.label()};
+	    	$.post("", data, function(response){
+	    		
+	    	})
+	    }
 	};
 
 	var vm = {
 	    statusObj: ko.observable(statusObj),
 	    svgOverlayVM: ko.observable(svgOverlayVM),
-	    slideInfoObj: ko.observable(slideInfoObj)
+	    slideInfoObj: ko.observable(slideInfoObj),
 	};
 
 	ko.applyBindings(vm);

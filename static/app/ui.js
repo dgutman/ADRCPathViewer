@@ -22,15 +22,13 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
      */
     function build(){
         
-        var IIP_URL = "http://cancer.digitalslidearchive.net";
-
         //Thumbnail panel that contains list of thumbnails for a slide group
         thumbnailsPanel = {
             view: "dataview",
             id: "thumbnails_panel",
             select: true,
             pager: "thumbPager",
-            template: "<div class='webix_strong'>#slide_name#</div><img src='" + IIP_URL + "#iip_thumbnail#' width='210'/>",
+            template: "<div class='webix_strong'>#slide_name#</div><img src='" + config.IIP_URL + "#iip_thumbnail#' width='210'/>",
             datatype: "json",
             type: { width: 200, height: 180 },
             on: {
@@ -39,9 +37,10 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
 
                     //observables
                     obs.slideInfoObj.name(slide.slide_name);
+                    obs.slideInfoObj.label(slide.slide_name);
                     obs.slideInfoObj.group(slide.slideGroup);
     
-                    url = IIP_URL + slide.iip_slide_w_path;
+                    url = config.IIP_URL + slide.iip_slide_w_path;
                     console.log(url+"is the url I am trying to load");
                     viewer.open(url);
                 },
@@ -52,7 +51,7 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
                     obs.slideInfoObj.name(slide.slide_name);
                     obs.slideInfoObj.group(slide.slideGroup);
 
-                    viewer.open(IIP_URL + slide.iip_slide_w_path);
+                    viewer.open(config.IIP_URL + slide.iip_slide_w_path);
                 }
             }
         };
@@ -67,7 +66,7 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
             on:{
                 "onChange": function(){
                     group = $$('group_list').getText();
-                    $$("thumbnails_panel").load("http://cdsa2.digitalslidearchive.net/api/wbx/slideSet/" + group);
+                    $$("thumbnails_panel").load(config.BASE_URL + "/api/wbx/slideSet/" + group);
                 }
             }
         };
