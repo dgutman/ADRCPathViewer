@@ -7,7 +7,9 @@ Note: viewer is the module name. Modules names are all defined
 in main.js. So refer to main.js to find out the module name as they
 are abbreviated
 
-> viewer = require("viewer");
+> zoomer = require("zoomer");
+> viewer = zoomer.viewer;
+> annotationStte = zoomer.annotationState;
 
 To access knockout observables
 > obs = require("obs")
