@@ -9,7 +9,7 @@
 
 
 
-define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer){
+define("ui", ["config", "obs", "viewer", "webix", "aperio"], function(config, obs, viewer, aperio){
 
     /**
      * build()
@@ -21,7 +21,6 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
      * @return {} None
      */
     function build(){
-        
         viewer = viewer.viewer;
         
         //Thumbnail panel that contains list of thumbnails for a slide group
@@ -105,7 +104,7 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
                     { view:"button", label: "Show Debug Info"},
                     { view:"button", label: "Draw Tools"},
                     { view:"button", label: "Comment", click: initCommentWindow},
-                    { view:"button", label: "AperioXML"}
+                    { view:"button", label: "AperioXML", click: importAperioAnnotations}
                   ]
                  };
 
@@ -154,6 +153,11 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
 
     function initCommentWindow(){
         $$("comments_window").show();
+    }
+
+    function importAperioAnnotations(){
+        a = require("aperio");
+        a.import1("http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml");
     }
 
     return{

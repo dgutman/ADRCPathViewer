@@ -1,6 +1,6 @@
 define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, ant){
 
-    function import(url) {
+    function import1(url) {
         //first clear the annotation state
         viewer.annotationState.clearAnnotations(); //is global for now
 
@@ -35,8 +35,8 @@ define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, an
 
     function getRegionMarkups(vertices, color) {
         var markups = {};
-
-            //each set of vertices represents a markup
+        
+        //each set of vertices represents a markup
         $('Vertices', vertices).each(function() {
             var points = [];
 
@@ -47,7 +47,7 @@ define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, an
                 var pt = new osd.Point(Number(this.getAttribute("X")), Number(this.getAttribute("Y")));
 
                 //convert the Aperio image coordinates to openseadragon viewport coordinates
-                var point = viewer.viewport.imageToViewportCoordinates(pt);
+                var point = viewer.viewer.viewport.imageToViewportCoordinates(pt);
                 points.push(point);
             });
 
@@ -62,7 +62,7 @@ define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, an
             overlay = ant.AnnotationOverlay.fromValueObject(overlayObj);
 
             //attach the overlay to the viewer
-            overlay.attachTo(viewer);
+            overlay.attachTo(viewer.viewer);
 
             //add the overlay to the annotations array
             viewer.annotationState.annotations.push(overlay);
@@ -70,6 +70,6 @@ define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, an
     }
 
     return{
-        import: import
+        import1: import1
     }
 });
