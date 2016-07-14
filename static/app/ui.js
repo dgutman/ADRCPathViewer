@@ -22,6 +22,8 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
      */
     function build(){
         
+        viewer = viewer.viewer;
+        
         //Thumbnail panel that contains list of thumbnails for a slide group
         thumbnailsPanel = {
             view: "dataview",

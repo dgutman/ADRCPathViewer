@@ -1,4 +1,4 @@
-define("obs", ["ko", "jquery"], function(ko, $){
+define("obs", ["ko", "jquery", "config"], function(ko, $, config){
 
 	var statusObj = {
 	    haveImage: ko.observable(false),
@@ -42,9 +42,10 @@ define("obs", ["ko", "jquery"], function(ko, $){
 	    slideDataUrl: ko.observable(null),
 
 	    updateLabel: function(){
-	    	data = {id: this.slide_name(), label: this.label()};
-	    	$.post("", data, function(response){
-	    		
+	    	data = {label: this.label()};
+	    	url = config.BASE_URL + "/slide/" + this.name() + "/label";
+	    	$.post(url, data, function(response){
+	    		console.log(response);
 	    	})
 	    }
 	};

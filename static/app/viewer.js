@@ -1,4 +1,5 @@
-define("viewer", ["osd", "osdhelper", "osdhook", "scalebar", "ko", "jquery", "obs"], function(osd, helper, hook, scalebar, ko, $, obs){
+define("viewer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs",  "ant", "antctrl"], 
+	function(osd, helper, hook, scalebar, $, obs,  ant, antctrl){
 
 	var viewer = osd({
 		id: 'image_viewer',
@@ -22,6 +23,10 @@ define("viewer", ["osd", "osdhelper", "osdhook", "scalebar", "ko", "jquery", "ob
 		fontSize: "small",
 		barThickness: 2
 	});
+
+	annotationState = new ant.AnnotationState();
+	annotationState.setSeadragonViewer(viewer);
+	antctrl.annotation_setup_code(annotationState);
 
 	imgHelper = viewer.activateImagingHelper({ onImageViewChanged: onImageViewChanged });
 	viewer.addHandler('open', onImageOpen);
@@ -73,6 +78,9 @@ define("viewer", ["osd", "osdhelper", "osdhook", "scalebar", "ko", "jquery", "ob
 	    osdCanvas = null;
 	}
 
-	return viewer
+	return {
+		viewer: viewer,
+		annotationState: annotationState
+	}
 });
 
