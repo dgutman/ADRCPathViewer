@@ -29,7 +29,6 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
             view: "dataview",
             id: "thumbnails_panel",
             select: true,
-            height: 800,
             pager: "thumbPager",
             template: "<div class='webix_strong'>#slide_name#</div><img src='" + IIP_URL + "#iip_thumbnail#' width='210'/>",
             datatype: "json",
@@ -37,7 +36,12 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
-                    obs.slideInfoObj.slidename(slide.slide_name);
+
+                    //observables
+                    obs.slideInfoObj.name(slide.slide_name);
+                    obs.slideInfoObj.group(slide.stain_type);
+                    obs.slideInfoObj.label(slide.stain_type);
+
                     url = IIP_URL + slide.iip_slide_w_path;
                     console.log(url+"is the url I am trying to load");
                     viewer.open(url);

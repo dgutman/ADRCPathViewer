@@ -29,18 +29,17 @@ define("obs", ["ko"], function(ko){
 	};
 
 	var slideInfoObj = {
-	    slidename: ko.observable(null),
-	    slideWidth: ko.observable(0),
-	    slideHeight: ko.observable(0),
-	    slideGroup: ko.observable(null),
-	    HasAnnotations: ko.observable(null),
-	    TumorType: ko.observable(null),
-	    SegObjects: ko.observable(0),
+	    name: ko.observable(null),
+	    label: ko.observable(null),
+	    width: ko.observable(0),
+	    height: ko.observable(0),
+	    group: ko.observable(null),
+	    hasAnnotations: ko.observable(null),
+	    tumorType: ko.observable(null),
+	    segObjects: ko.observable(0),
 	    slidename_full: ko.observable(null),
-	    FeatureFileDB: ko.observable(null),
-	    slideDataUrl: ko.observable(null),
-	    curSlideSet: ko.observable(null),
-	    slideGroupName: ko.observable(null)
+	    featureFileDB: ko.observable(null),
+	    slideDataUrl: ko.observable(null)
 	};
 
 	var vm = {

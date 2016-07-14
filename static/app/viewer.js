@@ -1,11 +1,26 @@
-define("viewer", ["osd", "osdhelper", "osdhook", "ko", "jquery", "obs"], function(osd, helper, hook, ko, $, obs){
+define("viewer", ["osd", "osdhelper", "osdhook", "scalebar", "ko", "jquery", "obs"], function(osd, helper, hook, scalebar, ko, $, obs){
 
 	var viewer = osd({
 		id: 'image_viewer',
 		prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
-		navigatorPosition: "BOTTOM_LEFT",
+		navigatorPosition: "BOTTOM_RIGHT",
 		showNavigator: true,
 		tileSources: "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi"
+	});
+
+	viewer.scalebar({
+		type: osd.ScalebarType.MAP,
+		pixelsPerMeter: 20,
+		minWidth: "75px",
+		location: osd.ScalebarLocation.BOTTOM_LEFT,
+		xOffset: 5,
+		yOffset: 10,
+		stayInsideImage: true,
+		color: "rgb(150, 150, 150)",
+		fontColor: "rgb(100, 100, 100)",
+		backgroundColor: "rgba(255, 255, 255, 0.5)",
+		fontSize: "small",
+		barThickness: 2
 	});
 
 	imgHelper = viewer.activateImagingHelper({ onImageViewChanged: onImageViewChanged });
@@ -45,8 +60,8 @@ define("viewer", ["osd", "osdhelper", "osdhook", "ko", "jquery", "obs"], functio
 	    obs.statusObj.imgHeight(imgHelper.imgHeight);
 	    obs.statusObj.imgAspectRatio(imgHelper.imgAspectRatio);
 	    obs.statusObj.scaleFactor(imgHelper.getZoomFactor());
-	    obs.slideInfoObj.slideWidth(imgHelper.imgWidth);
-	    obs.slideInfoObj.slideHeight(imgHelper.imgHeight);
+	    obs.slideInfoObj.width(imgHelper.imgWidth);
+	    obs.slideInfoObj.height(imgHelper.imgHeight);
 	}
 
 	function onImageClose(event){

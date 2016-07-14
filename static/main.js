@@ -6,6 +6,7 @@ require.config({
         "jquery": "bower_components/jquery/dist/jquery",
         "osdhelper": "lib/openseadragon-imaginghelper.min",
         "osdhook": "lib/openseadragon-viewerinputhook.min",
+        "scalebar": "lib/openseadragon-scalebar",
         "config": "app/config",
         "ui": "app/ui",
         "viewer": "app/viewer",
@@ -14,7 +15,8 @@ require.config({
     },
     shim: {
     	"osdhelper": ["osd"],
-    	"osdhook": ["osd"]
+    	"osdhook": ["osd"],
+        "scalebar": ["osd"]
     }
 
 });
