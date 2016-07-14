@@ -1,4 +1,4 @@
-define("viewer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs",  "ant", "antctrl"], 
+define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs",  "ant", "antctrl"], 
 	function(osd, helper, hook, scalebar, $, obs,  ant, antctrl){
 
 	var viewer = osd({

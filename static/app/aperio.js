@@ -1,8 +1,8 @@
-define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, ant){
+define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, ant){
 
     function import1(url) {
         //first clear the annotation state
-        viewer.annotationState.clearAnnotations(); //is global for now
+        zoomer.annotationState.clearAnnotations(); //is global for now
 
         $.get(url).done(function(response) {
             cur_aperio_xml = response;
@@ -47,7 +47,7 @@ define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, an
                 var pt = new osd.Point(Number(this.getAttribute("X")), Number(this.getAttribute("Y")));
 
                 //convert the Aperio image coordinates to openseadragon viewport coordinates
-                var point = viewer.viewer.viewport.imageToViewportCoordinates(pt);
+                var point = zoomer.viewer.viewport.imageToViewportCoordinates(pt);
                 points.push(point);
             });
 
@@ -65,7 +65,7 @@ define("aperio", ["jquery", "viewer", "osd", "ant"], function($, viewer, osd, an
             overlay.attachTo(viewer.viewer);
 
             //add the overlay to the annotations array
-            viewer.annotationState.annotations.push(overlay);
+            zoomer.annotationState.annotations.push(overlay);
         });
     }
 

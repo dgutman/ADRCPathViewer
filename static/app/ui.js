@@ -9,7 +9,7 @@
 
 
 
-define("ui", ["config", "obs", "viewer", "webix", "aperio"], function(config, obs, viewer, aperio){
+define("ui", ["config", "obs", "zoomer", "webix", "aperio"], function(config, obs, zoomer, aperio){
 
     /**
      * build()
@@ -21,7 +21,7 @@ define("ui", ["config", "obs", "viewer", "webix", "aperio"], function(config, ob
      * @return {} None
      */
     function build(){
-        viewer = viewer.viewer;
+        var viewer = zoomer.viewer;
         
         //Thumbnail panel that contains list of thumbnails for a slide group
         thumbnailsPanel = {

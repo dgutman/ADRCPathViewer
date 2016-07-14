@@ -13,7 +13,7 @@ require.config({
         "antctrl": "lib/dsa-annotation-control",
         "config": "app/config",
         "ui": "app/ui",
-        "viewer": "app/viewer",
+        "zoomer": "app/zoomer",
         "aperio": "app/aperio",
         "obs": "app/observables"
     },
@@ -23,9 +23,9 @@ require.config({
         "scalebar": ["osd"],
         "ant": ["osd"],
         "antctrl": ["jquery"],
-        "viewer": ["ant"],
+        "zoomer": ["ant"],
         "antctrl": ["switch", "mousetrap"],
-        "aperio": ["viewer"]
+        "aperio": ["zoomer"]
     }
 
 });
