@@ -38,17 +38,23 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
                     slide = this.getItem(id);
 
                     //observables
-                    obs.slideInfoObj.name(slide.slide_name);
-                    obs.slideInfoObj.group(slide.stain_type);
-                    obs.slideInfoObj.label(slide.stain_type);
+                    //obs.slideInfoObj.name(slide.slide_name);
+                    //obs.slideInfoObj.group(slide.slideGroup);
+                    console.log(slide);
+                    $$("slide_info").bind(this);
 
                     url = IIP_URL + slide.iip_slide_w_path;
                     console.log(url+"is the url I am trying to load");
                     viewer.open(url);
                 },
                 "onAfterLoad": function() {
-                   slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
-                   viewer.open(IIP_URL + slide.iip_slide_w_path);
+                    slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
+
+                    //observables
+                    obs.slideInfoObj.name(slide.slide_name);
+                    obs.slideInfoObj.group(slide.slideGroup);
+
+                    viewer.open(IIP_URL + slide.iip_slide_w_path);
                 }
             }
         };
@@ -87,8 +93,20 @@ define("ui", ["config", "obs", "viewer", "webix"], function(config, obs, viewer)
 
         //info panel is right panel
         infoPanel = {header: "Slide Info",
-                     body:{view: "template", content: "slide_info_obj"},
-                     width:250};
+                     body:{
+                        //view: "template", 
+                        //content: "slide_info_obj"
+                        view: "form",
+                        id: "slide_info",
+                        height: "100%",
+                        elements:[
+                            {view:"text", label:"Slide Label", labelPosition: "top", name: "slide_name", readonly:true},
+                            {view:"text", label:"Slide Group", labelPosition: "top", name: "slideGroup", readonly:true},
+                            {view:"text", label:"Slide Width", labelPosition: "top", name: "width", readonly:true},
+                            {view:"text", label:"Slide Height", labelPosition: "top", name: "height", readonly:true}
+                        ]
+                    },
+                    width:250};
 
         //slide button that appear on the top if the slide
         buttons = {cols:[
