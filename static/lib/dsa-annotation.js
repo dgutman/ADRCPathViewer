@@ -1157,7 +1157,7 @@ $.extend(AnnotationState.prototype, {
 OpenSeadragon.Utils = OpenSeadragon;
 
 return {
-	AnnotationState: AnnotationState
+	AnnotationState: AnnotationState,
+	AnnotationOverlay: AnnotationOverlay
 }
-// END Annotation state controller 
 });
