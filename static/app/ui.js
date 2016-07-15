@@ -18,9 +18,10 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
      * @return {} None
      */
     
-    function build(){
-        var viewer = zoomer.viewer;
-        
+    var slide = null;
+    var viewer = zoomer.viewer;
+
+    function build(){    
         //Thumbnail panel that contains list of thumbnails for a slide group
         thumbnailsPanel = {
             view: "dataview",
@@ -33,24 +34,11 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
-
-                    //observables
-                    obs.slideInfoObj.name(slide.slide_name);
-                    obs.slideInfoObj.label(slide.slide_name);
-                    obs.slideInfoObj.group(slide.slideGroup);
-    
-                    url = config.IIP_URL + slide.iip_slide_w_path;
-                    console.log(url+"is the url I am trying to load");
-                    viewer.open(url);
+                    initSlide();
                 },
                 "onAfterLoad": function() {
                     slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
-
-                    //observables
-                    obs.slideInfoObj.name(slide.slide_name);
-                    obs.slideInfoObj.group(slide.slideGroup);
-
-                    viewer.open(config.IIP_URL + slide.iip_slide_w_path);
+                    initSlide();
                 }
             }
         };
@@ -97,12 +85,12 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
 
         //slide button that appear on the top if the slide
         buttons = {cols:[
-                    { view:"button", label: "Apply Filters", height: 30},
-                    { view:"button", label: "Report Bad Image"},
-                    { view:"button", label: "Show Debug Info"},
-                    { view:"button", label: "Draw Tools"},
-                    { view:"button", label: "Comment", click: initCommentWindow},
-                    { view:"button", label: "AperioXML", click: importAperioAnnotations}
+                    { id: "apply_filter_btn", view:"button", label: "Apply Filters", height: 30},
+                    { id: "report_img_butn", view:"button", label: "Report Bad Image"},
+                    { id: "show_debug_btn", view:"button", label: "Show Debug Info"},
+                    { id: "draw_tools_btn", view:"button", label: "Draw Tools"},
+                    { id: "comment_btn", view:"button", label: "Comment", click: initCommentWindow},
+                    { id: "aperio_import_btn", view:"button", label: "AperioXML", click: importAperioAnnotations}
                   ]
                  };
 
@@ -147,6 +135,19 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
             }
         });
 
+    }
+
+    function initSlide(){
+        //set observable variables
+        obs.slideInfoObj.name(slide.slide_name);
+        obs.slideInfoObj.label(slide.slide_name);
+        obs.slideInfoObj.group(slide.slideGroup);
+
+        //activate buttons
+        slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
+    
+        url = config.IIP_URL + slide.iip_slide_w_path;
+        viewer.open(url);
     }
 
     function initCommentWindow(){
