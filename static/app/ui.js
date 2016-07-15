@@ -50,9 +50,14 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
             label: "Groups",
             id: "group_list",
             options: config.BASE_URL + "/api/wbx/slideSet",
+            value: "lgg",
             on:{
                 "onChange": function(){
-                    group = $$('group_list').getText();
+                    group = this.getText();
+                    $$("thumbnails_panel").load(config.BASE_URL + "/api/wbx/slideSet/" + group);
+                },
+                "onAfterRender": function() {
+                    group = this.getText();
                     $$("thumbnails_panel").load(config.BASE_URL + "/api/wbx/slideSet/" + group);
                 }
             }
