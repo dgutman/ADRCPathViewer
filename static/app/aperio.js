@@ -1,6 +1,6 @@
 define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, ant){
 
-    function import1(url) {
+    function importMarkups(url) {
         //first clear the annotation state
         zoomer.annotationState.clearAnnotations(); //is global for now
 
@@ -70,6 +70,6 @@ define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, an
     }
 
     return{
-        import1: import1
+        importMarkups: importMarkups
     }
 });

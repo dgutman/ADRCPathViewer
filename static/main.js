@@ -21,11 +21,9 @@ require.config({
     	"osdhelper": ["osd"],
     	"osdhook": ["osd"],
         "scalebar": ["osd"],
-        "ant": ["osd"],
+        "ant": ["osd", "jquery"],
         "antctrl": ["jquery"],
-        "zoomer": ["ant"],
-        "antctrl": ["switch", "mousetrap"],
-        "aperio": ["zoomer"]
+        "antctrl": ["switch", "mousetrap"]
     }
 
 });

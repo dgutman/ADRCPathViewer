@@ -6,10 +6,7 @@
  *  webix - webix UI
  */
 
-
-
-
-define("ui", ["config", "obs", "zoomer", "webix", "aperio"], function(config, obs, zoomer, aperio){
+define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, obs, zoomer, aperio){
 
     /**
      * build()
@@ -20,7 +17,7 @@ define("ui", ["config", "obs", "zoomer", "webix", "aperio"], function(config, ob
      * @param  {OpenSeaDragon} zoomer
      * @return {} None
      */
-    console.log(aperio);
+    
     function build(){
         var viewer = zoomer.viewer;
         
@@ -157,8 +154,7 @@ define("ui", ["config", "obs", "zoomer", "webix", "aperio"], function(config, ob
     }
 
     function importAperioAnnotations(){
-        a = require("aperio");
-        a.import1("http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml");
+        aperio.importMarkups("http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml");
     }
 
     return{
