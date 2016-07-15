@@ -62,7 +62,7 @@ define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, an
             overlay = ant.AnnotationOverlay.fromValueObject(overlayObj);
 
             //attach the overlay to the viewer
-            overlay.attachTo(viewer.viewer);
+            overlay.attachTo(zoomer.viewer);
 
             //add the overlay to the annotations array
             zoomer.annotationState.annotations.push(overlay);

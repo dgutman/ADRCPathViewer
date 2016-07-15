@@ -20,6 +20,7 @@ define("ui", ["config", "obs", "zoomer", "webix", "aperio"], function(config, ob
      * @param  {OpenSeaDragon} zoomer
      * @return {} None
      */
+    console.log(aperio);
     function build(){
         var viewer = zoomer.viewer;
         
