@@ -91,7 +91,7 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
         //slide button that appear on the top if the slide
         buttons = {cols:[
                     { id: "apply_filter_btn", view:"button", label: "Apply Filters", height: 30},
-                    { id: "report_img_butn", view:"button", label: "Report Bad Image"},
+                    { id: "report_img_butn", view:"button", label: "Report Bad Image", click: reportImage},
                     { id: "show_debug_btn", view:"button", label: "Show Debug Info"},
                     { id: "draw_tools_btn", view:"button", label: "Draw Tools"},
                     { id: "comment_btn", view:"button", label: "Comment", click: initCommentWindow},
@@ -161,6 +161,14 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
 
     function importAperioAnnotations(){
         aperio.importMarkups("http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml");
+    }
+
+    function reportImage(){
+        data = {bad: true};
+        url = config.BASE_URL + "/slide/" + slide.slide_name + "/report";
+        $.post(url, data, function(response){
+            console.log(response);
+        });
     }
 
     return{
