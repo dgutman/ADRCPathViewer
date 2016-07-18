@@ -90,7 +90,7 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
 
         //slide button that appear on the top if the slide
         buttons = {cols:[
-                    { id: "apply_filter_btn", view:"button", label: "Apply Filters", height: 30},
+                    { id: "apply_filter_btn", view:"button", label: "Apply Filters", height: 30, click: initFiltersWindow},
                     { id: "report_img_butn", view:"button", label: "Report Bad Image", click: reportImage},
                     { id: "show_debug_btn", view:"button", label: "Show Debug Info"},
                     { id: "draw_tools_btn", view:"button", label: "Draw Tools"},
@@ -140,6 +140,96 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
             }
         });
 
+        //Window for slide filters
+        var contrastSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Contrast", 
+            value: 100, 
+            max: 300,
+            id:"contrast_slider",
+            title:webix.template("Selected: #value#")
+        };
+
+        var brightnessSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Brightness", 
+            value: 0,
+            min: -100, 
+            max: 100,
+            id: "brightness_slider",
+            title:webix.template("Selected: #value#")
+        };
+
+        var saturationSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Saturation", 
+            value: 100,
+            max: 700,
+            id: "saturation_slider",
+            title:webix.template("Selected: #value#")
+        };
+
+        var hueSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Hue Rotate", 
+            value: 0,
+            max: 360,
+            id: "hue_rotate_slider",
+            title:webix.template("Selected: #value#")
+        };
+
+        var invertSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Invert", 
+            value: 0,
+            max: 100,
+            id: "invert_slider",
+            title:webix.template("Selected: #value#")
+        };
+
+        var blurSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Blur", 
+            value: 0,
+            max: 10,
+            id:"blur_slider",
+            title:webix.template("Selected: #value#")
+        };
+
+        var sharpnessSider = { 
+            view:"slider", 
+            type: "alt",
+            label:"Sharpness", 
+            value: 0,
+            max: 10,
+            id:"sharpness_sider",
+            title:webix.template("Selected: #value#")
+        };
+
+        webix.ui({
+            view:"window",
+            move:true,
+            head: "Slide Filters",
+            position: "center",
+            id: "filters_window",
+            body:{
+                view: "form", 
+                width: 400,
+                elements:[
+                    contrastSider, brightnessSider, saturationSider, hueSider, invertSider, blurSider, sharpnessSider,
+                    { margin:5, cols:[
+                        { view:"button", value:"Reset", click: resetSliders},
+                        { view:"button", value:"Close", click: ("$$('filters_window').hide();")}
+                    ]}
+                ]
+            }
+        });
     }
 
     function initSlide(){
@@ -153,6 +243,20 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
     
         url = config.IIP_URL + slide.iip_slide_w_path;
         viewer.open(url);
+    }
+
+    function resetSliders(){
+        $$("contrast_slider").setValue(100);
+        $$("brightness_slider").setValue(0);
+        $$("saturation_slider").setValue(100);
+        $$("hue_rotate_slider").setValue(0);
+        $$("invert_slider").setValue(0);
+        $$("blur_slider").setValue(0);
+        $$("sharpness_sider").setValue(0);
+    }
+
+    function initFiltersWindow(){
+        $$("filters_window").show();
     }
 
     function initCommentWindow(){
