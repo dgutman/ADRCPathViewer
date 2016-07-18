@@ -32,8 +32,7 @@ define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs",  "
 	viewer.addHandler('open', onImageOpen);
 	viewer.addHandler('close', onImageClose);
 	viewer.addHandler('open-failed', function(evt) {console.log('tile source opening failed', evt)});
-	viewer.addHandler('animation', function() {console.log(viewer.viewport.getBounds())});
-
+	
 	function onImageViewChanged(event) {
 		var boundsRect = viewer.viewport.getBounds(true);
 	    obs.statusObj.viewportX(boundsRect.x);
