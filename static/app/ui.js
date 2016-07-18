@@ -149,7 +149,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 100,
             id:"contrast_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         var brightnessSlider = { 
@@ -160,7 +160,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 100,
             id: "brightness_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         var saturationSlider = { 
@@ -171,7 +171,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 100,
             id: "saturation_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         var hueSlider = { 
@@ -182,7 +182,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 360,
             id: "hue_rotate_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         var invertSlider = { 
@@ -193,7 +193,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 100,
             id: "invert_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         var blurSlider = { 
@@ -204,7 +204,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 10,
             id:"blur_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         var grayscaleSlider = { 
@@ -215,7 +215,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             max: 100,
             id:"grayscale_slider",
             title:webix.template("Selected: #value#"),
-            on: {"onChange": applyImageFilters}
+            on: {"onSliderDrag": applyImageFilters, "onChange": applyImageFilters}
         };
 
         webix.ui({
