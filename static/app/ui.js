@@ -3,6 +3,7 @@
  * 
  * dependencies:
  *  config - site wide JS configuration file
+ *  obs
  *  webix - webix UI
  */
 
@@ -63,6 +64,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             }
         };
 
+        //filter slides
+        filter = {
+            view: "search",
+            placeholder: "Search",
+            on: {"onChange": filterSlides}
+        };
+
         thumbPager = {
             view:"pager",
             id: "thumbPager",
@@ -75,7 +83,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //containing the slide group dropdown and the thumbnails panel 
         slidesPanel = { header: "Slide Controls",
                         body:{rows: [ 
-                            dropdown,  {'template': "FILTERS", height:50},thumbPager, thumbnailsPanel
+                            dropdown, filter, thumbPager, thumbnailsPanel
                         ]},
                         width: 220
                        }; 
@@ -249,6 +257,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     
         url = config.IIP_URL + slide.iip_slide_w_path;
         viewer.open(url);
+    }
+
+    function filterSlides(keyword){
+        $$("thumbnails_panel").filter("#slide_name#", keyword);
     }
 
     function resetSliders(){

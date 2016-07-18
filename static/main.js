@@ -3,6 +3,8 @@ require.config({
         "osd": "bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon",
         "switch": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min",
         "mousetrap": "https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min",
+        "crossroads": "bower_components/crossroads/dist/crossroads.min", 
+        "signals": "bower_components/js-signals/dist/signals.min",
         "ko": "bower_components/knockout/dist/knockout",
         "webix": "bower_components/webix/codebase/webix",
         "jquery": "bower_components/jquery/dist/jquery",
@@ -23,7 +25,8 @@ require.config({
         "scalebar": ["osd"],
         "ant": ["osd", "jquery"],
         "antctrl": ["jquery"],
-        "antctrl": ["switch", "mousetrap"]
+        "antctrl": ["switch", "mousetrap"],
+        "crossroads": ["signals"]
     }
 
 });
