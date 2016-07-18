@@ -6,7 +6,7 @@
  *  webix - webix UI
  */
 
-define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, obs, zoomer, aperio){
+define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(config, obs, zoomer, aperio, $){
 
     /**
      * build()
@@ -141,75 +141,81 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
         });
 
         //Window for slide filters
-        var contrastSider = { 
+        var contrastSlider = { 
             view:"slider", 
             type: "alt",
             label:"Contrast", 
             value: 100, 
-            max: 300,
+            max: 100,
             id:"contrast_slider",
-            title:webix.template("Selected: #value#")
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
-        var brightnessSider = { 
+        var brightnessSlider = { 
             view:"slider", 
             type: "alt",
             label:"Brightness", 
-            value: 0,
-            min: -100, 
+            value: 100,
             max: 100,
             id: "brightness_slider",
-            title:webix.template("Selected: #value#")
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
-        var saturationSider = { 
+        var saturationSlider = { 
             view:"slider", 
             type: "alt",
             label:"Saturation", 
             value: 100,
-            max: 700,
+            max: 100,
             id: "saturation_slider",
-            title:webix.template("Selected: #value#")
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
-        var hueSider = { 
+        var hueSlider = { 
             view:"slider", 
             type: "alt",
             label:"Hue Rotate", 
             value: 0,
             max: 360,
             id: "hue_rotate_slider",
-            title:webix.template("Selected: #value#")
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
-        var invertSider = { 
+        var invertSlider = { 
             view:"slider", 
             type: "alt",
             label:"Invert", 
             value: 0,
             max: 100,
             id: "invert_slider",
-            title:webix.template("Selected: #value#")
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
-        var blurSider = { 
+        var blurSlider = { 
             view:"slider", 
             type: "alt",
             label:"Blur", 
             value: 0,
             max: 10,
             id:"blur_slider",
-            title:webix.template("Selected: #value#")
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
-        var sharpnessSider = { 
+        var grayscaleSlider = { 
             view:"slider", 
             type: "alt",
-            label:"Sharpness", 
+            label:"Grayscale", 
             value: 0,
-            max: 10,
-            id:"sharpness_sider",
-            title:webix.template("Selected: #value#")
+            max: 100,
+            id:"grayscale_slider",
+            title:webix.template("Selected: #value#"),
+            on: {"onChange": applyImageFilters}
         };
 
         webix.ui({
@@ -222,9 +228,9 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
                 view: "form", 
                 width: 400,
                 elements:[
-                    contrastSider, brightnessSider, saturationSider, hueSider, invertSider, blurSider, sharpnessSider,
+                    contrastSlider, brightnessSlider, saturationSlider, hueSlider, invertSlider, blurSlider, grayscaleSlider,
                     { margin:5, cols:[
-                        { view:"button", value:"Reset", click: resetSliders},
+                        { view:"button", value:"Reset All", click: resetSliders},
                         { view:"button", value:"Close", click: ("$$('filters_window').hide();")}
                     ]}
                 ]
@@ -247,12 +253,27 @@ define("ui", ["config", "obs", "zoomer", "aperio",  "webix"], function(config, o
 
     function resetSliders(){
         $$("contrast_slider").setValue(100);
-        $$("brightness_slider").setValue(0);
+        $$("brightness_slider").setValue(100);
         $$("saturation_slider").setValue(100);
         $$("hue_rotate_slider").setValue(0);
         $$("invert_slider").setValue(0);
         $$("blur_slider").setValue(0);
-        $$("sharpness_sider").setValue(0);
+        $$("grayscale_slider").setValue(0);
+
+        applyImageFilters();
+    }
+
+    function applyImageFilters(){
+        var css = 'contrast(' + $$("contrast_slider").getValue() + '%) ' +
+                  'brightness(' + $$("brightness_slider").getValue() + '%) ' +
+                  'hue-rotate(' + $$("hue_rotate_slider").getValue() + ') ' +
+                  'saturate(' + $$("saturation_slider").getValue() + '%) ' +
+                  'invert(' + $$("invert_slider").getValue() + '%) ' +
+                  'grayscale(' + $$("grayscale_slider").getValue() + '%) ' +
+                  'blur(' + $$("blur_slider").getValue() + 'px)';
+
+        $('.magic').css('-webkit-filter', css);
+        $('.openseadragon-canvas').css('-webkit-filter', css);
     }
 
     function initFiltersWindow(){
