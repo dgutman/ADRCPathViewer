@@ -110,15 +110,25 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //openseadragon viewer
         viewerPanel = {rows:[buttons, {view: "template", content: "image_viewer", height: "100%"}]};
 
-        //page header
-        header = {
-            height: 50,
-            css: "header",
-            cols:[
-                {view: "template",  template: "<img src='img/CDSA_Slide_50.png' height='40'/>", type: "clean"} 
-            ]
+        var menu = {
+            view:"menu",
+            data: [
+                { id:"1",value:"TCGA Resources", submenu:["English"]},
+                { id:"2",value:"Help", submenu:[ "Facebook", "Google+", "Twitter" ]}
+            ],
+            type:{height:50}
         };
 
+        header = {type:"clean", cols: [{
+            view:"toolbar", height:66,
+                cols:[
+                    {view: "template",  template: "<img src='img/CDSA_Slide_50.png' height='40'/>"},
+                    { gravity: 6},
+                    menu
+                ]
+            }]
+        };
+    
         //the main body, below the header, contain three columns
         body = {cols:[slidesPanel,  viewerPanel, { view: "resizer" }, infoPanel]};
 
