@@ -97,15 +97,32 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     width:250};
 
         //slide button that appear on the top if the slide
-        buttons = {cols:[
-                    { id: "apply_filter_btn", view:"button", label: "Apply Filters", height: 30, click: initFiltersWindow},
-                    { id: "report_img_butn", view:"button", label: "Report Bad Image", click: reportImage},
-                    { id: "show_debug_btn", view:"button", label: "Show Debug Info"},
-                    { id: "draw_tools_btn", view:"button", label: "Draw Tools"},
-                    { id: "comment_btn", view:"button", label: "Comment", click: initCommentWindow},
-                    { id: "aperio_import_btn", view:"button", label: "AperioXML", click: importAperioAnnotations}
-                  ]
-                 };
+        buttons = {
+            view: "segmented", 
+            value: "nothing", 
+            options:[
+                { id: "apply_filter_btn", value: "Apply Filters"},
+                { id: "report_img_butn", value: "Report Bad Image", click: reportImage},
+                { id: "show_debug_btn", value: "Show Debug Info"},
+                { id: "draw_tools_btn", value: "Draw Tools"},
+                { id: "comment_btn", value: "Comment", click: initCommentWindow},
+                { id: "aperio_import_btn", value: "AperioXML", click: importAperioAnnotations}
+            ],
+            on:{
+                onAfterTabClick: function(id){
+                    switch(id){
+                        case "apply_filter_btn":
+                            initFiltersWindow();
+                        case "report_img_butn":
+                            reportImage();
+                        case "comment_btn":
+                            initCommentWindow();
+                        case "aperio_import_btn":
+                            importAperioAnnotations();
+                    }
+                }    
+            }
+        };
 
         //openseadragon viewer
         viewerPanel = {rows:[buttons, {view: "template", content: "image_viewer", height: "100%"}]};
