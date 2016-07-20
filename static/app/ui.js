@@ -113,18 +113,25 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         var menu = {
             view:"menu",
             data: [
-                { id:"1",value:"TCGA Resources", submenu:["English"]},
-                { id:"2",value:"Help", submenu:[ "Facebook", "Google+", "Twitter" ]}
+                { id:"1",value:"TCGA Resources", submenu:[
+                    {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"}
+                ]},
+                { id:"2",value:"Help", submenu:[
+                    {value:"About the CDSA"},
+                    {value:"Repository Stats"}
+                ]}
             ],
-            type:{height:50}
+            type:{height:50},
+            css: {"background": "white"}
         };
 
-        header = {type:"clean", cols: [{
+        header = {borderless: true, cols: [{
             view:"toolbar", height:66,
                 cols:[
                     {view: "template",  template: "<img src='img/CDSA_Slide_50.png' height='40'/>"},
                     { gravity: 6},
-                    menu
+                    menu,
+                    {view: "template",  template: "<img src='http://cancer.digitalslidearchive.net/imgs/Winship_06-2011/Winship_NCI_shortTag/horizontal/jpg_png/Winship_NCI_shortTag_hz_280.png' height='50'/>"},
                 ]
             }]
         };
@@ -134,7 +141,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //render the layout
         webix.ui({
-            type: "material",
             container: "main_layout",
             rows:[header, body]
         });
