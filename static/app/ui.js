@@ -102,11 +102,11 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             value: "nothing", 
             options:[
                 { id: "apply_filter_btn", value: "Apply Filters"},
-                { id: "report_img_butn", value: "Report Bad Image", click: reportImage},
+                { id: "report_img_butn", value: "Report Bad Image"},
                 { id: "show_debug_btn", value: "Show Debug Info"},
                 { id: "draw_tools_btn", value: "Draw Tools"},
-                { id: "comment_btn", value: "Comment", click: initCommentWindow},
-                { id: "aperio_import_btn", value: "AperioXML", click: importAperioAnnotations}
+                { id: "comment_btn", value: "Comment"},
+                { id: "aperio_import_btn", value: "AperioXML"}
             ],
             on:{
                 onAfterTabClick: function(id){
@@ -129,6 +129,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         var menu = {
             view:"menu",
+            width: 180,
             data: [
                 { id:"1",value:"TCGA Resources", submenu:[
                     {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"}
@@ -138,17 +139,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     {value:"Repository Stats"}
                 ]}
             ],
-            type:{height:50},
-            css: {"background": "white"}
+            type:{height:55},
+            css: "menu"
         };
 
         header = {borderless: true, cols: [{
-            view:"toolbar", height:66,
+            view:"toolbar", height:66, css: "toolbar",
                 cols:[
-                    {view: "template",  template: "<img src='img/CDSA_Slide_50.png' height='40'/>"},
-                    { gravity: 6},
+                    {view: "template", borderless:true, template: "<img src='img/CDSA_Slide_50.png' height='40'/>", width: 200},
+                    {},
                     menu,
-                    {view: "template",  template: "<img src='http://cancer.digitalslidearchive.net/imgs/Winship_06-2011/Winship_NCI_shortTag/horizontal/jpg_png/Winship_NCI_shortTag_hz_280.png' height='50'/>"},
+                    {view: "template", borderless:true, template: "<img src='http://cancer.digitalslidearchive.net/imgs/Winship_06-2011/Winship_NCI_shortTag/horizontal/jpg_png/Winship_NCI_shortTag_hz_280.png' height='50'/>", width: 160},
                 ]
             }]
         };
