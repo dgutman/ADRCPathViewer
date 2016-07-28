@@ -5,5 +5,5 @@ class SlideSet(Resource):
         pass
 
     def get(self, id):
-        return {'What to do': 'return list of slides for this id'}
+        return {'endpoint': 'return list of slides for the provided slideset id ' + id}
 
