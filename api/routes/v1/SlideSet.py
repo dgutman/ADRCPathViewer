@@ -1,4 +1,4 @@
-from flask_restful import Resource
+from flask_restful import Resource 
 from utils.config import get_app_configurations
 
 class SlideSet(Resource):

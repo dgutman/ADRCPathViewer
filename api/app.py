@@ -5,9 +5,10 @@
 #from __future__ import absolute_import
 
 from flask import Flask
-from utils.config import get_app_configurations
+from flask_cache import Cache 
 from routes.v1 import v1
-   
+
 #start the flask app
 app = Flask('dsa_adrc')
+cache = Cache(app, config={"CACHE_TYPE":"memcached"})
 app.register_blueprint(v1)
