@@ -7,8 +7,10 @@
 from flask import Flask
 from flask_cache import Cache 
 from routes.v1 import v1
+from utils.cache import cache
 
 #start the flask app
 app = Flask('dsa_adrc')
-cache = Cache(app, config={"CACHE_TYPE":"memcached"})
+app.config['CACHE_TYPE'] = 'memcached'
+cache.init_app(app)
 app.register_blueprint(v1)
