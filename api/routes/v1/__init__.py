@@ -1,6 +1,7 @@
 from flask_restful import Api
 from flask_restful.utils import cors
 from flask import Blueprint
+from SlideSetList import SlideSetList
 from SlideSet import SlideSet
 from DeepZoom import DeepZoom
 from Thumbnail import Thumbnail
@@ -13,6 +14,7 @@ from Slide import Slide
 v1 = Blueprint('v1', __name__)
 api = Api(v1, prefix="/v1")
 api.decorators=[cors.crossdomain(origin='*')]
+api.add_resource(SlideSetList, "/slidesetlist", endpoint="slidesetlist")
 api.add_resource(SlideSet, "/slideset/<string:id>", endpoint="slideset")
 api.add_resource(DeepZoom, "/deepzoom/<path:path>.dzi", endpoint="deepzoom")
 api.add_resource(Thumbnail, "/thumbnail/<path:path>", endpoint="thumbnail")

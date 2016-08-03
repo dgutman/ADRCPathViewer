@@ -4,13 +4,13 @@ import json
 from utils.config import get_app_configurations
 from utils.db import connect
 
-class SlideSet(Resource):
+class SlideSetList(Resource):
 	def __init__(self):
 		self.config = get_app_configurations()
 		self.db = connect(self.config)
 		self.slides = self.db[self.config["db_collection"]]
 
-	def get(self, id):
+	def get(self):
 		groups = self.slides.distinct('group')
 		data = []
 
