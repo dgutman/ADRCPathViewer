@@ -10,8 +10,8 @@ class DeepZoom(Resource):
 
     @cache.cached()	
     def get(self, id):
-    	image = self.slides.find_one({'_id': ObjectId(id)})
-    	path = image["group"] + "/" + image["filename"]
+		image = self.slides.find_one({'_id': ObjectId(id)})
+		path = image["group"] + "/" + image["filename"]
 		slide = _get_slide(self.config['slides_dir'], path)
 		resp = make_response(slide.get_dzi(self.config['deepzoom_format']))
 		resp.mimetype = 'application/xml'
