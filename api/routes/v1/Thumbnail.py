@@ -1,6 +1,9 @@
 from openslide import OpenSlide
 from flask_restful import Resource
 from utils.deepzoom import PILBytesIO
+from bson.objectid import ObjectId
+from flask import Response
+import os
 
 class Thumbnail(Resource):
 	def __init__(self, db, config):
@@ -8,23 +11,16 @@ class Thumbnail(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
-	def get(self, path):
+	def get(self, id):
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = os.path.join(image["group"], image["filename"])
-		path = os.path.abspath(os.path.join(self.config['slides_dir'], path))
+		path = os.path.join(self.config['slides_dir'], image["group"], image["filename"])
 		osr = OpenSlide(path)
-		format = 'jpeg'
 
-		format = format.lower()
-		if format != 'jpeg' and format != 'png':
-			abort(404)
 		try:
-			thumb = osr.get_thumbnail( (300,300))
+			thumb = osr.get_thumbnail( (10,10))
 		except ValueError:
-			abort(404)
+			return Response("", status=404, mimetype='application/json')
 
 		buf = PILBytesIO()
 		thumb.save(buf, 'jpeg', quality=90)
-		resp = make_response(buf.getvalue())
-		resp.mimetype = 'image/%s' % format
-		return resp
+		return Response(buf.getvalue(), status=200, mimetype='image/jpeg')

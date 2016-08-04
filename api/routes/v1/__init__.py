@@ -48,7 +48,7 @@ api.add_resource(
 
 api.add_resource(
 		Thumbnail, 
-		"/thumbnail/<path:path>", 
+		"/thumbnail/<string:id>", 
 		endpoint="thumbnail", 
 		resource_class_kwargs=params)
 
