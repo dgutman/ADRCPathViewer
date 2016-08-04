@@ -1,24 +1,24 @@
-import os
+import os, openslide
 from flask_restful import Resource
 from flask import make_response
 from bson.objectid import ObjectId
-from utils.config import get_app_configurations
+from openslide import OpenSlide
+from openslide.deepzoom import DeepZoomGenerator
 from utils.cache import cache
-from utils.deepzoom import _get_slide, _SlideCache
-from utils.db import connect
-from utils.cache import cache
+from utils.deepzoom import get_slide
 
 class DeepZoom(Resource):
-	def __init__(self):
-		self.config = get_app_configurations()
-		self.db = connect(self.config)
+	def __init__(self, db, config, opts):
+		self.db = db
+		self.config = config
+		self.opts = opts
 		self.slides = self.db[self.config["db_collection"]]
 
 	@cache.cached()	
 	def get(self, id):
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = os.path.join(image["group"], image["filename"])
-		slide = _get_slide(self.config['slides_dir'], path)
+		path = os.path.join(self.config["slides_dir"], image["group"], image["filename"])
+		slide = get_slide(self.config['slides_dir'], path)
 		resp = make_response(slide.get_dzi(self.config['deepzoom_format']))
 		resp.mimetype = 'application/xml'
 		return resp

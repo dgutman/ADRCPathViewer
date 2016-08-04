@@ -1,13 +1,11 @@
 from openslide import OpenSlide
 from flask_restful import Resource
-from utils.config import get_app_configurations
-from utils.db import connect
 from utils.deepzoom import PILBytesIO
 
 class Thumbnail(Resource):
-	def __init__(self):
-		self.config = get_app_configurations()
-		self.db = connect(self.config)
+	def __init__(self, db, config):
+		self.db = db
+		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self, path):

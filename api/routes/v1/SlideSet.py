@@ -1,13 +1,11 @@
 from flask import Response
 from flask_restful import Resource 
 from bson.json_util import dumps
-from utils.config import get_app_configurations
-from utils.db import connect
 
 class SlideSet(Resource):
-	def __init__(self):
-		self.config = get_app_configurations()
-		self.db = connect(self.config)
+	def __init__(self, db, config):
+		self.db = db
+		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self, id):
