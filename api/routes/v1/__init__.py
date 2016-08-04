@@ -16,6 +16,6 @@ api = Api(v1, prefix="/v1")
 api.decorators=[cors.crossdomain(origin='*')]
 api.add_resource(SlideSetList, "/slidesetlist", endpoint="slidesetlist")
 api.add_resource(SlideSet, "/slideset/<string:id>", endpoint="slideset")
-api.add_resource(DeepZoom, "/deepzoom/<path:path>.dzi", endpoint="deepzoom")
+api.add_resource(DeepZoom, "/deepzoom/<string:id>", endpoint="deepzoom")
 api.add_resource(Thumbnail, "/thumbnail/<path:path>", endpoint="thumbnail")
 api.add_resource(Slide, "/slide/<string:id>", endpoint="slide")
