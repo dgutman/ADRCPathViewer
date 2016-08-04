@@ -1,6 +1,6 @@
 import os, openslide
 from flask_restful import Resource
-from flask import make_response
+from flask import make_response, Response
 from bson.objectid import ObjectId
 from openslide import OpenSlide
 from openslide.deepzoom import DeepZoomGenerator
@@ -19,6 +19,8 @@ class DeepZoom(Resource):
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = os.path.join(self.config["slides_dir"], image["group"], image["filename"])
 		slide = get_slide(self.config['slides_dir'], path)
-		resp = make_response(slide.get_dzi(self.config['deepzoom_format']))
-		resp.mimetype = 'application/xml'
-		return resp
+
+		if slide == None:
+			Response("", status=400, mimetype='application/xml')
+		else:
+			return Response(slide.get_dzi(self.config['deepzoom_format']), status=200, mimetype='application/xml')
