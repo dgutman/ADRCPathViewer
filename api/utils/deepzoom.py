@@ -1,10 +1,11 @@
-from flask import current_app as app
+from flask import current_app as app, abort
 from collections import OrderedDict
 from io import BytesIO
 import openslide, os
 from openslide import OpenSlide, OpenSlideError
 from openslide.deepzoom import DeepZoomGenerator
 from threading import Lock
+from cache import cache
 
 class PILBytesIO(BytesIO):
     def fileno(self):
@@ -57,9 +58,12 @@ def _get_slide(slides_dir, path):
     if not os.path.exists(path):
         abort(404)
     try:
-        slide = app.cache.get(path)
-        slide.filename = os.path.basename(path)
-        return slide
+        slide = cache.get(path)
+        if slide != None:
+            slide.filename = os.path.basename(path)
+            return slide
+        else:
+            return None
     except OpenSlideError:
         abort(404)
 
