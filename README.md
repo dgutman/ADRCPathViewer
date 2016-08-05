@@ -18,9 +18,15 @@ The following packages are required to run the API
 
 Instuctions
 =====================
- To start the API execute the following command
+ To start the API execute the following command (run.py is located in the application root directory)
 
      ./run.py
+
+To access the API in your browser
+    http://[yourdomain]/[version]/[resource]/[params]
+
+Example
+    http://yourdomain.com/v1/slidesetlist
 
 Application configurations
 ===========================
@@ -36,7 +42,7 @@ You make changes to the application configurations in `app.cfg`, some of the set
 
 `ws_port`: web service port
 
-`static_dir`: location of static pages relative to the directory where the blueprint is located
+`static_dir`: location of static pages relative to the directory where the blueprint is located or an absolute path
 
 `slides_dir`: location of the whole-slide images
 
@@ -49,9 +55,6 @@ You make changes to the application configurations in `app.cfg`, some of the set
 `slide_cache_size`: 1000 (default)
 
 `deepzoom_format`: jpeg (default)
-
-
-
 
 
 ## I am in the process of migrating the build step to use bower
