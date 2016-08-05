@@ -22,6 +22,16 @@ First clone the repo
 
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
+Setup the client side (static HTML pages)
+
+    cd [APP_ROOT_DIR]
+
+    cd static
+
+Run bower to install web app dependices
+
+    bower install
+
 Instuctions
 =====================
  To start the API execute the following command (run.py is located in the application root directory)
