@@ -5,11 +5,32 @@ from bson.json_util import dumps
 
 class Slide(Resource):
 	def __init__(self, db, config):
+		"""initialize Slide resource
+
+		Args:
+			db: mongo db connection
+			config: application configurations
+			opt: deep zoom configurations
+
+		Returns:
+			None
+		"""
 		self.db = db
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self, id):
+		"""Get slide
+
+		Fetch the slide properties from mongo db
+
+		Args:
+			id: slide ID which is the mongo ObjectId
+
+		Returns:
+			200 response if the slide loaded and returned
+			400 response if the slide failed to load
+		"""
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		
 		if image:
@@ -18,6 +39,18 @@ class Slide(Resource):
 			return Response("", status=400, mimetype='application/json')
 
 	def put(self, id):
+		"""Update slide
+
+		Update slide properties in mongodb. Properties are passed as json
+		object in a PUT request
+
+		Args:
+			id: slide ID which is the mongo ObjectId
+
+		Returns:
+			200 response if the slide loaded and returned
+			400 response if the slide failed to load
+		"""
 		image = self.slides.find_one({'_id': ObjectId(id)})
 
 		if image:

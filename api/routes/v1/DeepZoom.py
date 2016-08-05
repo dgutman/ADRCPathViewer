@@ -9,6 +9,16 @@ from utils.deepzoom import get_slide
 
 class DeepZoom(Resource):
 	def __init__(self, db, config, opts):
+		"""initialize DeepZoom resource
+
+		Args:
+			db: mongo db connection
+			config: application configurations
+			opt: deep zoom configurations
+
+		Returns:
+			None
+		"""
 		self.db = db
 		self.config = config
 		self.opts = opts
@@ -16,6 +26,18 @@ class DeepZoom(Resource):
 
 	@cache.cached()	
 	def get(self, id):
+		"""Get deepzoom image
+
+		Fetch the slide from cache is available and return XML response for the 
+		deep zoom image
+
+		Args:
+			id: slide ID which is the mongo ObjectId
+
+		Returns:
+			200 response if the slide loaded and returned
+			400 response if the slide failed to load
+		"""
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = os.path.join(self.config["slides_dir"], image["group"], image["filename"])
 		slide = get_slide(self.config['slides_dir'], path)
