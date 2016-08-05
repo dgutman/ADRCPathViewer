@@ -9,25 +9,28 @@ from Slide import Slide
 from utils.db import connect
 from utils.config import get_app_configurations
 
-# Create a blueprint for API v1
-# It is prefixed with /v1
-# Add CORS decorator for all endpoints
-# Attach all endpoints to the v1 API
-v1 = Blueprint('v1', __name__)
+# Get app configurations
 config = get_app_configurations()
 
+# Prepare OpenSlide/DeepZoom options
 opts = {
 	'tile_size': int(config['tile_size']),
 	'overlap': int(config['overlap']),
 	'limit_bounds': int(config['limit_bounds'])
 }
 
+# Prepare arguments to pass to the resources
 params = {'db': connect(config), 'config': config}
 dz_params = {'db': connect(config), 'config': config, 'opts': opts}
 
+# Create a blueprint for API v1
+# It is prefixed with /v1
+# Add CORS decorator for all endpoints
+v1 = Blueprint('v1', __name__)
 api = Api(v1, prefix="/v1")
 api.decorators=[cors.crossdomain(origin='*')]
 
+# Attach all endpoints to the v1 API
 api.add_resource(
 		SlideSetList, 
 		"/slidesetlist", 

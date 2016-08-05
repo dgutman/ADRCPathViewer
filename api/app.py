@@ -13,4 +13,6 @@ from utils.cache import cache
 app = Flask('dsa_adrc')
 app.config['CACHE_TYPE'] = 'memcached'
 cache.init_app(app)
+
+# Attach api v1 to the app
 app.register_blueprint(v1)
