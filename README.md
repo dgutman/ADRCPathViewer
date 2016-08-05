@@ -16,6 +16,12 @@ The following packages are required to run the API
 * ConfigParser
 * pymongo
 
+Installation
+=====================
+First clone the repo
+
+    git clone https://github.com/dgutman/ADRCPathViewer.git
+
 Instuctions
 =====================
  To start the API execute the following command (run.py is located in the application root directory)
