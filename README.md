@@ -7,6 +7,14 @@ Prerequisites
 The following packages are required to run the API
 
 * OpenSlide and its dependencies (follow the instruction in this [link](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation))
+* openslide-python
+* flask_restful
+* flask_cache
+* bson
+* collections
+* threading
+* ConfigParser
+* pymongo
 
 Instuctions
 =====================
