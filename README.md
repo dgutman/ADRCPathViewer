@@ -77,7 +77,3 @@ You make changes to the application configurations in `app.cfg`, some of the set
 `slide_cache_size`: 1000 (default)
 
 `deepzoom_format`: jpeg (default)
-
-
-## I am in the process of migrating the build step to use bower
-In the static directory, once bower is installed, you can type bower install and it will grab the proper files
