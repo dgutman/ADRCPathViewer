@@ -1,14 +1,12 @@
 ADRCPathViewer
 =====================
-This is a development workspace for a pathology viewer for the ADRC @ Emory using the DSA CodeBase. The repo contains two parts. The web service which used Python Flask and OpenSlide to serve whole-slide images, serve static pages and endpoints to the database. The web applications which contains the viewer.
+This is a development workspace for a pathology viewer for the ADRC @ Emory using the DSA CodeBase. The repo contains two parts. The web service which used Python Flask-Restful and OpenSlide to serve whole-slide images, serve static pages and endpoints to the database.
 
 Prerequisites
 =====================
-virtualenv: to create a virtual python enviroment for the ADRC project
+The following packages are required to run the API
 
-    pip install virtualenv
-
-openslide: to serve whole-slide images. Follow the instructions [here](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation) to install openslide
+* OpenSlide and its dependencies (follow the instruction in this [link](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation))
 
 Instuctions
 =====================
