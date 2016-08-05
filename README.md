@@ -26,9 +26,13 @@ To access the API in your browser
 
     http://[yourdomain]/[version]/[resource]/[params]
 
-Example
+Example 1: to get list of all unique slide collections
 
     http://yourdomain.com/v1/slidesetlist
+
+Ecample 2: to get list of slides for one collection (BRCA)
+
+    http://yourdomain.com/v1/slideset/BRCA
 
 Application configurations
 ===========================
