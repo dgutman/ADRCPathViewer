@@ -23,9 +23,11 @@ Instuctions
      ./run.py
 
 To access the API in your browser
+
     http://[yourdomain]/[version]/[resource]/[params]
 
 Example
+
     http://yourdomain.com/v1/slidesetlist
 
 Application configurations
