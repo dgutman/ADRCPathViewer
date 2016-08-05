@@ -18,71 +18,9 @@ The following packages are required to run the API
 
 Instuctions
 =====================
-Make a parent directory for our ADRC project. Move into the directory after you create it:
+ To start the API execute the following command
 
-    mkdir ADRC_ROOT
-
-    cd ADRC_ROOT
-
-Clone the ADRC repo
-
-    git clone https://github.com/dgutman/ADRCPathViewer.git
-
-Create the flask environment for testing using python virtualenv
-
-    virtualenv adrc_env
-
-Activate the environment
-
-    source adrc_env/bin/activate
-
-Within the environment install Flask, bson, Pillow, gunicorn, openslide-python, pymongo and wheel
-
-    pip install bson Pillow gunicorn openslide-python pymongo wheel
-
-Browse to `ADRC_ROOT/app/webservice`
-
-    cd ADRC_ROOT/app/webservice
-
-Run the web service using gunicorn on port 8001, in the foreground
-
-    gunicorn --bind 0.0.0.0:8001 wsgi
-
-Or you can run gunicorn in the background
-
-    gunicorn --bind 0.0.0.0:8001 wsgi &
-
-Configure Nginx
-==========================
-If you want you can setup Nginx to proxy requests to the ADRC web service.
-
-Create a new server block configuration file in Nginx `sites-available` directory
-
-    sudo vi /etc/nginx/sites-available/adrc
-
-Tell Nginx to listen on port 8000 and to route the traffic to the web service running on port 8001. To do so copy the following into adrc server block file
-
-    server {
-        listen 0.0.0.0:8000;
-
-        location / {
-                proxy_pass http://0.0.0.0:8001;
-        }
-    }
-
-To enable the Nginx server block configuration we've just created, link the file to the sites-enabled directory:
-
-    sudo ln -s /etc/nginx/sites-available/adrc /etc/nginx/sites-enabled
-
-Test the server block syntax by typing
-
-    sudo nginx -t
-
-If there are no issues in the syntax restart Nginx
-
-    sudo service nginx restart
-
-You should now be able to go to your server's domain name (domain_name:8000) or IP address in your web browser and see the ADRC application.
+     ./run.py
 
 Application configurations
 ===========================
