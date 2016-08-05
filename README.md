@@ -24,13 +24,13 @@ First clone the repo
 
 Setup the client side (static HTML pages)
 
-    cd [APP_ROOT_DIR]
-
-    cd static
+    cd [APP_ROOT_DIR]/static
 
 Run bower to install web app dependices
 
     bower install
+
+Run the API using the instructions below
 
 Instuctions
 =====================
@@ -40,15 +40,15 @@ Instuctions
 
 To access the API in your browser
 
-    http://[yourdomain]/[version]/[resource]/[params]
+    http://[yourdomain]:[port]/[version]/[resource]/[params]
 
 Example 1: to get list of all unique slide collections
 
-    http://yourdomain.com/v1/slidesetlist
+    http://yourdomain.com:5000/v1/slidesetlist
 
 Ecample 2: to get list of slides for one collection (BRCA)
 
-    http://yourdomain.com/v1/slideset/BRCA
+    http://yourdomain.com:5000/v1/slideset/BRCA
 
 Application configurations
 ===========================
