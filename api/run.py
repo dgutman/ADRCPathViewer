@@ -1,3 +1,7 @@
 #!/usr/bin/python
 from app import app
-app.run(host='0.0.0.0', port=5080, debug=True, threaded=True)
+from utils.config import get_app_configurations
+
+# Get app configurations
+config = get_app_configurations()
+app.run(host=config["ws_host"], port=int(config["ws_port"]), debug=True, threaded=True)
