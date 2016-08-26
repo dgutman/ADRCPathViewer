@@ -27,8 +27,6 @@ require.config({
         "antctrl": ["switch", "mousetrap"],
         "crossroads": ["signals"]
     }
-
 });
 
 requirejs(['app/app.js']);
-
