@@ -20,6 +20,7 @@ class Thumbnail(Resource):
 		self.db = db
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]] 
+		self.gfs = gridfs.GridFS(db)		
 
 	def get(self, id):
 		"""Get slide thumbnail
@@ -31,12 +32,13 @@ class Thumbnail(Resource):
 			200 response if the thumbnail cerated and returned
 			400 response if the thumbnail failed to load
 		"""
-		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = os.path.join(self.config['slides_dir'], image["group"], image["filename"])
-		osr = OpenSlide(path)
 
+		image = self.slides.find_one({'_id': ObjectId(id)})
+		path = image["slidePath"]
+		osr = OpenSlide(path)
+		
 		try:
-			thumb = osr.get_thumbnail( (10,10))
+			thumb = osr.get_thumbnail( (300,300))
 		except ValueError:
 			return Response("", status=404, mimetype='application/json')
 

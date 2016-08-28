@@ -30,7 +30,7 @@ class SlideSetList(Resource):
 			200 response if the list is found and returned
 			400 response if the list failed to load
 		"""
-		groups = self.slides.distinct('group')
+		groups = self.slides.distinct('slideSet')
 		data = []
 
 		for index, group in enumerate(groups):

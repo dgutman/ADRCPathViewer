@@ -8,11 +8,7 @@ class PILBytesIO(BytesIO):
         '''Classic PIL doesn't understand io.UnsupportedOperation.'''
         raise AttributeError('Not supported')
 
-def get_slide(slides_dir, path):
-    path = os.path.abspath(os.path.join(slides_dir, path))
-
-    if not path.startswith(slides_dir + os.path.sep):
-        return None
+def get_slide(path):
     if not os.path.exists(path):
         return None
 

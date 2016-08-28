@@ -28,7 +28,7 @@ class SlideSet(Resource):
 			200 response if the slide set loaded and returned
 			400 response if the slide set failed to load
 		"""
-		images = self.slides.find({'group':id})
+		images = self.slides.find({'slideSet':id}, {'scanProperties': False})
 		
 		if images.count() > 0:
 			data = []

@@ -39,8 +39,8 @@ class DeepZoom(Resource):
 			400 response if the slide failed to load
 		"""
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = os.path.join(self.config["slides_dir"], image["group"], image["filename"])
-		slide = get_slide(self.config['slides_dir'], path)
+		path = image["slidePath"]
+		slide = get_slide(path)
 
 		if slide == None:
 			Response("", status=400, mimetype='application/xml')
