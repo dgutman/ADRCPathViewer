@@ -3,7 +3,7 @@ from flask_restful import Resource
 from utils.deepzoom import PILBytesIO
 from bson.objectid import ObjectId
 from flask import Response
-import os
+import os, gridfs
 
 class Thumbnail(Resource):
 	def __init__(self, db, config):
@@ -19,7 +19,7 @@ class Thumbnail(Resource):
 		"""
 		self.db = db
 		self.config = config
-		self.slides = self.db[self.config["db_collection"]]
+		self.slides = self.db[self.config["db_collection"]] 
 
 	def get(self, id):
 		"""Get slide thumbnail
