@@ -33,6 +33,7 @@ class SlideSet(Resource):
 		if images.count() > 0:
 			data = []
 			for image in images:
+				image["id"] = str(image["_id"])
 				data.append(image)
 
 			return Response(dumps(data), status=200, mimetype='application/json')

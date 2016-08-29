@@ -35,14 +35,23 @@ class Thumbnail(Resource):
 		"""
 
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = image["slidePath"]	
-		osr = OpenSlide(path)
-		
-		try:
-			thumb = osr.get_thumbnail( (300,300))
-		except ValueError:
-			return Response("", status=404, mimetype='application/json')
+		path = image["slidePath"]
+		filename = os.path.splitext(os.path.basename(path))[0] + ".jpg"
 
-		buf = PILBytesIO()
-		thumb.save(buf, 'jpeg', quality=90)
-		return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
+		if not self.gfs.exists(filename=filename):
+			osr = OpenSlide(path)
+
+			try:
+				thumb = osr.get_thumbnail( (300,300))
+			except ValueError:
+				return Response(None, status=404)
+
+			buf = cStringIO.StringIO()
+			thumb.save(buf, 'jpeg', quality=90)
+			self.gfs.put(buf.getvalue(), contentType="image/jpeg", filename=filename)
+			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
+		else:
+			im = Image.open(self.gfs.get_last_version(filename))
+			buf = cStringIO.StringIO() 
+			im.save(buf, 'jpeg', quality=90)
+			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
