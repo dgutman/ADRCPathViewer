@@ -28,5 +28,3 @@ require.config({
         "crossroads": ["signals"]
     }
 });
-
-requirejs(['app/app.js']);

@@ -11,6 +11,8 @@
 		requirejs.onResourceLoad = function(context, map, depArray) {
     		console.log(map.id, "loaded");
 		}
+
+        requirejs(['app/app.js']);
 	</script>
 </head>
 

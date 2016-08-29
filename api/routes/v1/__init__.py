@@ -6,6 +6,7 @@ from SlideSet import SlideSet
 from DeepZoom import DeepZoom
 from Thumbnail import Thumbnail
 from Slide import Slide
+from Slides import Slides
 from Static import Static
 from utils.db import connect
 from utils.config import get_app_configurations
@@ -60,6 +61,12 @@ api.add_resource(
 		Slide, 
 		"/slide/<string:id>", 
 		endpoint="slide", 
+		resource_class_kwargs=params)
+
+api.add_resource(
+		Slides, 
+		"/slides", 
+		endpoint="slides", 
 		resource_class_kwargs=params)
 
 api.add_resource(
