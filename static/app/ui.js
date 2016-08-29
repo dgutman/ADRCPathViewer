@@ -129,12 +129,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         var menu = {
             view:"menu",
-            width: 180,
+            width: 300,
             data: [
                 { id:"1",value:"TCGA Resources", submenu:[
-                    {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"}
+                    {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"},
                 ]},
-                { id:"2",value:"Help", submenu:[
+                { id:"2",value:"Slide List", href: "slidelist.html", target:"_blank"},
+                { id:"3",value:"Help", submenu:[
                     {value:"About the CDSA"},
                     {value:"Repository Stats"}
                 ]}
