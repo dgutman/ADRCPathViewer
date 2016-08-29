@@ -7,6 +7,7 @@ from DeepZoom import DeepZoom
 from Thumbnail import Thumbnail
 from Slide import Slide
 from Slides import Slides
+from Tile import Tile
 from Static import Static
 from utils.db import connect
 from utils.config import get_app_configurations
@@ -55,6 +56,11 @@ api.add_resource(
 		Thumbnail, 
 		"/thumbnail/<string:id>", 
 		endpoint="thumbnail", 
+		resource_class_kwargs=params)
+
+api.add_resource(
+		Tile, 
+		"/deepzoom/<string:id>/<int:level>/<int:col>_<int:row>.jpeg", 
 		resource_class_kwargs=params)
 
 api.add_resource(

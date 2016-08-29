@@ -1,6 +1,5 @@
 from openslide import OpenSlide
 from flask_restful import Resource
-from utils.deepzoom import PILBytesIO
 from bson.objectid import ObjectId
 from flask import Response
 from PIL import Image
