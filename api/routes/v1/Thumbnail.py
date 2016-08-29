@@ -3,7 +3,8 @@ from flask_restful import Resource
 from utils.deepzoom import PILBytesIO
 from bson.objectid import ObjectId
 from flask import Response
-import os, gridfs
+from PIL import Image
+import os, gridfs, cStringIO
 
 class Thumbnail(Resource):
 	def __init__(self, db, config):
@@ -34,7 +35,7 @@ class Thumbnail(Resource):
 		"""
 
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = image["slidePath"]
+		path = image["slidePath"]	
 		osr = OpenSlide(path)
 		
 		try:
