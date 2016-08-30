@@ -29,6 +29,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             id: "thumbnails_panel",
             select: true,
             pager: "thumbPager",
+            datafetch: 10,
+            loadahead: 10,
             template: "<div class='webix_strong'>#fileName#</div><img src='/v1/thumbnail/#id#' width='210'/>",
             datatype: "json",
             type: { width: 200, height: 180 },
@@ -57,6 +59,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 "onChange": function(){
                     group = this.getText();
                     $$("thumbnails_panel").load("/v1/slideset/" + group);
+                    $$("thumbnails_panel").setPage(0);
                 }
             }
         };
@@ -71,9 +74,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         thumbPager = {
             view:"pager",
             id: "thumbPager",
+            animate:true,
             size:10,
             group:4
-
         }
 
         //slides panel is the left panel, contains two rows 

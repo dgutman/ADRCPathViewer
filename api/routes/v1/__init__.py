@@ -69,13 +69,13 @@ api.add_resource(
 
 api.add_resource(
 		MacroImage, 
-		"/slide/<string:id>/macroimage", 
+		"/macroimage/<string:id>", 
 		endpoint="macroimage", 
 		resource_class_kwargs=params)
 
 api.add_resource(
 		LabelImage, 
-		"/slide/<string:id>/labelimage", 
+		"/labelimage/<string:id>", 
 		endpoint="labelimage", 
 		resource_class_kwargs=params)
 
