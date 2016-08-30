@@ -1,12 +1,40 @@
-define(["webix"], function() {
+define(["jquery","webix"], function($) {
 
+
+    function sldtClicked(id)
+        {
+
+            console.log("The slide data table was clicked at"+id);
+
+            itemData = $$("slidelist").getItem(id);
+            console.log(itemData);
+            $("#imgThumb").attr("src", apiBase+'/v1/thumbnail/' + id);
+            $("#imgMacro").attr("src", apiBase+'/v1/slide/'+id  + '/macroimage');
+            $("#imgLabel").attr("src", apiBase+'/v1/slide/'+ id + '/labelimage');
+
+        }
+
+    apiBase = 'http://digitalslidearchive.emory.edu:5080';
+
+
+        header = {borderless: true, cols: [{
+            view:"toolbar", height:66, css: "toolbar",
+                cols:[
+                    {view: "template", borderless:true, template: "<img src='img/CDSA_Slide_50.png' height='40'/>", width: 200},
+                    {view: "template", template: "<h1>DSA UberSlide Sorter</h1>", borderless:true},
+                    {},
+                    {view: "template", borderless:true, template: "<img src='http://cancer.digitalslidearchive.net/imgs/Winship_06-2011/Winship_NCI_shortTag/horizontal/jpg_png/Winship_NCI_shortTag_hz_280.png' height='50'/>", width: 160},
+                ]
+            }]
+        };
+        ///I may want to add back in the menu instead of {}----  
 
     //Top LEvel will have three panels
     //Top is a View Bar
     //with a left panel for info and a bigger panel that allows us to switch views between a tab
     //and data table view
     slideListDataTable_Columns = [
-        { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='/v1/thumbnail/#id#' height=30 width=80/>" },
+        { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + apiBase +"/v1/thumbnail/#id#' height=30 width=80/>" },
         { id: "fileName", header: ["File Name", { content: "serverFilter" }], width: 300 },
         { id: "slideSet", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
         { id: "width", sort: "server", header: "Width", width: 80 },
@@ -22,7 +50,7 @@ define(["webix"], function() {
         id: "slidelist",
         view: "datatable",
         columns: slideListDataTable_Columns,
-        url: "/v1/slides",
+        url: apiBase+ "/v1/slides",
         select: true,
         navigation: true,
         pager: {
@@ -32,13 +60,18 @@ define(["webix"], function() {
             group: 5
         },
         datafetch: 20,
-        loadahead: 20
+        loadahead: 20,
+        on: { "onItemClick": sldtClicked },
+        
     }
 
     mainDataPanel = {
         view: "tabview",
         id: "wbxLeftPanel",
-        cells: [{
+        cells: [
+
+            { header: "GridView", body: { rows: [wbx_SlideListDataTable] } },
+            {
                 header: "DataTableView",
                 body: {
 
@@ -46,7 +79,7 @@ define(["webix"], function() {
                 }
             },
             { header: "About", body: { id: "about", content: "about_text", } },
-            { header: "GridView", body: { rows: [wbx_SlideListDataTable] } }
+            
         ],
         tabbar: {
             on: {
@@ -57,14 +90,18 @@ define(["webix"], function() {
         }
     };
 
-    dgHeader = { "template": "dgHeader", height: 150 };
+    
+
+    metaImageViewer = { view: "template", "content": "dv_imageReview", height: 200 };
+
 
     RawSlideLayout = {
         container: "main_layout",
         id: "mylayout",
         type: "space",
         rows: [
-            dgHeader, //here you place any component you like
+            header, //here you place any component you like
+            metaImageViewer,
             mainDataPanel
         ]
 
