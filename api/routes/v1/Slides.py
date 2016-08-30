@@ -37,7 +37,8 @@ class Slides(Resource):
 		count = request.args.get('count', 20)
 		filters = {}
 		sorts = []
-	    
+		tmp = []
+
 		for key in request.args:
 			val = request.args.get(key)
 			m = re.match(r"(.*)\[(.*)\]", key)
@@ -51,8 +52,18 @@ class Slides(Resource):
 					sorts.append((field, 1 if val == "asc" else -1))
 	  
 		if len(sorts) > 0:
-			data = dumps({"data": self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count)).sort(sorts), "pos": int(start), "total_count": self.slides.find(filters).count()})
+			images = self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count)).sort(sorts)
+			for image in images:
+				image["id"] = str(image["_id"])
+				tmp.append(image)
+
+			data = dumps({"data": tmp, "pos": int(start), "total_count": self.slides.find(filters).count()})
 			return Response(data, status=200, mimetype='application/json')
 		else:
-			data = dumps({"data": self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count)), "pos": int(start), "total_count": self.slides.find(filters).count()})
+			images = self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count))
+			for image in images:
+				image["id"] = str(image["_id"])
+				tmp.append(image)
+
+			data = dumps({"data": tmp, "pos": int(start), "total_count": self.slides.find(filters).count()})
 			return Response(data, status=200, mimetype='application/json')

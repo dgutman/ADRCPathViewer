@@ -29,12 +29,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             id: "thumbnails_panel",
             select: true,
             pager: "thumbPager",
-            template: "<div class='webix_strong'>#slide_name#</div><img src='" + config.IIP_URL + "#iip_thumbnail#' width='210'/>",
+            template: "<div class='webix_strong'>#fileName#</div><img src='/v1/thumbnail/#id#' width='210'/>",
             datatype: "json",
             type: { width: 200, height: 180 },
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
+                    console.log(slide);
                     initSlide();
                 },
                 "onAfterLoad": function() {
@@ -50,16 +51,12 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             view:"combo",  
             label: "Groups",
             id: "group_list",
-            options: config.BASE_URL + "/api/wbx/slideSet",
-            value: "lgg",
+            options: "/v1/slidesetlist",
+            value: "",
             on:{
                 "onChange": function(){
                     group = this.getText();
-                    $$("thumbnails_panel").load(config.BASE_URL + "/api/wbx/slideSet/" + group);
-                },
-                "onAfterRender": function() {
-                    group = this.getText();
-                    $$("thumbnails_panel").load(config.BASE_URL + "/api/wbx/slideSet/" + group);
+                    $$("thumbnails_panel").load("/v1/slideset/" + group);
                 }
             }
         };
@@ -283,19 +280,19 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
     function initSlide(){
         //set observable variables
-        obs.slideInfoObj.name(slide.slide_name);
-        obs.slideInfoObj.label(slide.slide_name);
-        obs.slideInfoObj.group(slide.slideGroup);
+        obs.slideInfoObj.name(slide.fileName);
+        obs.slideInfoObj.label(slide.fileName);
+        obs.slideInfoObj.group(slide.slideSet);
 
         //activate buttons
-        slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
+        //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
     
-        url = config.IIP_URL + slide.iip_slide_w_path;
+        url = "/v1/deepzoom/"+ slide.id;
         viewer.open(url);
     }
 
     function filterSlides(keyword){
-        $$("thumbnails_panel").filter("#slide_name#", keyword);
+        $$("thumbnails_panel").filter("#fileName#", keyword);
     }
 
     function resetSliders(){
@@ -337,7 +334,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
     function reportImage(){
         data = {bad: true};
-        url = config.BASE_URL + "/slide/" + slide.slide_name + "/report";
+        url = config.BASE_URL + "/slide/" + slide.fileName + "/report";
         $.post(url, data, function(response){
             console.log(response);
         });
