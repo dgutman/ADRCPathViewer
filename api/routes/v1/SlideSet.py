@@ -43,8 +43,7 @@ class SlideSet(Resource):
 
 		start = request.args.get('start', 0)
 		count = request.args.get('count', 20)
-		filters = {"slideSet": id}
-		sorts = []
+		filters = {"slideSet": str(id)}
 		tmp = []
 
 		for key in request.args:
@@ -56,22 +55,12 @@ class SlideSet(Resource):
 
 				if op == "filter" and val != '':
 					filters[field] = { "$regex": str(".*" + val + ".*"), "$options": "i" }
-				if op == "sort" and val != '':
-					sorts.append((field, 1 if val == "asc" else -1))
-	  
-		if len(sorts) > 0:
-			images = self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count)).sort(sorts)
-			for image in images:
-				image["id"] = str(image["_id"])
-				tmp.append(image)
+	  	
+		images = self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count))
+		for image in images:
+			image["id"] = str(image["_id"])
+			tmp.append(image)
+			print image["fileName"]
 
-			data = dumps({"data": tmp, "pos": int(start), "total_count": self.slides.find(filters).count()})
-			return Response(data, status=200, mimetype='application/json')
-		else:
-			images = self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count))
-			for image in images:
-				image["id"] = str(image["_id"])
-				tmp.append(image)
-
-			data = dumps({"data": tmp, "pos": int(start), "total_count": self.slides.find(filters).count()})
-			return Response(data, status=200, mimetype='application/json')
+		data = dumps({"data": tmp, "pos": int(start), "total_count": self.slides.find(filters).count()})
+		return Response(data, status=200, mimetype='application/json')

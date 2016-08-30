@@ -31,7 +31,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             pager: "thumbPager",
             datafetch: 10,
             loadahead: 10,
-            template: "<div class='webix_strong'>#fileName#</div><img src='/v1/thumbnail/#id#' width='210'/>",
+            template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#' width='210'/>",
             datatype: "json",
             type: { width: 200, height: 180 },
             on: {
@@ -53,12 +53,12 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             view:"combo",  
             label: "Groups",
             id: "group_list",
-            options: "/v1/slidesetlist",
+            options: config.BASE_URL +"/slidesetlist",
             value: "",
             on:{
                 "onChange": function(){
                     group = this.getText();
-                    $$("thumbnails_panel").load("/v1/slideset/" + group);
+                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + group);
                     $$("thumbnails_panel").setPage(0);
                 }
             }
@@ -290,12 +290,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //activate buttons
         //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
     
-        url = "/v1/deepzoom/"+ slide.id;
+        url = config.BASE_URL +"/deepzoom/"+ slide.id;
         viewer.open(url);
     }
 
     function filterSlides(keyword){
-        $$("thumbnails_panel").filter("#fileName#", keyword);
+        $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + slide.slideSet + "?filter[fileName]=" + keyword);
+        $$("thumbnails_panel").setPage(0);
     }
 
     function resetSliders(){
@@ -337,8 +338,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
     function reportImage(){
         data = {bad: true};
-        url = config.BASE_URL + "/slide/" + slide.fileName + "/report";
-        $.post(url, data, function(response){
+        url = config.BASE_URL + "/slide/" + slide.id;
+        $.put(url, data, function(response){
             console.log(response);
         });
     }
