@@ -54,7 +54,7 @@ class Slide(Resource):
 		image = self.slides.find_one({'_id': ObjectId(id)})
 
 		if image:
-			self.slides.update_one({"_id": ObjectId(id)}, {"$set":request.json})
+			#self.slides.update_one({"_id": ObjectId(id)}, {"$set":request.json})
 			image = self.slides.find_one({'_id': ObjectId(id)})
 			return Response(dumps(image), status=200, mimetype='application/json')
 		else:

@@ -119,12 +119,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     switch(id){
                         case "apply_filter_btn":
                             initFiltersWindow();
+                            break;
                         case "report_img_butn":
                             reportImage();
+                            break;
                         case "comment_btn":
                             initCommentWindow();
+                            break;
                         case "aperio_import_btn":
                             importAperioAnnotations();
+                            break;
                     }
                 }    
             }
@@ -344,9 +348,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
     function reportImage(){
         data = {bad: true};
+        console.log(data);
         url = config.BASE_URL + "/slide/" + slide.id;
-        $.put(url, data, function(response){
-            console.log(response);
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            success: function(response) {
+             
+            }
         });
     }
 
