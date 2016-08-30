@@ -5,9 +5,7 @@ define(["webix"], function() {
     //Top is a View Bar
     //with a left panel for info and a bigger panel that allows us to switch views between a tab
     //and data table view
-
-
- slideListDataTable_Columns = [
+    slideListDataTable_Columns = [
         { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='/thumbnail#slidePath#' height=30 width=80/>" },
         { id: "fileName", header: ["File Name", { content: "serverFilter" }], width: 300 },
         { id: "slideSet", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
@@ -37,55 +35,37 @@ define(["webix"], function() {
         loadahead: 20
     }
 
-mainDataPanel = {
-  view: "tabview",
-  id: "wbxLeftPanel"  ,
-  cells: [
-    {
-      header: "DataTableView",      
-      body: {
-  
-        rows: [{template:"Pc1"}, { view: 'resizer' },{template:"Pc2"}]
-      }
-    },
-    { header: "About", body: { id: "about", content: "about_text",  } },
-    { header: "GridView", body: { rows: [wbx_SlideListDataTable] } }
-  ],
-  tabbar:{
-    on:{
-      onAfterTabClick:function(id){
-        webix.message(id)
-      }
-    }
-  }
-};
+    mainDataPanel = {
+        view: "tabview",
+        id: "wbxLeftPanel",
+        cells: [{
+                header: "DataTableView",
+                body: {
 
-   
+                    rows: [{ template: "Controls could go here" }, { view: 'resizer' }, { template: "DataView Goes Here" }]
+                }
+            },
+            { header: "About", body: { id: "about", content: "about_text", } },
+            { header: "GridView", body: { rows: [wbx_SlideListDataTable] } }
+        ],
+        tabbar: {
+            on: {
+                onAfterTabClick: function(id) {
+                    webix.message(id)
+                }
+            }
+        }
+    };
 
-    wbx_SlideTabber = {
-        view: "tabbar"
-
-    }
-
-
-
-
-    dgHeader = { "template": "dgHeader" , height: 150};
-   metaDataViewer = { template: "row 2",  };
+    dgHeader = { "template": "dgHeader", height: 150 };
 
     RawSlideLayout = {
         container: "main_layout",
         id: "mylayout",
         type: "space",
         rows: [
-
             dgHeader, //here you place any component you like
-                                mainDataPanel
-// ,
-//             {
-//                 cols: [
-//                 ]
-//             },
+            mainDataPanel
         ]
 
     }
@@ -95,5 +75,3 @@ mainDataPanel = {
         webix.ui(RawSlideLayout);
     });
 });
-
-
