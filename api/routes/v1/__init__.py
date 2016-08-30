@@ -59,8 +59,8 @@ api.add_resource(
 		resource_class_kwargs=params)
 
 api.add_resource(
-		Tile, 
-		"/deepzoom/<string:id>/<int:level>/<int:col>_<int:row>.jpeg", 
+		Tile,
+		"/deepzoom/<string:id>/<int:col>_<int:row>.jpeg", 
 		resource_class_kwargs=params)
 
 api.add_resource(

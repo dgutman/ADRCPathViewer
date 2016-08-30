@@ -24,7 +24,7 @@ class Tile(Resource):
 		self.slides = self.db[self.config["db_collection"]]
 
 	@cache.cached()	
-	def get(self, id, level, col, row):
+	def get(self, id, col, row):
 		"""Get deepzoom image
 
 		Fetch the slide from cache is available and return XML response for the 
@@ -37,12 +37,14 @@ class Tile(Resource):
 			200 response if the slide loaded and returned
 			400 response if the slide failed to load
 		"""
-		image = self.slides.find_one({'_id': ObjectId(id)})
+
+		print "===>", id
+		image = self.slides.find_one({'_id': ObjectId("57bf3c092f9b2e1595b29730")})
 		path = image["slidePath"]
 		slide = get_slide(path)
 
 		try:
-			tile = slide.get_tile(level, (col, row))
+			tile = slide.get_tile(10, (col, row))
 		except ValueError:
 			Response(None, status=404)
     

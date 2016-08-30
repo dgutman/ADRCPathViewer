@@ -6,7 +6,7 @@ define(["webix"], function() {
     //with a left panel for info and a bigger panel that allows us to switch views between a tab
     //and data table view
     slideListDataTable_Columns = [
-        { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='/thumbnail#slidePath#' height=30 width=80/>" },
+        { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='/v1/thumbnail/#id#' height=30 width=80/>" },
         { id: "fileName", header: ["File Name", { content: "serverFilter" }], width: 300 },
         { id: "slideSet", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
         { id: "width", sort: "server", header: "Width", width: 80 },
