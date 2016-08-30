@@ -19,7 +19,7 @@ class Tile(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
-	def get(self, id, col, row):
+	def get(self, id, x, y):
 		"""Get deepzoom image
 
 		Fetch the slide from cache is available and return XML response for the 
@@ -39,7 +39,7 @@ class Tile(Resource):
 		slide = get_slide(path)
 		
 		try:
-			tile = slide.get_tile(level, (col, row))
+			tile = slide.get_tile(level, (x, y))
 			buf = PILBytesIO()
 			tile.save(buf, 'jpeg', quality=90)
 			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
