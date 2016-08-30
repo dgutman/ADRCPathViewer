@@ -348,7 +348,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
     function reportImage(){
         data = {bad: true};
-        console.log(data);
         url = config.BASE_URL + "/slide/" + slide.id;
         $.ajax({
             url: url,
