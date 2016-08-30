@@ -8,14 +8,21 @@ html, body{
     color: #fff;
     font-size: 18px;
     background: #fdfdfd;
-  }
+}
   
-  .webix_menu-x.menu  .webix_list_item{
+.webix_menu-x.menu  .webix_list_item{
   	background: #fdfdfd;
   	color:#666;
   	line-height:50px;
-  }
+}
   
-  .webix_menu-x.menu .webix_list_item:hover{
-  	background: #dfdfdf;
-  }
+.webix_menu-x.menu .webix_list_item:hover{
+  background: #dfdfdf;
+}
+
+.webix_pager_item {
+    width: 50px;
+}
+.webix_pager_item_selected {
+    width: 50px;
+}
