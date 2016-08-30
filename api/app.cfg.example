@@ -22,6 +22,11 @@ limit_bounds: 0
 slide_cache_size: 1000
 deepzoom_format: jpeg
 
+#label/macro images
+macro_width: 250
+macro_height: 250
+label_width: 250
+label_height: 250
 
 ### This keeps track of which features are enabled;  eventually this will conditionaly add
 ### Routes as well as additional UI buttons in the index.html

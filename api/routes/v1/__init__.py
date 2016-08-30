@@ -5,6 +5,8 @@ from SlideSetList import SlideSetList
 from SlideSet import SlideSet
 from DeepZoom import DeepZoom
 from Thumbnail import Thumbnail
+from MacroImage import MacroImage
+from LabelImage import LabelImage
 from Slide import Slide
 from Slides import Slides
 from Tile import Tile
@@ -58,15 +60,28 @@ api.add_resource(
 		endpoint="thumbnail", 
 		resource_class_kwargs=params)
 
-api.add_resource(
-		Tile,
-		"/deepzoom/<string:id>/<int:x>_<int:y>.jpeg", 
-		resource_class_kwargs=params)
-
+#slide endpoints
 api.add_resource(
 		Slide, 
 		"/slide/<string:id>", 
 		endpoint="slide", 
+		resource_class_kwargs=params)
+
+api.add_resource(
+		MacroImage, 
+		"/slide/<string:id>/macroimage", 
+		endpoint="macroimage", 
+		resource_class_kwargs=params)
+
+api.add_resource(
+		LabelImage, 
+		"/slide/<string:id>/labelimage", 
+		endpoint="labelimage", 
+		resource_class_kwargs=params)
+
+api.add_resource(
+		Tile,
+		"/deepzoom/<string:id>/<int:x>_<int:y>.jpeg", 
 		resource_class_kwargs=params)
 
 api.add_resource(
