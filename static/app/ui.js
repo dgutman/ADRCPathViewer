@@ -31,9 +31,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             pager: "thumbPager",
             datafetch: 10,
             loadahead: 10,
-            template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#' width='210'/>",
+            template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#' width='100' height='100'/>",
             datatype: "json",
-            type: { width: 200, height: 180 },
+            type: { width: 130, height: 150 },
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
@@ -156,7 +156,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         };
     
         //the main body, below the header, contain three columns
-        body = {cols:[slidesPanel,  viewerPanel, { view: "resizer" }, infoPanel]};
+        body = {cols:[slidesPanel,  { view: "resizer" }, viewerPanel, { view: "resizer" }, infoPanel]};
 
         //render the layout
         webix.ui({
