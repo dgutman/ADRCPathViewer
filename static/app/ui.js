@@ -37,7 +37,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
-                    console.log(slide);
+                    $$("macro_image").refresh();
                     initSlide();
                 },
                 "onAfterLoad": function() {
@@ -89,10 +89,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                        }; 
 
         //info panel is right panel
-        infoPanel = {header: "Slide Info",
-                     body:{
-                        view: "template", 
-                        content: "slide_info_obj"
+        infoPanel = {
+                    header: "Slide Info",
+                    body:{
+                        rows:[
+                            {view: "template", content: "slide_info_obj"},
+                            {id: "macro_image", view: "template", template: function(){
+                                if(slide != null)
+                                    return "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
+                            }}
+                        ]
                     },
                     width:250};
 

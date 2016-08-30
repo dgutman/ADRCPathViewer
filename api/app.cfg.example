@@ -10,6 +10,9 @@ db_collection: RawSlideData
 ws_host: 0.0.0.0
 ws_port: 5080
 
+#credentials file
+credentials: /home/mkhali8/dev/dsa_credentials.txt
+
 #flask settings
 #this path is relative to the directory where the blueprint is located
 static_dir: /home/mkhali8/dev/ADRCPathViewer/static

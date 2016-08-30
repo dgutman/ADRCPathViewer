@@ -5,6 +5,7 @@ from flask import Response
 from PIL import Image
 import os, gridfs, cStringIO
 from utils.deepzoom import PILBytesIO
+from utils.auth import requires_auth
 
 class MacroImage(Resource):
 	def __init__(self, db, config):
@@ -22,6 +23,7 @@ class MacroImage(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]] 	
 
+	@requires_auth
 	def get(self, id):
 		"""Get slide thumbnail
 

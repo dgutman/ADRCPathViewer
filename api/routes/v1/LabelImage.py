@@ -6,6 +6,7 @@ from PIL import Image
 import os, gridfs, cStringIO
 from utils.deepzoom import PILBytesIO
 from bson.json_util import dumps
+from utils.auth import requires_auth
 
 class LabelImage(Resource):
 	def __init__(self, db, config):
@@ -23,6 +24,7 @@ class LabelImage(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]] 	
 
+	@requires_auth
 	def get(self, id):
 		"""Get slide thumbnail
 

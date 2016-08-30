@@ -60,7 +60,6 @@ api.add_resource(
 		endpoint="thumbnail", 
 		resource_class_kwargs=params)
 
-#slide endpoints
 api.add_resource(
 		Slide, 
 		"/slide/<string:id>", 
