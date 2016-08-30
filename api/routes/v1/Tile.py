@@ -1,10 +1,6 @@
-import os, openslide
 from flask_restful import Resource
-from flask import make_response, Response
+from flask import Response
 from bson.objectid import ObjectId
-from openslide import OpenSlide
-from openslide.deepzoom import DeepZoomGenerator
-from utils.cache import cache
 from utils.deepzoom import get_slide, PILBytesIO
 
 class Tile(Resource):
@@ -23,7 +19,6 @@ class Tile(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
-	@cache.cached()	
 	def get(self, id, col, row):
 		"""Get deepzoom image
 
@@ -38,16 +33,15 @@ class Tile(Resource):
 			400 response if the slide failed to load
 		"""
 
-		print "===>", id
-		image = self.slides.find_one({'_id': ObjectId("57bf3c092f9b2e1595b29730")})
+		image = self.slides.find_one({'_id': ObjectId(id[0:24])})
 		path = image["slidePath"]
+		level = int(id[24:])
 		slide = get_slide(path)
-
+		
 		try:
-			tile = slide.get_tile(10, (col, row))
+			tile = slide.get_tile(level, (col, row))
+			buf = PILBytesIO()
+			tile.save(buf, 'jpeg', quality=90)
+			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
 		except ValueError:
 			Response(None, status=404)
-    
-		buf = PILBytesIO()
-		tile.save(buf, 'jpeg', quality=90)
-		return Response(buf.getvalue(), status=200, mimetype='image/jpeg')

@@ -48,7 +48,7 @@ api.add_resource(
 
 api.add_resource(
 		DeepZoom, 
-		"/deepzoom/<string:id>", 
+		"/deepzoom/<string:id>/", 
 		endpoint="deepzoom", 
 		resource_class_kwargs=dz_params)
 

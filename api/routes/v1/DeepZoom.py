@@ -1,9 +1,6 @@
-import os, openslide
 from flask_restful import Resource
-from flask import make_response, Response
+from flask import Response
 from bson.objectid import ObjectId
-from openslide import OpenSlide
-from openslide.deepzoom import DeepZoomGenerator
 from utils.cache import cache
 from utils.deepzoom import get_slide
 
