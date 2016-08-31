@@ -17,15 +17,15 @@
 </head>
 
 <body>
-
     <div id="main_layout" style="height:100%"></div>
     <div id="image_viewer" style="width: 100%; height:800px"></div>   
     <div id="slide_info_obj" data-bind="with: slideInfoObj">
-        <div>Slide name:<span data-bind="text:name()"></span></div>
-        <div><span>Slide dimensions:</span>
-        <span data-bind="text:width()"></span> x <span data-bind="text:height()"></span></div>
-        <div>Group:<span data-bind="text:group()"></span></div>
-        <div>Slide label <input data-bind="value:label()"/><button data-bind="click:updateLabel">Update</button></div>
+        <div><b>File name:</b><div data-bind="text:name()" style="padding-left:20px"></div></div>
+        <div><b>slide set:</b><br/><div data-bind="text:slideSet()" style="padding-left:20px"></div></div>
+        <div><b>Slide dimensions:</b>
+        <div style="padding-left:20px"><span data-bind="text:width()"></span> x <span data-bind="text:height()"></span></div></div>
+        <div><b>File size:</b><br/><div data-bind="text:fileSize()" style="padding-left:20px"> bytes</div></div>
+        <div><b>Original Resolution:</b><br/> <div data-bind="text:originalResolution()" style="padding-left:20px"></div></div>
     </div>
 </body>
 </html>

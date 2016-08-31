@@ -32,7 +32,7 @@ class Slide(Resource):
 			400 response if the slide failed to load
 		"""
 
-		image = self.slides.find_one({'_id': ObjectId(id)})
+		image = self.slides.find_one({'_id': ObjectId(id)}, {"scanProperties": False})
 		
 		if image:
 			return Response(dumps(image), status=200, mimetype='application/json')

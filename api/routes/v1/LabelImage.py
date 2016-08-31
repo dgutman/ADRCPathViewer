@@ -3,7 +3,7 @@ from flask_restful import Resource
 from bson.objectid import ObjectId
 from flask import Response
 from PIL import Image
-import os, gridfs, cStringIO
+import os, gridfs, cStringIO, Image
 from utils.deepzoom import PILBytesIO
 from bson.json_util import dumps
 from utils.auth import requires_auth
@@ -43,7 +43,7 @@ class LabelImage(Resource):
 
 		if "label" in osr.associated_images.keys():
 			im = osr.associated_images["label"]
-			im.thumbnail(dim)
+			im.thumbnail(dim, Image.ANTIALIAS)
 
 			buf = PILBytesIO()
 			im.save(buf, "jpeg", quality=90)

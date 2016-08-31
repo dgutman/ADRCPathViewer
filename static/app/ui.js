@@ -52,14 +52,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //Data is pulled from DAS webservice
         dropdown = { 
             view:"combo",  
-            label: "Groups",
-            id: "group_list",
+            placeholder:"Select Slide Set",
+            id: "slideset_list",
             options: config.BASE_URL +"/slidesetlist",
             value: "",
             on:{
                 "onChange": function(){
-                    group = this.getText();
-                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + group);
+                    slideSet = this.getText();
+                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + slideSet);
                     $$("thumbnails_panel").setPage(0);
                 }
             }
@@ -91,49 +91,53 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //info panel is right panel
         infoPanel = {
-                    header: "Slide Info",
+                    header: "Slide Info", borderless:true,
                     body:{
                         rows:[
-                            {view: "template", height: 150, content: "slide_info_obj"},
-                            {id: "macro_image", height:100, view: "template", template: 
+                            {view: "template", content: "slide_info_obj", borderless:true},
+                            {id: "macro_image", view: "template", borderless:true, template: 
                                 function(){
-                                    str = null;
+                                    str = "<b>Macro image:</b><br/>";
                                     if(slide != null){
                                         $.ajax({
                                             url: config.BASE_URL + "/macroimage/" + slide.id,
                                             async: false,
                                             type: "GET",
                                             success: function(){
-                                                str = "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
+                                                str += "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
+                                            },
+                                            error: function(jqXHR){
+                                                resp = JSON.parse(jqXHR.responseText);
+                                                str += resp.message;
                                             }
                                         });
                                     }
                                     else{
-                                        str = "Macro image not loaded!";
+                                        str += "Macro image not loaded!";
                                     }
 
                                     return str;
                                 }
                             },
-                            {id: "label_image", height:100, view: "template", template: 
+                            {id: "label_image", view: "template", borderless:true, template: 
                                 function(){
-                                    str = null;
+                                    str = "<b>Label image:</b><br/>";
                                     if(slide != null){
                                         $.ajax({
                                             url: config.BASE_URL + "/labelimage/" + slide.id,
                                             async: false,
                                             type: "GET",
                                             success: function(){
-                                                str = "<img src='" + config.BASE_URL + "/labelimage/" + slide.id + "'/>";
+                                                str += "<img src='" + config.BASE_URL + "/labelimage/" + slide.id + "'/>";
                                             },
                                             error: function(jqXHR){
                                                 resp = JSON.parse(jqXHR.responseText);
-                                                str = resp.message;
+                                                str += resp.message;
                                             }
                                         });
                                     }
                                     else{
-                                        str = "Label image not loaded!";
+                                        str += "Label image not loaded!";
                                     }
 
                                     return str;
@@ -337,7 +341,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //set observable variables
         obs.slideInfoObj.name(slide.fileName);
         obs.slideInfoObj.label(slide.fileName);
-        obs.slideInfoObj.group(slide.slideSet);
+        obs.slideInfoObj.slideSet(slide.slideSet);
+        obs.slideInfoObj.originalResolution(slide.orig_resolution);
+        obs.slideInfoObj.fileSize(slide.fileSize);
 
         //activate buttons
         //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
