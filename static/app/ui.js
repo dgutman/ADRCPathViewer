@@ -38,6 +38,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
                     $$("macro_image").refresh();
+                    $$("label_image").refresh();
                     initSlide();
                 },
                 "onAfterLoad": function() {
@@ -93,11 +94,52 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     header: "Slide Info",
                     body:{
                         rows:[
-                            {view: "template", content: "slide_info_obj"},
-                            {id: "macro_image", view: "template", template: function(){
-                                if(slide != null)
-                                    return "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
-                            }}
+                            {view: "template", height: 150, content: "slide_info_obj"},
+                            {id: "macro_image", height:100, view: "template", template: 
+                                function(){
+                                    str = null;
+                                    if(slide != null){
+                                        $.ajax({
+                                            url: config.BASE_URL + "/macroimage/" + slide.id,
+                                            async: false,
+                                            type: "GET",
+                                            success: function(){
+                                                str = "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
+                                            }
+                                        });
+                                    }
+                                    else{
+                                        str = "Macro image not loaded!";
+                                    }
+
+                                    return str;
+                                }
+                            },
+                            {id: "label_image", height:100, view: "template", template: 
+                                function(){
+                                    str = null;
+                                    if(slide != null){
+                                        $.ajax({
+                                            url: config.BASE_URL + "/labelimage/" + slide.id,
+                                            async: false,
+                                            type: "GET",
+                                            success: function(){
+                                                str = "<img src='" + config.BASE_URL + "/labelimage/" + slide.id + "'/>";
+                                            },
+                                            error: function(jqXHR){
+                                                resp = JSON.parse(jqXHR.responseText);
+                                                str = resp.message;
+                                            }
+                                        });
+                                    }
+                                    else{
+                                        str = "Label image not loaded!";
+                                    }
+
+                                    return str;
+                                }
+                            },
+                            {view: "template", template: ""}
                         ]
                     },
                     width:250};
