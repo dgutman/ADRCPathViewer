@@ -41,15 +41,7 @@ define("obs", ["ko", "jquery", "config"], function(ko, $, config){
 	    segObjects: ko.observable(0),
 	    slidename_full: ko.observable(null),
 	    featureFileDB: ko.observable(null),
-	    slideDataUrl: ko.observable(null),
-
-	    updateLabel: function(){
-	    	data = {label: this.label()};
-	    	url = config.BASE_URL + "/slide/" + this.name() + "/label";
-	    	$.post(url, data, function(response){
-	    		console.log(response);
-	    	})
-	    }
+	    slideDataUrl: ko.observable(null)
 	};
 
 	var vm = {
