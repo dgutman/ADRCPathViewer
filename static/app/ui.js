@@ -143,7 +143,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                                     return str;
                                 }
                             },
-                            {view: "template", template: ""}
+                            {view: "template", template: "",  borderless:true}
                         ]
                     },
                     width:250};
