@@ -3,19 +3,15 @@ define(["jquery","webix"], function($) {
 
     function sldtClicked(id)
         {
-
             console.log("The slide data table was clicked at"+id);
-
             itemData = $$("slidelist").getItem(id);
             console.log(itemData);
             $("#imgThumb").attr("src", apiBase+'/v1/thumbnail/' + id);
-            $("#imgMacro").attr("src", apiBase+'/v1/slide/'+id  + '/macroimage');
-            $("#imgLabel").attr("src", apiBase+'/v1/slide/'+ id + '/labelimage');
-
+            $("#imgMacro").attr("src", apiBase+'/v1/macroimage/' + id);
+            $("#imgLabel").attr("src", apiBase+'/v1/labelimage/' + id);
         }
 
     apiBase = 'http://digitalslidearchive.emory.edu:5080';
-
 
         header = {borderless: true, cols: [{
             view:"toolbar", height:66, css: "toolbar",
@@ -46,7 +42,6 @@ define(["jquery","webix"], function($) {
     ]
 
     wbx_SlideListDataTable = {
-
         id: "slidelist",
         view: "datatable",
         columns: slideListDataTable_Columns,
@@ -61,9 +56,31 @@ define(["jquery","webix"], function($) {
         },
         datafetch: 20,
         loadahead: 20,
-        on: { "onItemClick": sldtClicked },
-        
+        on: { "onItemClick": sldtClicked },        
     }
+
+
+    wbx_SlideDataView = {
+    view:"dataview",
+    select: true,
+
+    template:"<img src='"+apiBase+"/v1/thumbnail/#id#' ><div class='webix_strong'>#fileName#</div> Size: #width# x #height#",
+    type:{
+        height:150
+    },
+    url: apiBase+ "/v1/slides",
+     pager: {
+            template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} (Total Slides #count#)",
+            
+            size: 20,
+            group: 5
+        },
+        datafetch: 20,
+        loadahead: 20,
+    }
+
+
+
 
     mainDataPanel = {
         view: "tabview",
@@ -71,11 +88,12 @@ define(["jquery","webix"], function($) {
         cells: [
 
             { header: "GridView", body: { rows: [wbx_SlideListDataTable] } },
+
             {
                 header: "DataTableView",
                 body: {
 
-                    rows: [{ template: "Controls could go here" }, { view: 'resizer' }, { template: "DataView Goes Here" }]
+                    rows: [{ template: "Controls could go here" }, { view: 'resizer' },  wbx_SlideDataView]
                 }
             },
             { header: "About", body: { id: "about", content: "about_text", } },
@@ -90,10 +108,7 @@ define(["jquery","webix"], function($) {
         }
     };
 
-    
-
     metaImageViewer = { view: "template", "content": "dv_imageReview", height: 200 };
-
 
     RawSlideLayout = {
         container: "main_layout",
@@ -102,11 +117,10 @@ define(["jquery","webix"], function($) {
         rows: [
             header, //here you place any component you like
             metaImageViewer,
+            { view: "resizer"},
             mainDataPanel
         ]
-
     }
-
 
     webix.ready(function() {
         webix.ui(RawSlideLayout);
