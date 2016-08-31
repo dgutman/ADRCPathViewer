@@ -347,13 +347,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     }
 
     function reportImage(){
-        data = {bad: true};
+        data = JSON.stringify({"bad": true});
         url = config.BASE_URL + "/slide/" + slide.id;
         $.ajax({
             url: url,
-            type: 'PUT',
+            type: "PUT",
+            contentType: "application/json",
+            dataType: "json",
+            data: data,
             success: function(response) {
-             
+                console.log(response);
             }
         });
     }

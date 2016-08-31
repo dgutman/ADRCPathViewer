@@ -60,7 +60,6 @@ class SlideSet(Resource):
 		for image in images:
 			image["id"] = str(image["_id"])
 			tmp.append(image)
-			print image["fileName"]
 
 		data = dumps({"data": tmp, "pos": int(start), "total_count": self.slides.find(filters).count()})
 		return Response(data, status=200, mimetype='application/json')
