@@ -29,18 +29,7 @@ class SlideSet(Resource):
 			200 response if the slide set loaded and returned
 			400 response if the slide set failed to load
 		"""
-		#images = self.slides.find({'slideSet':id}, {'scanProperties': False})
 		
-		#if images.count() > 0:
-		#	data = []
-		#	for image in images:
-		#		image["id"] = str(image["_id"])
-		#		data.append(image)
-
-		#	return Response(dumps(data), status=200, mimetype='application/json')
-		#else:
-		#	return Response("", status=400, mimetype='application/json')
-
 		start = request.args.get('start', 0)
 		count = request.args.get('count', 20)
 		filters = {"slideSet": str(id)}

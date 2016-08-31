@@ -357,6 +357,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             data: data,
             success: function(response) {
                 console.log(response);
+                slide = response;
             }
         });
     }
