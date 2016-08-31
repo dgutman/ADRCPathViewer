@@ -31,6 +31,7 @@ class Slide(Resource):
 			200 response if the slide loaded and returned
 			400 response if the slide failed to load
 		"""
+
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		
 		if image:

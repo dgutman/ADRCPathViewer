@@ -33,6 +33,7 @@ dz_params = {'db': connect(config), 'config': config, 'opts': opts}
 # Add CORS decorator for all endpoints
 v1 = Blueprint('v1', __name__)
 api = Api(v1, prefix="/v1")
+
 api.decorators=[cors.crossdomain(origin='*')]
 
 # Attach all endpoints to the v1 API
