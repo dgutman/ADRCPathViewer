@@ -34,7 +34,7 @@ class Thumbnail(Resource):
 			400 response if the thumbnail failed to load
 		"""
 
-		thumbSize = request.args.get('size', "small")
+		thumbSize = request.args.get("size", "small")
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = image["slidePath"]
 		filename = os.path.splitext(os.path.basename(path))[0] + "." + thumbSize + ".jpg"

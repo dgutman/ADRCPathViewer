@@ -20,17 +20,21 @@ class Slide(Resource):
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self, id):
-		"""Get slide
-
-		Fetch the slide properties from mongo db
-
-		Args:
-			id: slide ID which is the mongo ObjectId
-
-		Returns:
-			200 response if the slide loaded and returned
-			400 response if the slide failed to load
 		"""
+        Get slide information.
+        ---
+        tags:
+          - slide
+        parameters:
+          - in: path
+            name: id
+            description: Slide ID
+            type: string
+        responses:
+          200:
+            description: Returns the slide information
+            $ref: '#/definitions/Slide'
+        """
 
 		image = self.slides.find_one({'_id': ObjectId(id)}, {"scanProperties": False})
 		

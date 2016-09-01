@@ -4,7 +4,7 @@
 # register the blueprints with the app
 #from __future__ import absolute_import
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cache import Cache 
 from routes.v1 import v1
 from utils.cache import cache

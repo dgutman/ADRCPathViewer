@@ -1,6 +1,7 @@
 from flask_restful import Api
+from flask_swagger import swagger
 from flask_restful.utils import cors
-from flask import Blueprint
+from flask import Blueprint, current_app, jsonify
 from SlideSetList import SlideSetList
 from SlideSet import SlideSet
 from DeepZoom import DeepZoom
@@ -33,8 +34,21 @@ dz_params = {'db': connect(config), 'config': config, 'opts': opts}
 # Add CORS decorator for all endpoints
 v1 = Blueprint('v1', __name__)
 api = Api(v1, prefix="/v1")
-
 api.decorators=[cors.crossdomain(origin='*')]
+
+@v1.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  return response
+
+@v1.route("/v1/spec")
+def spec():
+    swag = swagger(current_app)
+    swag['info']['version'] = "1.0"
+    swag['info']['title'] = "My API"
+    return jsonify(swag)
 
 # Attach all endpoints to the v1 API
 api.add_resource(
