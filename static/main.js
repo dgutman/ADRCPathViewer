@@ -1,4 +1,5 @@
 require.config({
+    urlArgs: "bust=" + (+new Date),
 	paths: {
         "osd": "bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon",
         "switch": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min",
@@ -16,15 +17,17 @@ require.config({
         "ui": "app/ui",
         "zoomer": "app/zoomer",
         "aperio": "app/aperio",
-        "obs": "app/observables"
+        "obs": "app/observables",
+        "app": "app/app"
     },
     shim: {
     	"osdhelper": ["osd"],
     	"osdhook": ["osd"],
         "scalebar": ["osd"],
         "ant": ["osd", "jquery"],
-        "antctrl": ["jquery"],
-        "antctrl": ["switch", "mousetrap"],
-        "crossroads": ["signals"]
+        "antctrl": ["jquery", "switch", "mousetrap"],
+        "crossroads": ["signals"],
+        "switch": ["jquery"],
+        "app": ["ui", "webix"]
     }
 });

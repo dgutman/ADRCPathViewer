@@ -347,7 +347,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //activate buttons
         //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
-    
         url = config.BASE_URL +"/deepzoom/"+ slide.id;
         viewer.open(url);
     }

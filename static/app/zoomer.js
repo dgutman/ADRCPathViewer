@@ -11,7 +11,7 @@ define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs",  "
 
 	viewer.scalebar({
 		type: osd.ScalebarType.MAP,
-		pixelsPerMeter: 20,
+		pixelsPerMeter: 1000,
 		minWidth: "75px",
 		location: osd.ScalebarLocation.BOTTOM_LEFT,
 		xOffset: 5,
