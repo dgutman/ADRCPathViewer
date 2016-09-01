@@ -6,6 +6,7 @@ from PIL import Image
 import os, gridfs, cStringIO, Image
 from utils.deepzoom import PILBytesIO
 from utils.auth import requires_auth
+from bson.json_util import dumps
 
 class MacroImage(Resource):
 	def __init__(self, db, config):

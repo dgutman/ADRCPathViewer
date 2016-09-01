@@ -31,9 +31,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             pager: "thumbPager",
             datafetch: 10,
             loadahead: 10,
-            template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#' width='100' height='100'/>",
+            template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
             datatype: "json",
-            type: { width: 130, height: 150 },
+            type: { height: 100 },
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);

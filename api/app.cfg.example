@@ -30,6 +30,9 @@ macro_width: 250
 macro_height: 250
 label_width: 250
 label_height: 250
+thumb_small_height: 128
+thumb_medium_height: 256
+thumb_large_height: 512
 
 ### This keeps track of which features are enabled;  eventually this will conditionaly add
 ### Routes as well as additional UI buttons in the index.html
