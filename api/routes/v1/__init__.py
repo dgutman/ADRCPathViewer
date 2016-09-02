@@ -45,11 +45,12 @@ def after_request(response):
     response.headers.add('Access-Control-Max-Age', 60 * 60 * 24 * 20)
     return response
 
-@v1.route("/v1/spec")
+@v1.route("/v1/docs")
 def spec():
     swag = swagger(current_app)
     swag['info']['version'] = "1.0"
-    swag['info']['title'] = "My API"
+    swag['info']['title'] = "Digital Slide Archive"
+    swag['info']['base_path'] = "http://digitalslidearchive.emory.edu:5080"
     return jsonify(swag)
 
 # Attach all endpoints to the v1 API

@@ -26,15 +26,22 @@ class MacroImage(Resource):
 
 	@requires_auth
 	def get(self, id):
-		"""Get slide thumbnail
-
-		Args:
-			id: slide ID which is the mongo ObjectId
-
-		Returns:
-			200 response if the thumbnail cerated and returned
-			400 response if the thumbnail failed to load
 		"""
+        Get slide macro image
+        ---
+        tags:
+          - Macro Image
+        parameters:
+          - in: path
+            name: id
+            description: MonogDB ObjectId -- Example 57bf3c092f9b2e1595b29730
+            type: string
+        responses:
+          200:
+            description: Returns the slide macro image
+          404:
+          	description: Invalid slide Id or macro image not found
+        """
 
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = image["slidePath"]

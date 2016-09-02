@@ -20,18 +20,31 @@ class Tile(Resource):
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self, id, x, y):
-		"""Get deepzoom image
-
-		Fetch the slide from cache is available and return XML response for the 
-		deep zoom image
-
-		Args:
-			id: slide ID which is the mongo ObjectId
-
-		Returns:
-			200 response if the slide loaded and returned
-			400 response if the slide failed to load
 		"""
+        Get slide tile
+        This endpoint has a bug. For now, please append the tile level to the slide Id
+        ---
+        tags:
+          - Tile
+        parameters:
+          - in: path
+            name: id
+            description: MonogDB ObjectId appended to it the level -- Example 57bf3c092f9b2e1595b29730
+            type: string
+          - in: path
+            name: x
+            description: The column
+            type: integer
+          - in: path
+            name: y
+            description: The row
+            type: integer
+        responses:
+          200:
+            description: Returns the slide information
+          404:
+          	description: Invalid slide Id or slide not found
+        """
 
 		image = self.slides.find_one({'_id': ObjectId(id[0:24])})
 		path = image["slidePath"]

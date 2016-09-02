@@ -20,15 +20,28 @@ class SlideSet(Resource):
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self, id):
-		"""Get slide set for a specific collection or group
-
-		Args:
-			id: collection/group ID for which a slide belongs to
-
-		Returns:
-			200 response if the slide set loaded and returned
-			400 response if the slide set failed to load
 		"""
+        Get slides for slide set
+        ---
+        tags:
+          - Slide Set
+        parameters:
+          - in: path
+            name: id
+            description: slide set name - EMORY_BIOBANK
+            type: string
+          - in: query
+            name: start
+            description: start position for the set of slides to return
+            type: integer
+          - in: query
+            name: count
+            description: number of slides to return relative to the starting position
+            type: integer
+        responses:
+          200:
+            description: Returns set of slides
+        """
 		
 		start = request.args.get('start', 0)
 		count = request.args.get('count', 20)

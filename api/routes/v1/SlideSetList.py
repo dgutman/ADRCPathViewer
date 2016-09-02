@@ -19,17 +19,18 @@ class SlideSetList(Resource):
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self):
-		"""Get slide set list
-
-		Fetch the list fo all distinct slide sets/groups
-
-		Args:
-			None
-
-		Returns:
-			200 response if the list is found and returned
-			400 response if the list failed to load
 		"""
+        Get slide set list
+        ---
+        tags:
+          - Slide Set List
+        responses:
+          200:
+            description: Returns the slide information
+          204:
+          	description: No slide sets where found
+        """
+
 		groups = self.slides.distinct('slideSet')
 		data = []
 

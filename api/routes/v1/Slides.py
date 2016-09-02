@@ -21,17 +21,49 @@ class Slides(Resource):
 		self.slides = self.db[self.config["db_collection"]]
 
 	def get(self):
-		"""Get slide
-
-		Fetch the slide properties from mongo db
-
-		Args:
-			id: slide ID which is the mongo ObjectId
-
-		Returns:
-			200 response if the slide loaded and returned
-			400 response if the slide failed to load
 		"""
+        Get all slide information
+        This endpoint enforces pagination on the results
+        ---
+        tags:
+          - Slides
+        parameters:
+          - in: query
+            name: start
+            description: start position for the set of slides to return
+            type: integer
+          - in: query
+            name: count
+            description: number of slides to return relative to the starting position
+            type: integer
+          - in: query
+            name: sort[width]
+            description: sort the results by image width [desc,asc]
+            type: string
+          - in: query
+            name: sort[height]
+            description: sort the results by image height [desc,asc]
+            type: string
+          - in: query
+            name: sort[fileSize]
+            description: sort the results by image size [desc,asc]
+            type: string
+          - in: query
+            name: filter[fileName]
+            description: filter results by filename
+            type: string
+          - in: query
+            name: filter[slideSet]
+            description: filter results by slide set
+            type: string
+          - in: query
+            name: filter[slidePath]
+            description: filter results by slide path
+            type: string
+        responses:
+          200:
+            description: Returns the set of slides
+        """
 		
 		start = request.args.get('start', 0)
 		count = request.args.get('count', 20)
