@@ -347,8 +347,18 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //activate buttons
         //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
-        url = config.BASE_URL +"/deepzoom/"+ slide.id;
-        viewer.open(url);
+        
+        tileSource = {
+            width: slide.width,
+            height: slide.height,
+            tileWidth: 256,
+            tileHeight: 256,
+            getTileUrl: function(level, x, y){
+                return config.BASE_URL +"/tile/"+ slide.id + "/" + level + "/" + x + "/" + y;
+            }
+        }
+
+        viewer.open(tileSource);
     }
 
     function filterSlides(keyword){

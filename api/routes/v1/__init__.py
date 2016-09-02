@@ -68,7 +68,7 @@ api.add_resource(
 
 api.add_resource(
 		DeepZoom, 
-		"/deepzoom/<string:id>/", 
+		"/deepzoom/<string:id>", 
 		endpoint="deepzoom", 
 		resource_class_kwargs=dz_params)
 
@@ -98,7 +98,7 @@ api.add_resource(
 
 api.add_resource(
 		Tile,
-		"/deepzoom/<string:id>/<int:x>_<int:y>.jpeg", 
+		"/tile/<string:id>/<int:level>/<int:x>/<int:y>", 
 		resource_class_kwargs=params)
 
 api.add_resource(

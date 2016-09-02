@@ -19,7 +19,7 @@ class Tile(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]]
 
-	def get(self, id, x, y):
+	def get(self, id, level, x, y):
 		"""
         Get slide tile
         This endpoint has a bug. For now, please append the tile level to the slide Id
@@ -31,6 +31,10 @@ class Tile(Resource):
             name: id
             description: MonogDB ObjectId appended to it the level -- Example 57bf3c092f9b2e1595b29730
             type: string
+          - in: path
+            name: level
+            description: The zoom level
+            type: integer
           - in: path
             name: x
             description: The column
@@ -46,9 +50,12 @@ class Tile(Resource):
           	description: Invalid slide Id or slide not found
         """
 
-		image = self.slides.find_one({'_id': ObjectId(id[0:24])})
+		if not ObjectId.is_valid(id):
+			resp = {"status": 404, "message": "Invalid slide Id " + id}
+			return Response(dumps(resp), status=404, mimetype='application/json')
+
+		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = image["slidePath"]
-		level = int(id[24:])
 		slide = get_slide(path)
 		
 		try:
