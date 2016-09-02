@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask import Response
 from bson.objectid import ObjectId
+from bson.json_util import dumps
 from utils.deepzoom import get_slide, PILBytesIO
 
 class Tile(Resource):
