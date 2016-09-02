@@ -34,14 +34,16 @@ dz_params = {'db': connect(config), 'config': config, 'opts': opts}
 # Add CORS decorator for all endpoints
 v1 = Blueprint('v1', __name__)
 api = Api(v1, prefix="/v1")
-api.decorators=[cors.crossdomain(origin='*')]
 
 @v1.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
-  return response
+    response.headers.add('Access-Control-Allow-Origin','*')
+    response.headers.add('Access-Control-Allow-Headers', "Authorization, Content-Type")
+    response.headers.add('Access-Control-Expose-Headers', "Authorization")
+    response.headers.add('Access-Control-Allow-Methods', "GET, POST, PUT, DELETE, OPTIONS")
+    response.headers.add('Access-Control-Allow-Credentials', "true")
+    response.headers.add('Access-Control-Max-Age', 60 * 60 * 24 * 20)
+    return response
 
 @v1.route("/v1/spec")
 def spec():

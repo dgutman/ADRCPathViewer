@@ -28,7 +28,7 @@ class Slide(Resource):
         parameters:
           - in: path
             name: id
-            description: Slide ID
+            description: MonogDB ObjectId -- Example 57bf3c092f9b2e1595b29730
             type: string
         responses:
           200:
