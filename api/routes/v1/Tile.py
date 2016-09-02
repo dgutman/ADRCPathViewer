@@ -23,7 +23,6 @@ class Tile(Resource):
 	def get(self, id, level, x, y):
 		"""
         Get slide tile
-        This endpoint has a bug. For now, please append the tile level to the slide Id
         ---
         tags:
           - Tile
