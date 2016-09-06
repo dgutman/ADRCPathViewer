@@ -1,7 +1,7 @@
 from openslide import OpenSlide
 from flask_restful import Resource
 from bson.objectid import ObjectId
-from flask import Response
+from flask import Response, request
 from PIL import Image
 import os, gridfs, cStringIO, Image
 from utils.deepzoom import PILBytesIO
