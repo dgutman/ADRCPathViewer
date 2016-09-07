@@ -48,10 +48,6 @@ class SlideSet(Resource):
 		filters = {"slideSet": str(id)}
 		tmp = []
 
-		print filters
-		print start
-		print count
-		
 		for key in request.args:
 			val = request.args.get(key)
 			m = re.match(r"(.*)\[(.*)\]", key)
