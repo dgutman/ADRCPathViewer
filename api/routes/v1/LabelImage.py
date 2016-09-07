@@ -3,7 +3,7 @@ from flask_restful import Resource
 from bson.objectid import ObjectId
 from flask import Response
 from PIL import Image
-import os, gridfs, cStringIO, Image
+import os, gridfs, cStringIO
 from utils.deepzoom import PILBytesIO
 from bson.json_util import dumps
 from utils.auth import requires_auth
