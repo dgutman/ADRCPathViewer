@@ -181,7 +181,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         };
 
         //openseadragon viewer
-        viewerPanel = {rows:[buttons, {view: "template", content: "image_viewer", height: "100%"}]};
+        viewerPanel = {rows:[buttons, {view: "template", content: "image_viewer"}]};
 
         var menu = {
             view:"menu",
