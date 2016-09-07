@@ -50,7 +50,7 @@ class MacroImage(Resource):
 
 		if "macro" in osr.associated_images.keys():
 			im = osr.associated_images["macro"]
-			im.thumbnail(dim, Image.ANTIALIAS)
+			im.thumbnail(dim)
 
 			buf = PILBytesIO()
 			im.save(buf, "jpeg", quality=90)
