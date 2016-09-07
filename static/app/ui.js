@@ -20,6 +20,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
      */
     
     var slide = null;
+    var currentSlideSet = null;
     var viewer = zoomer.viewer;
 
     function build(){    
@@ -58,8 +59,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             value: "",
             on:{
                 "onChange": function(){
-                    slideSet = this.getText();
-                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + slideSet);
+                    currentSlideSet = this.getText();
+                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
                     $$("thumbnails_panel").setPage(0);
                 }
             }
@@ -362,7 +363,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     }
 
     function filterSlides(keyword){
-        $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + slide.slideSet + "?filter[fileName]=" + keyword);
+        $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet + "?filter[fileName]=" + keyword);
         $$("thumbnails_panel").setPage(0);
     }
 
