@@ -62,6 +62,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     currentSlideSet = this.getText();
                     $$("thumbnails_panel").clearAll();
                     $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
+                    $$("thumbnails_panel").setPage(0);
                 }
             }
         };
