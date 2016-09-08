@@ -34,7 +34,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             loadahead: 10,
             template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
             datatype: "json",
-            type: { height: 100 },
+            type: { height: 170, width: 200},
             on: {
                 "onItemClick": function(id, e, node) {
                     slide = this.getItem(id);
@@ -364,6 +364,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     }
 
     function filterSlides(keyword){
+        $$("thumbnails_panel").clearAll();
         $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet + "?filter[fileName]=" + keyword);
         $$("thumbnails_panel").setPage(0);
     }
@@ -417,6 +418,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             success: function(response) {
                 console.log(response);
                 slide = response;
+                $$("thumbnails_panel").refresh();
             }
         });
     }
