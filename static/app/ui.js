@@ -69,7 +69,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //filter slides
         filter = {
             view: "search",
-            placeholder: "Search"
+            placeholder: "Search",
             on: {"onChange": filterSlides}
         };
 
