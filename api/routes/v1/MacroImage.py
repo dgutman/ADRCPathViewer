@@ -1,4 +1,4 @@
-from openslide import OpenSlide
+from openslide import OpenSlide, OpenSlideError
 from flask_restful import Resource
 from bson.objectid import ObjectId
 from flask import Response, request
@@ -45,13 +45,12 @@ class MacroImage(Resource):
 
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = image["slidePath"]
-		osr = OpenSlide(path)
 		dim = (int(self.config["macro_width"]), int(self.config["macro_height"]))
-
+		osr = OpenSlide(path)
+		
 		if "macro" in osr.associated_images.keys():
 			im = osr.associated_images["macro"]
 			im.thumbnail(dim)
-
 			buf = PILBytesIO()
 			im.save(buf, "jpeg", quality=90)
 			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')

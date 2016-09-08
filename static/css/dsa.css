@@ -26,3 +26,7 @@ html, body{
 .webix_pager_item_selected {
     width: 50px;
 }
+
+.webix_dataview_item{
+  text-align:center;
+}

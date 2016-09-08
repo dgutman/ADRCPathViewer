@@ -45,6 +45,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     initSlide();
                 }
             }
+
         };
 
         //dropdown for slide groups
