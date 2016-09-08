@@ -22,6 +22,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     var slide = null;
     var currentSlideSet = null;
     var viewer = zoomer.viewer;
+    var currentItemId = null;
 
     function build(){    
         //Thumbnail panel that contains list of thumbnails for a slide group
@@ -37,14 +38,15 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             type: { height: 170, width: 200},
             on: {
                 "onItemClick": function(id, e, node) {
+                    currentItemId = id;
                     slide = this.getItem(id);
                     $$("macro_image").refresh();
                     $$("label_image").refresh();
                     initSlide();
                 },
                 "onAfterLoad": function() {
-                    slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
-                    initSlide();
+                    //slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
+                    //initSlide();
                 }
             }
         };
@@ -416,9 +418,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             dataType: "json",
             data: data,
             success: function(response) {
-                console.log(response);
                 slide = response;
-                $$("thumbnails_panel").refresh();
+                $$("thumbnails_panel").remove(currentItemId);
             }
         });
     }
