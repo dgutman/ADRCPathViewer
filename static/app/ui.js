@@ -43,10 +43,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     $$("macro_image").refresh();
                     $$("label_image").refresh();
                     initSlide();
-                },
-                "onAfterLoad": function() {
-                    //slide = $$("thumbnails_panel").getItem($$("thumbnails_panel").getFirstId());
-                    //initSlide();
                 }
             }
         };
