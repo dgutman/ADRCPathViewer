@@ -60,8 +60,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             on:{
                 "onChange": function(){
                     currentSlideSet = this.getText();
+                    $$("thumbnails_panel").clearAll();
                     $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
-                    $$("thumbnails_panel").setPage(0);
                 }
             }
         };
@@ -69,7 +69,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //filter slides
         filter = {
             view: "search",
-            placeholder: "Search",
+            placeholder: "Search"
             on: {"onChange": filterSlides}
         };
 
