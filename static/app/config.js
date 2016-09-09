@@ -2,15 +2,16 @@ define("config", function(){
 
 	var BASE_URL = "http://digitalslidearchive.emory.edu/v1";
 
-	//SLIDE_SETS = ALL will fetch all slidesets using the slidesetlist endpoint
-	//You can override this options by specifing specific slide sets here
-	//Example SLIDE_SETS = ["WINSHIP_BIOBANK"] which will only show WINSHIP_BIOBANK slideset
-	var SLIDE_SETS = "ALL";
+	//SLIDE_SETS will tell the app which slidesets to make available for the user
+	//Options 1: All slidesets:
+	//  SLIDE_SETS = BASE_URL +  "/slidesetlist" which gets all slidesets
+	//Options 2: specifoc slidesets
+	//  SLIDE_SET = ["WINSHIP_BIOBANK"]
+	var SLIDE_SETS = BASE_URL +  "/slidesetlist";
 
 	return {
 		BASE_URL: BASE_URL,
 		SLIDE_SETS: SLIDE_SETS
 	}
-
 });
 
