@@ -131,7 +131,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                                     }
 
                                     return str;
-                                }
+                                },
+                                
                             },
                             {id: "label_image", view: "template", borderless: true, template: 
                                 function(){
