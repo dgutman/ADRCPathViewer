@@ -35,7 +35,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             loadahead: 10,
             template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
             datatype: "json",
-            type: { height: 170, width: 200},
+            type: {height: 170, width: 200},
             on: {
                 "onItemClick": function(id, e, node) {
                     currentItemId = id;
