@@ -50,11 +50,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //dropdown for slide groups
         //Data is pulled from DAS webservice
+        
+        if(config.SLIDE_SETS == "ALL")
+            options = config.BASE_URL +"/slidesetlist";
+        else
+            options = config.SLIDE_SETS;
+
         dropdown = { 
             view:"combo",  
             placeholder:"Select Slide Set",
             id: "slideset_list",
-            options: config.BASE_URL +"/slidesetlist",
+            options: options,
             value: "",
             on:{
                 "onChange": function(){
