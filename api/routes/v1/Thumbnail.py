@@ -52,11 +52,11 @@ class Thumbnail(Resource):
 		thumbSize = request.args.get("size", "small")
 		image = self.slides.find_one({'_id': ObjectId(id)})
 		path = image["slidePath"]
-		filename = os.path.splitext(os.path.basename(path))[0] + "." + thumbSize + ".jpg"
+		filename = os.path.splitext(os.path.basename(path))[0] + "." + str(thumbSize) + ".jpg"
 
 		if not self.gfs.exists(filename=filename):
-			width = image["scanProperties"]["openslide_level[0]_width"]
-			height = image["scanProperties"]["openslide_level[0]_height"]
+			width = int(image["scanProperties"]["openslide_level[0]_width"])
+			height = int(image["scanProperties"]["openslide_level[0]_height"])
 			thumbHeight = float(self.config["thumb_" + thumbSize + "_height"])
 			thumbWidth = int(round(thumbHeight/float(height) * int(width)))
 
@@ -67,7 +67,7 @@ class Thumbnail(Resource):
 				resp = {"status": 404, "message": "OpenSlideError: Thumbnail failed to load"}
 				return Response(dumps(resp), status=404, mimetype='application/json')
 			except ValueError:
-				resp = {"status": 404, "message": "Thumbnail failed to load"}
+				resp = {"status": 404, "message": "ValueError: Thumbnail failed to load"}
 				return Response(dumps(resp), status=404, mimetype='application/json')
 			except:
 				resp = {"status": 404, "message": "Thumbnail failed to load"}
