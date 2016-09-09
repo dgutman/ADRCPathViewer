@@ -104,8 +104,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     header: "Slide Info", borderless:true,
                     body:{
                         rows:[
-                            {view: "template", content: "slide_info_obj", borderless:true},
-                            {id: "macro_image", view: "template", borderless:true, template: 
+                            {view: "template", content: "slide_info_obj", borderless: true},
+                            {id: "macro_image", view: "template", borderless: true, template: 
                                 function(){
                                     str = "<b>Macro image:</b><br/>";
                                     if(slide != null){
@@ -119,6 +119,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                                             error: function(jqXHR){
                                                 resp = JSON.parse(jqXHR.responseText);
                                                 str += resp.message;
+
+                                                if(jqXHR.status == 403){
+                                                    str += " login link";
+                                                }
                                             }
                                         });
                                     }
@@ -129,7 +133,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                                     return str;
                                 }
                             },
-                            {id: "label_image", view: "template", borderless:true, template: 
+                            {id: "label_image", view: "template", borderless: true, template: 
                                 function(){
                                     str = "<b>Label image:</b><br/>";
                                     if(slide != null){
@@ -244,6 +248,26 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     { margin:5, cols:[
                         { view:"button", value:"Save"},
                         { view:"button", value:"Cancel", click: ("$$('comments_window').hide();")}
+                    ]}
+                ]
+            }
+        });
+
+        //Window for inserting and viewing slide comments
+        webix.ui({
+            view:"window",
+            head: "Login",
+            position: "center",
+            id: "login_window",
+            body:{
+                view: "form", 
+                width: 400,
+                elements:[
+                    { view:"text", label:"Username"},
+                    { view:"text", type:"password", label:"Password"},
+                    { margin:5, cols:[
+                        { view:"button", value:"Login" , type:"form" },
+                        { view:"button", value:"Cancel", click: ("$$('login_window').hide();")}
                     ]}
                 ]
             }
