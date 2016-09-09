@@ -50,13 +50,11 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //dropdown for slide groups
         //Data is pulled from DAS webservice
-        
         dropdown = { 
             view:"combo",  
             placeholder:"Select Slide Set",
             id: "slideset_list",
             options: config.SLIDE_SETS,
-            value: "",
             on:{
                 "onChange": function(){
                     currentSlideSet = this.getText();
