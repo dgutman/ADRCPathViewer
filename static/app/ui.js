@@ -119,10 +119,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                                             error: function(jqXHR){
                                                 resp = JSON.parse(jqXHR.responseText);
                                                 str += resp.message;
-
-                                                if(jqXHR.status == 403){
-                                                    str += " login link";
-                                                }
                                             }
                                         });
                                     }
@@ -200,7 +196,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         var menu = {
             view:"menu",
-            width: 300,
+            width: 350,
             data: [
                 { id:"1",value:"TCGA Resources", submenu:[
                     {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"},
@@ -209,10 +205,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id:"3",value:"Help", submenu:[
                     {value:"About the CDSA"},
                     {value:"Repository Stats"}
-                ]}
+                ]},
+                { id:"4", value:"Login"}
             ],
             type:{height:55},
-            css: "menu"
+            css: "menu",
+            on:{ 
+                onItemClick:function(id){
+                    if(id == 4)
+                        $$("login_window").show();
+                }
+            }
         };
 
         header = {borderless: true, cols: [{
