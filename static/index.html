@@ -6,7 +6,8 @@
     <title>ADRC DSA Viewer</title>
     <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css">
     <link rel="stylesheet" type="text/css" href="css/dsa.css">
-    <script data-main="main" src="bower_components/requirejs/require.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script src="bower_components/requirejs/require.js"></script>
     <script>   
 		requirejs.onResourceLoad = function(context, map, depArray) {
     		console.log(map.id, "loaded");

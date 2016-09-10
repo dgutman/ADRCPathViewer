@@ -1,4 +1,4 @@
-require.config({
+require = {
     urlArgs: "bust=" + (+new Date),
 	paths: {
         "osd": "bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon",
@@ -30,4 +30,4 @@ require.config({
         "switch": ["jquery"],
         "app": ["ui", "webix"]
     }
-});
+};
