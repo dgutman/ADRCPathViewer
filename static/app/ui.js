@@ -178,7 +178,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
                             importAperioAnnotations();
                             break;
                     }
-                }    
+                } 
             }
         };
 
