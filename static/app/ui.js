@@ -42,7 +42,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
                     slide = this.getItem(id);
                     $$("macro_image").refresh();
                     $$("label_image").refresh();
-                    hasher.setHash("slide/" + slide.id);
+                    hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
                     initSlide();
                 }
             }
