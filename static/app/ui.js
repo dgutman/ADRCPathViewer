@@ -40,10 +40,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
                 "onItemClick": function(id, e, node) {
                     currentItemId = id;
                     slide = this.getItem(id);
-                    $$("macro_image").refresh();
-                    $$("label_image").refresh();
-                    hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
-                    initSlide();
+                    initSlide(null);
                 }
             }
         };
@@ -371,7 +368,22 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
         });
     }
 
-    function initSlide(){
+    function initSlide(id){
+
+        if(id != null){
+            $.ajax({
+                url: config.BASE_URL + "/slide/" + id,
+                async: false, 
+                success: function(slide){
+                    slide = slide;
+                }
+            });
+        }
+
+        $$("macro_image").refresh();
+        $$("label_image").refresh();
+        hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
+
         //set observable variables
         obs.slideInfoObj.name(slide.fileName);
         obs.slideInfoObj.label(slide.fileName);

@@ -21,7 +21,7 @@ require = {
         "zoomer": "app/zoomer",
         "aperio": "app/aperio",
         "obs": "app/observables",
-        "url": "app/url",
+        "routes": "app/routes",
         "app": "app/app"
     },
     shim: {
@@ -32,7 +32,7 @@ require = {
         "antctrl": ["jquery", "switch", "mousetrap"],
         "crossroads": ["signals"],
         "switch": ["jquery"],
-        "app": ["ui", "webix", "url"],
-        "url": ["crossroads", "hasher", "zoomer", "config"]
+        "app": ["ui", "webix", "routes"],
+        "routes": ["crossroads", "hasher", "zoomer", "config"]
     }
 };
