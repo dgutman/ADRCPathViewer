@@ -20,11 +20,11 @@ define("config", function(){
     //  { id: "aperio_import_btn", value: "AperioXML"}
 	var BUTTONS = [
 				{ id: "apply_filter_btn", value: "Apply Filters", width: 120},
-                //{ id: "report_img_btn", value: "Report Bad Image"},
-                //{ id: "show_debug_btn", value: "Show Debug Info"},
-                //{ id: "draw_tools_btn", value: "Draw Tools"},
-                //{ id: "comment_btn", value: "Comment"},
-                //{ id: "aperio_import_btn", value: "AperioXML"}
+                { id: "report_img_btn", value: "Report Bad Image"},
+                { id: "show_debug_btn", value: "Show Debug Info"},
+                { id: "draw_tools_btn", value: "Draw Tools"},
+                { id: "comment_btn", value: "Comment"},
+                { id: "aperio_import_btn", value: "AperioXML"}
     ];
 
 	return {
