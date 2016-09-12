@@ -162,7 +162,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
             view: "segmented", 
             value: "nothing", 
             options: config.BUTTONS,
-            css: "segmented_bg",
             on:{
                 onAfterTabClick: function(id){
                     switch(id){
