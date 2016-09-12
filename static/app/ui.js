@@ -7,7 +7,7 @@
  *  webix - webix UI
  */
 
-define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(config, obs, zoomer, aperio, $){
+define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"], function(config, obs, zoomer, aperio, $, hasher){
 
     /**
      * build()
@@ -42,6 +42,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     slide = this.getItem(id);
                     $$("macro_image").refresh();
                     $$("label_image").refresh();
+                    hasher.setHash("slide/" + slide.id);
                     initSlide();
                 }
             }
@@ -163,21 +164,15 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         buttons = {
             view: "segmented", 
             value: "nothing", 
-            options:[
-                { id: "apply_filter_btn", value: "Apply Filters"},
-                { id: "report_img_butn", value: "Report Bad Image"},
-                { id: "show_debug_btn", value: "Show Debug Info"},
-                { id: "draw_tools_btn", value: "Draw Tools"},
-                { id: "comment_btn", value: "Comment"},
-                { id: "aperio_import_btn", value: "AperioXML"}
-            ],
+            options: config.BUTTONS,
+            css: "segmented_bg",
             on:{
                 onAfterTabClick: function(id){
                     switch(id){
                         case "apply_filter_btn":
                             initFiltersWindow();
                             break;
-                        case "report_img_butn":
+                        case "report_img_btn":
                             reportImage();
                             break;
                         case "comment_btn":
@@ -263,14 +258,15 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             head: "Login",
             position: "center",
             id: "login_window",
+            modal:true,
             body:{
                 view: "form", 
                 width: 400,
                 elements:[
-                    { view:"text", label:"Username"},
-                    { view:"text", type:"password", label:"Password"},
+                    { id: "username", view:"text", label:"Username"},
+                    { id: "password", view:"text", type:"password", label:"Password"},
                     { margin:5, cols:[
-                        { view:"button", value:"Login" , type:"form" },
+                        { view:"button", value:"Login" , type:"form"},
                         { view:"button", value:"Cancel", click: ("$$('login_window').hide();")}
                     ]}
                 ]
