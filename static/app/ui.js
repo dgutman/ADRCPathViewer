@@ -430,14 +430,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             console.log(tmpUrl);
         });
 
-        viewer.addHandler('pan', function(event) {
+        /*viewer.addHandler('pan', function(event) {
             bounds = viewer.viewport.getBounds();
             tmpUrl = sharedUrl + "/" + currentZoom + "/" + bounds.x + "/" + bounds.y;
             currentBounds = bounds;
 
             $$("link_to_share").setValue(tmpUrl);
             console.log(tmpUrl);
-        });
+        });*/
 
         //update the maco and label images
         $$("macro_image").refresh();
