@@ -23,6 +23,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     var currentSlideSet = null;
     var viewer = zoomer.viewer;
     var currentItemId = null;
+    var currentZoom = 1;
+    var currentBounds = null;
 
     function build(){    
         //Thumbnail panel that contains list of thumbnails for a slide group
@@ -391,7 +393,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     function initSlide(newSlide){
         //set the new slide
         slide = newSlide;
-        sharedUrl = config.BASE_URL + "/#/slideset/" + slide.slideSet + "/slide/" + slide.id;
+        sharedUrl = config.HOST_URL + "/#/slideset/" + slide.slideSet + "/slide/" + slide.id;
 
         //udpate the tile source and initialize the viewer
         tileSource = {
@@ -408,7 +410,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //set viewer zoom level if the slide has this property
         viewer.addHandler("open", function() {
-            if(typeof slide.zoom != "undefined"){      
+            if(typeof slide.zoom != "undefined"){   
+                console.log(slide.zoom);   
                 viewer.viewport.zoomBy(slide.zoom);
             }
             if(typeof slide.pan != "undefined"){      
@@ -416,12 +419,24 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             }
         });
 
-        viewer.addHandler('canvas-click', function(event) {
-          zoom = viewer.viewport.getZoom();
-          bounds = viewer.viewport.getBounds();
-          sharedUrl = config.BASE_URL + "/#/slideset/" + slide.slideSet + "/slide/" + slide.id;
-          sharedUrl += "/" + zoom + "/" + bounds.x + "/" + bounds.y;
-          $$("link_to_share").setValue(sharedUrl);
+        viewer.addHandler('zoom', function(event) {
+            tmpUrl = sharedUrl + "/" + viewer.viewport.getZoom();// + "/" + bounds.x + "/" + bounds.y;
+            currentZoom = viewer.viewport.getZoom();
+            
+            if(currentBounds != null)
+                 tmpUrl += "/" + currentBounds.x + "/" + currentBounds.y;
+
+            $$("link_to_share").setValue(tmpUrl);
+            console.log(tmpUrl);
+        });
+
+        viewer.addHandler('pan', function(event) {
+            bounds = viewer.viewport.getBounds();
+            tmpUrl = sharedUrl + "/" + currentZoom + "/" + bounds.x + "/" + bounds.y;
+            currentBounds = bounds;
+
+            $$("link_to_share").setValue(tmpUrl);
+            console.log(tmpUrl);
         });
 
         //update the maco and label images

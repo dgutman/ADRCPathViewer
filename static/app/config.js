@@ -3,6 +3,9 @@ define("config", function(){
 	//This is the base URL for the API
 	var BASE_URL = "http://digitalslidearchive.emory.edu/v1";
 
+	//this is the URL for the site
+	var HOST_URL = "http://digitalslidearchive.emory.edu";
+
 	//SLIDE_SETS will tell the app which slidesets to make available for the user
 	//Options 1: All slidesets:
 	//  SLIDE_SETS = BASE_URL +  "/slidesetlist" which gets all slidesets
@@ -29,6 +32,7 @@ define("config", function(){
 
 	return {
 		BASE_URL: BASE_URL,
+		HOST_URL: HOST_URL,
 		SLIDE_SETS: SLIDE_SETS,
 		BUTTONS: BUTTONS
 	}
