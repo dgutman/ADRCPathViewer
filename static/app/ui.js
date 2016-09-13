@@ -420,7 +420,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         });
 
         viewer.addHandler('zoom', function(event) {
-            tmpUrl = sharedUrl + "/" + viewer.viewport.getZoom();// + "/" + bounds.x + "/" + bounds.y;
+            tmpUrl = sharedUrl + "/" + viewer.viewport.getZoom();
             currentZoom = viewer.viewport.getZoom();
             
             if(currentCenter != null)
