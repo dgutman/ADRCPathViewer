@@ -15,6 +15,16 @@ define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui"], f
 			});
 		});
 
+		crossroads.addRoute("/slideset/{setId}/slide/{slideId}/{zoom}", function(setId, slideId, zoom){
+			$$("thumbnails_panel").clearAll();
+            $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + setId);
+
+			$.get(config.BASE_URL + "/slide/" + slideId, function(slide){
+				slide.zoom = parseInt(zoom);
+				ui.initSlide(slide);
+			});
+		});
+
 		crossroads.bypassed.add(function() {
 	    	console.log('ROUTE BYPASS');
 		});

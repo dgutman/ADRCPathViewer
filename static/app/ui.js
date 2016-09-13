@@ -7,7 +7,7 @@
  *  webix - webix UI
  */
 
-define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"], function(config, obs, zoomer, aperio, $, hasher){
+define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(config, obs, zoomer, aperio, $){
 
     /**
      * build()
@@ -384,6 +384,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
 
         viewer.open(tileSource);
 
+        //set viewer zoom level if the slide has this property
+        viewer.addHandler("open", function() {
+            if(typeof slide.zoom != "undefined"){      
+                viewer.viewport.zoomBy(slide.zoom);
+            }
+        });
+
+        viewer.addHandler('canvas-click', function(event) {
+          hash = "slideset/" + slide.slideSet + "/slide/" + slide.id + "/" + viewer.viewport.getZoom()
+        });
+
         //update the maco and label images
         $$("macro_image").refresh();
         $$("label_image").refresh();
@@ -394,9 +405,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
         obs.slideInfoObj.slideSet(slide.slideSet);
         obs.slideInfoObj.originalResolution(slide.orig_resolution);
         obs.slideInfoObj.fileSize(slide.fileSize);
-
-        //udpate the URL hash
-        hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
 
         //activate buttons
         //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
