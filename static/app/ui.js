@@ -161,27 +161,15 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //slide button that appear on the top if the slide
         buttons = {
-            view: "segmented", 
-            value: "nothing", 
-            options: config.BUTTONS,
-            on:{
-                onAfterTabClick: function(id){
-                    switch(id){
-                        case "apply_filter_btn":
-                            initFiltersWindow();
-                            break;
-                        case "report_img_btn":
-                            reportImage();
-                            break;
-                        case "comment_btn":
-                            initCommentWindow();
-                            break;
-                        case "aperio_import_btn":
-                            importAperioAnnotations();
-                            break;
-                    }
-                } 
-            }
+            height: 30,
+            cols: [
+                { id: "apply_filter_btn", label: "Apply Filters", view: "button", click: ("$$('filters_window').show();")},
+                { id: "report_img_btn", label: "Report Bad Image", view: "button", click: reportImage},
+                { id: "show_debug_btn", label: "Show Debug Info", view: "button"},
+                { id: "draw_tools_btn", label: "Draw Tools", view: "button"},
+                { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();")},
+                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")}
+            ]
         };
 
         //openseadragon viewer
@@ -268,6 +256,36 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                         { view:"button", value:"Close", click: ("$$('share_link_window').hide();")}
                     ]}
                 ]
+            }
+        });
+
+        //Window for inserting and viewing slide comments
+        webix.ui({
+            view:"window",
+            head: {
+                view:"toolbar", cols:[
+                {view:"label", label: "Aperio XML Files" },
+                { view:"button", label: 'Close', click:"$$('aperio_files_window').hide();", width: 50}
+            ]},
+            position: "center",
+            id: "aperio_files_window",
+            modal:true,
+            body:{
+                view: "datatable", 
+                width:1000,
+                scroll: "xy",
+                select:"row",
+                id: "aperio_files_table",
+                columns:[
+                    { id: "fileName", header: "Filename", width: 250},
+                    { id: "filePath", header: "Path", fillspace:true}
+                ],
+                on:{
+                    "onItemClick":function(id, e, trg){ 
+                        file = this.getItem(id.row);
+                        importAperioAnnotations(file.filePath);
+                    } 
+                }
             }
         });
 
@@ -449,7 +467,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         obs.slideInfoObj.fileSize(slide.fileSize);
 
         //activate buttons
-        //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
+        if(slide.aperioXmlFiles){
+            $$("aperio_import_btn").enable();
+            $$("aperio_files_table").clearAll();
+            $$("aperio_files_table").define("data", slide.aperioXmlFiles);
+        }
+        else{
+            $$("aperio_import_btn").disable()
+        }
+
+        //update the share link
         $$("link_to_share").setValue(sharedUrl);
     }
 
@@ -492,8 +519,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         $$("comments_window").show();
     }
 
-    function importAperioAnnotations(){
-        aperio.importMarkups("http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml");
+    function importAperioAnnotations(filename){
+        //"http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml"
+        url = config.BASE_URL + "/aperio/" + filename;
+        aperio.importMarkups(url);
     }
 
     function reportImage(){

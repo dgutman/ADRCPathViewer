@@ -11,6 +11,7 @@ from LabelImage import LabelImage
 from Slide import Slide
 from Slides import Slides
 from Tile import Tile
+from Aperio import Aperio
 from Static import Static
 from utils.db import connect
 from utils.config import get_app_configurations
@@ -106,6 +107,11 @@ api.add_resource(
 		"/slides", 
 		endpoint="slides", 
 		resource_class_kwargs=params)
+
+api.add_resource(
+		Aperio, 
+		"/aperio/<path:filename>", 
+		endpoint="aperio")
 
 api.add_resource(
 		Static,

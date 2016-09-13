@@ -22,12 +22,12 @@ define("config", function(){
     //  { id: "comment_btn", value: "Comment"},
     //  { id: "aperio_import_btn", value: "AperioXML"}
 	var BUTTONS = [
-				{ id: "apply_filter_btn", value: "Apply Filters"},
-                { id: "report_img_btn", value: "Report Bad Image"},
-                { id: "show_debug_btn", value: "Show Debug Info"},
-                { id: "draw_tools_btn", value: "Draw Tools"},
-                { id: "comment_btn", value: "Comment"},
-                { id: "aperio_import_btn", value: "AperioXML"}
+				{ id: "apply_filter_btn", label: "Apply Filters", view: "button"},
+                { id: "report_img_btn", label: "Report Bad Image", view: "button"},
+                { id: "show_debug_btn", label: "Show Debug Info", view: "button"},
+                { id: "draw_tools_btn", label: "Draw Tools", view: "button"},
+                { id: "comment_btn", label: "Comment", view: "button"},
+                { id: "aperio_import_btn", label: "AperioXML", view: "button"}
     ];
 
 	return {
