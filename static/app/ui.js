@@ -24,7 +24,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     var viewer = zoomer.viewer;
     var currentItemId = null;
     var currentZoom = 1;
-    var currentBounds = null;
+    var currentCenter = null;
 
     function build(){    
         //Thumbnail panel that contains list of thumbnails for a slide group
@@ -423,20 +423,19 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             tmpUrl = sharedUrl + "/" + viewer.viewport.getZoom();// + "/" + bounds.x + "/" + bounds.y;
             currentZoom = viewer.viewport.getZoom();
             
-            if(currentBounds != null)
-                 tmpUrl += "/" + currentBounds.x + "/" + currentBounds.y;
+            if(currentCenter != null)
+                 tmpUrl += "/" + currentCenter.x + "/" + currentCenter.y;
 
             $$("link_to_share").setValue(tmpUrl);
         });
 
-        /*viewer.addHandler('pan', function(event) {
-            bounds = viewer.viewport.getBounds();
-            tmpUrl = sharedUrl + "/" + currentZoom + "/" + bounds.x + "/" + bounds.y;
-            currentBounds = bounds;
+        viewer.addHandler('pan', function(event) {
+            center = viewer.viewport.getCenter();
+            tmpUrl = sharedUrl + "/" + currentZoom + "/" + center.x + "/" + center.y;
+            currentCenter = center;
 
             $$("link_to_share").setValue(tmpUrl);
-            console.log(tmpUrl);
-        });*/
+        });
 
         //update the maco and label images
         $$("macro_image").refresh();
