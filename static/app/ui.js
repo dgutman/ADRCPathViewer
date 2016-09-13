@@ -367,22 +367,11 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
         });
     }
 
-    function initSlide(slide){
-        slide = slide;
-        $$("macro_image").refresh();
-        $$("label_image").refresh();
-        //hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
-
-        //set observable variables
-        obs.slideInfoObj.name(slide.fileName);
-        obs.slideInfoObj.label(slide.fileName);
-        obs.slideInfoObj.slideSet(slide.slideSet);
-        obs.slideInfoObj.originalResolution(slide.orig_resolution);
-        obs.slideInfoObj.fileSize(slide.fileSize);
-
-        //activate buttons
-        //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
+    function initSlide(newSlide){
+        //set the new slide
+        slide = newSlide;
         
+        //udpate the tile source and initialize the viewer
         tileSource = {
             width: slide.width,
             height: slide.height,
@@ -394,6 +383,23 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
         }
 
         viewer.open(tileSource);
+
+        //update the maco and label images
+        $$("macro_image").refresh();
+        $$("label_image").refresh();
+        
+        //set observable variables
+        obs.slideInfoObj.name(slide.fileName);
+        obs.slideInfoObj.label(slide.fileName);
+        obs.slideInfoObj.slideSet(slide.slideSet);
+        obs.slideInfoObj.originalResolution(slide.orig_resolution);
+        obs.slideInfoObj.fileSize(slide.fileSize);
+
+        //udpate the URL hash
+        hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
+
+        //activate buttons
+        //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
     }
 
     function filterSlides(keyword){
