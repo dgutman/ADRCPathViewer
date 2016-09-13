@@ -1,4 +1,4 @@
-define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery"], function(crossroads, hasher, zoomer, config, $) {
+define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui"], function(crossroads, hasher, zoomer, config, $, ui) {
 
 	function init(){	
 		crossroads.addRoute("/slideset/{id}", function(id){
@@ -7,11 +7,13 @@ define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery"], functio
 		});
 
 		crossroads.addRoute("/slideset/{setId}/slide/{slideId}", function(setId, slideId){
+			//ui.initSlide(slideId)
 			$$("thumbnails_panel").clearAll();
             $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + setId);
 
 			$.get(config.BASE_URL + "/slide/" + slideId, function(slide){
-				tileSource = {
+				ui.initSlide(slide);
+				/*tileSource = {
 		            width: slide.width,
 		            height: slide.height,
 		            tileWidth: 256,
@@ -21,7 +23,7 @@ define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery"], functio
 	            	} 
 	            };
 
-				zoomer.viewer.open(tileSource);
+				zoomer.viewer.open(tileSource);*/
 			});
 		});
 

@@ -44,6 +44,7 @@ class Slide(Resource):
 		image = self.slides.find_one({'_id': ObjectId(id)}, {"scanProperties": False})
 		
 		if image:
+			image["id"] = str(image["_id"])
 			return Response(dumps(image), status=200, mimetype='application/json')
 		else:
 			return Response("", status=404, mimetype='application/json')

@@ -40,7 +40,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
                 "onItemClick": function(id, e, node) {
                     currentItemId = id;
                     slide = this.getItem(id);
-                    initSlide(null);
+                    initSlide(slide);
                 }
             }
         };
@@ -367,21 +367,11 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
         });
     }
 
-    function initSlide(id){
-
-        if(id != null){
-            $.ajax({
-                url: config.BASE_URL + "/slide/" + id,
-                async: false, 
-                success: function(slide){
-                    slide = slide;
-                }
-            });
-        }
-
+    function initSlide(slide){
+        slide = slide;
         $$("macro_image").refresh();
         $$("label_image").refresh();
-        hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
+        //hasher.setHash("slideset/" + slide.slideSet + "/slide/" + slide.id);
 
         //set observable variables
         obs.slideInfoObj.name(slide.fileName);
@@ -466,6 +456,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "hasher", "webix"],
     }
 
     return{
-        build: build
+        build: build,
+        initSlide: initSlide
     }
 });
