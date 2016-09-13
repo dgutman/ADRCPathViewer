@@ -427,7 +427,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                  tmpUrl += "/" + currentBounds.x + "/" + currentBounds.y;
 
             $$("link_to_share").setValue(tmpUrl);
-            console.log(tmpUrl);
         });
 
         /*viewer.addHandler('pan', function(event) {
