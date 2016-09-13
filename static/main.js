@@ -33,6 +33,6 @@ require = {
         "crossroads": ["signals"],
         "switch": ["jquery"],
         "app": ["ui", "webix", "routes"],
-        "routes": ["crossroads", "hasher", "zoomer", "config"]
+        "routes": ["crossroads", "hasher", "zoomer", "config", "osd"]
     }
 };

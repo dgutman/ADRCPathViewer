@@ -187,7 +187,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         var menu = {
             view:"menu",
-            width: 350,
+            width: 400,
             data: [
                 { id:"1",value:"TCGA Resources", submenu:[
                     {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"},
@@ -197,7 +197,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     {value:"About the CDSA"},
                     {value:"Repository Stats"}
                 ]},
-                { id:"4", value:"Login"}
+                { id:"4", value:"Login"},
+                { id:"5", value:"Share Link"}
             ],
             type:{height:55},
             css: "menu",
@@ -205,6 +206,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 onItemClick:function(id){
                     if(id == 4)
                         $$("login_window").show();
+                    if(id == 5)
+                        $$("share_link_window").show();
                 }
             }
         };
@@ -243,6 +246,24 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     { margin:5, cols:[
                         { view:"button", value:"Save"},
                         { view:"button", value:"Cancel", click: ("$$('comments_window').hide();")}
+                    ]}
+                ]
+            }
+        });
+
+        //Window for inserting and viewing slide comments
+        webix.ui({
+            view:"window",
+            head: "Share Link",
+            position: "center",
+            id: "share_link_window",
+            body:{
+                view: "form", 
+                width: 400,
+                elements:[
+                    { id: "link_to_share", view:"textarea", labelAlign:"top", height: 50},
+                    { margin:5, cols:[
+                        { view:"button", value:"Close", click: ("$$('share_link_window').hide();")}
                     ]}
                 ]
             }
@@ -370,7 +391,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     function initSlide(newSlide){
         //set the new slide
         slide = newSlide;
-        
+        sharedUrl = config.BASE_URL + "/#/slideset/" + slide.slideSet + "/slide/" + slide.id;
+
         //udpate the tile source and initialize the viewer
         tileSource = {
             width: slide.width,
@@ -389,10 +411,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             if(typeof slide.zoom != "undefined"){      
                 viewer.viewport.zoomBy(slide.zoom);
             }
+            if(typeof slide.pan != "undefined"){      
+                viewer.viewport.panTo(slide.pan);
+            }
         });
 
         viewer.addHandler('canvas-click', function(event) {
-          hash = "slideset/" + slide.slideSet + "/slide/" + slide.id + "/" + viewer.viewport.getZoom()
+          zoom = viewer.viewport.getZoom();
+          bounds = viewer.viewport.getBounds();
+          sharedUrl = config.BASE_URL + "/#/slideset/" + slide.slideSet + "/slide/" + slide.id;
+          sharedUrl += "/" + zoom + "/" + bounds.x + "/" + bounds.y;
+          $$("link_to_share").setValue(sharedUrl);
         });
 
         //update the maco and label images
@@ -408,6 +437,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //activate buttons
         //slide.HasAperioXML ? $$("aperio_import_btn").enable() : $$("aperio_import_btn").disable();
+        $$("link_to_share").setValue(sharedUrl);
     }
 
     function filterSlides(keyword){

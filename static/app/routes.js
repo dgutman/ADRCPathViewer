@@ -1,4 +1,4 @@
-define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui"], function(crossroads, hasher, zoomer, config, $, ui) {
+define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui", "osd"], function(crossroads, hasher, zoomer, config, $, ui, osd) {
 
 	function init(){	
 		crossroads.addRoute("/slideset/{id}", function(id){
@@ -20,7 +20,18 @@ define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui"], f
             $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + setId);
 
 			$.get(config.BASE_URL + "/slide/" + slideId, function(slide){
-				slide.zoom = parseInt(zoom);
+				slide.zoom = parseFloat(zoom);
+				ui.initSlide(slide);
+			});
+		});
+
+		crossroads.addRoute("/slideset/{setId}/slide/{slideId}/{zoom}/{x}/{y}", function(setId, slideId, zoom, x, y){
+			$$("thumbnails_panel").clearAll();
+            $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + setId);
+
+			$.get(config.BASE_URL + "/slide/" + slideId, function(slide){
+				slide.zoom = parseFloat(zoom);
+				slide.pan = new osd.Point(parseFloat(x), parseFloat(y));
 				ui.initSlide(slide);
 			});
 		});
