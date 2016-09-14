@@ -247,17 +247,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             head: "Share Link",
             position: "center",
             id: "share_link_window",
-            clipboard: "custom",
-            templateCopy: function() {
-                return $$('share_link_window').getValue();
-            },
             body:{
                 view: "form", 
                 width: 400,
                 elements:[
                     { id: "link_to_share", view:"textarea", labelAlign:"top", height: 50},
                     { margin:5, cols:[
-                        { view:"button", value:"Close", click: ("$$('share_link_window').hide();")}
+                        { view:"button", value:"Close", click: ("$$('share_link_window').hide();") }
                     ]}
                 ]
             }
@@ -266,16 +262,12 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //Window for inserting and viewing slide comments
         webix.ui({
             view:"window",
-            head: {
-                view:"toolbar", cols:[
-                {view:"label", label: "Aperio XML Files" },
-                { view:"button", label: 'Close', click:"$$('aperio_files_window').hide();", width: 50}
-            ]},
+            head: "Aperio Annotations",
             position: "center",
             id: "aperio_files_window",
             modal:true,
             body:{
-                view: "datatable", 
+                rows:[{view: "datatable", 
                 width:1000,
                 scroll: "xy",
                 select:"row",
@@ -288,8 +280,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     "onItemClick":function(id, e, trg){ 
                         file = this.getItem(id.row);
                         importAperioAnnotations(file.filePath);
+                        $$('aperio_files_window').hide();         
                     } 
                 }
+            }]
             }
         });
 
