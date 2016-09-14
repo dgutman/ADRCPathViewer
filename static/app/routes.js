@@ -6,11 +6,18 @@ define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui", "o
             $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + setId);
 		});
 
-		crossroads.addRoute("/slide/{slideId}/{zoom}", function(setId, slideId, zoom){
-			$$("thumbnails_panel").clearAll();
-            $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + setId);
-
+		crossroads.addRoute("/slide/{slideId}", function(slideId){
 			$.get(config.BASE_URL + "/slide/" + slideId, function(slide){
+				$$("thumbnails_panel").clearAll();
+            	$$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + slide.slideSet);
+				ui.initSlide(slide);
+			});
+		});
+
+		crossroads.addRoute("/slide/{slideId}/{zoom}", function(slideId, zoom){
+			$.get(config.BASE_URL + "/slide/" + slideId, function(slide){
+				$$("thumbnails_panel").clearAll();
+            	$$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + slide.slideSet);
 				slide.zoom = parseFloat(zoom);
 				ui.initSlide(slide);
 			});

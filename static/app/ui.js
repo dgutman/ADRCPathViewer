@@ -247,6 +247,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             head: "Share Link",
             position: "center",
             id: "share_link_window",
+            clipboard: "custom",
+            templateCopy: function() {
+                return $$('share_link_window').getValue();
+            },
             body:{
                 view: "form", 
                 width: 400,
