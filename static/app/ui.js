@@ -411,7 +411,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     function initSlide(newSlide){
         //set the new slide
         slide = newSlide;
-        sharedUrl = config.HOST_URL + "/#/slideset/" + slide.slideSet + "/slide/" + slide.id;
+        sharedUrl = config.HOST_URL + "/#slide/" + slide.id;
 
         //udpate the tile source and initialize the viewer
         tileSource = {
@@ -453,6 +453,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             currentCenter = center;
 
             $$("link_to_share").setValue(tmpUrl);
+            console.log(tmpUrl);
         });
 
         //update the maco and label images
