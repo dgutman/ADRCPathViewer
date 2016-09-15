@@ -471,8 +471,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         //set viewer zoom level if the slide has this property
         viewer.addHandler("open", function() {
-            if(typeof slide.zoom != "undefined"){   
-                console.log(slide.zoom);   
+            if(typeof slide.zoom != "undefined"){    
                 viewer.viewport.zoomBy(slide.zoom);
             }
             if(typeof slide.pan != "undefined"){      
@@ -496,7 +495,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             currentCenter = center;
 
             $$("link_to_share").setValue(tmpUrl);
-            console.log(tmpUrl);
         });
 
         //update the maco and label images
