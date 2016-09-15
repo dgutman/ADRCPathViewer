@@ -14,6 +14,8 @@ class Aperio(Resource):
         ---
         tags:
           - Aperio
+        produces:
+          - application/xml
         parameters:
           - in: path
             name: filename

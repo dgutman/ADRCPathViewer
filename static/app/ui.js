@@ -168,7 +168,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id: "show_debug_btn", label: "Show Debug Info", view: "button"},
                 { id: "draw_tools_btn", label: "Draw Tools", view: "button"},
                 { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();")},
-                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")}
+                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")},
+                 { id: "pathology_reports_btn", label: "Pathology", view: "button", click: ("$$('pathology_reports_window').show();")}
             ]
         };
 
@@ -284,6 +285,47 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     } 
                 }
             }]
+            }
+        });
+
+        //Window for inserting and viewing slide comments
+        webix.ui({
+            view:"window",
+            head: "Pathology Reports",
+            position: "center",
+            id: "pathology_reports_window",
+            modal:true,
+            body:{
+                rows:[{view: "datatable", 
+                width:1000,
+                scroll: "xy",
+                select:"row",
+                id: "pathology_reports_table",
+                columns:[
+                    { id: "fileName", header: "Filename", width: 250},
+                    { id: "filePath", header: "Path", fillspace:true}
+                ],
+                on:{
+                    "onItemClick":function(id, e, trg){ 
+                        file = this.getItem(id.row);
+                        $$('pathology_report_pdf').show();       
+                    } 
+                }
+            }]
+            }
+        });
+
+        webix.ui({
+            view:"window",
+            head: "Report",
+            position: "center",
+            id: "pathology_report_pdf",
+            modal:true,
+            body:{
+                rows:[
+                    { view:"pdfbar", id:"toolbar1" },
+                    { view:"pdfviewer", id:"pdf1", toolbar:"toolbar", url:"https://www.therapath.com/pdfs/SampleReport.pdf"}
+                ]
             }
         });
 
@@ -470,6 +512,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             $$("aperio_import_btn").enable();
             $$("aperio_files_table").clearAll();
             $$("aperio_files_table").define("data", slide.aperioAnnotations);
+        }
+        else{
+            $$("aperio_import_btn").disable();
+        }
+
+        //activate buttons
+        if(slide.pathologyReports){
+            $$("pathology_reports_btn").enable();
+            $$("pathology_reports_table").clearAll();
+            $$("pathology_reports_table").define("data", slide.pathologyReports);
         }
         else{
             $$("aperio_import_btn").disable();
