@@ -308,14 +308,15 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 on:{
                     "onItemClick":function(id, e, trg){ 
                         file = this.getItem(id.row);
-                        $$('pathology_report_pdf').show();       
+                        //$$('pathology_report_pdf').show();   
+                        $$('pathology_reports_window').hide();    
                     } 
                 }
             }]
             }
         });
 
-        webix.ui({
+        /*webix.ui({
             view:"window",
             head: "Report",
             position: "center",
@@ -327,7 +328,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     { view:"pdfviewer", id:"pdf1", toolbar:"toolbar", url:"https://www.therapath.com/pdfs/SampleReport.pdf"}
                 ]
             }
-        });
+        });*/
 
         //Window for inserting and viewing slide comments
         webix.ui({
