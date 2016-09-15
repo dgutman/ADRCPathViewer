@@ -12,6 +12,7 @@ from Slide import Slide
 from Slides import Slides
 from Tile import Tile
 from Aperio import Aperio
+from PathologyReport import PathologyReport
 from Static import Static
 from utils.db import connect
 from utils.config import get_app_configurations
@@ -112,6 +113,11 @@ api.add_resource(
 		Aperio, 
 		"/aperio/<path:filename>", 
 		endpoint="aperio")
+
+api.add_resource(
+		PathologyReport, 
+		"/pathology/<path:filename>", 
+		endpoint="pathology")
 
 api.add_resource(
 		Static,

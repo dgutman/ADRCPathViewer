@@ -308,7 +308,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 on:{
                     "onItemClick":function(id, e, trg){ 
                         file = this.getItem(id.row);
-                        //$$('pathology_report_pdf').show();   
+                        var content = "<embed src='"+config.BASE_URL+"/pathology/" + file.filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
+                        $$("pdfviewer").define("template", content);
+                        $$("pathology_report_pdf").getHead().define("template", "Viewing pathology report " + file.fileName);
+                        $$('pathology_report_pdf').show();   
                         $$('pathology_reports_window').hide();    
                     } 
                 }
@@ -316,19 +319,18 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             }
         });
 
-        /*webix.ui({
+        webix.ui({
             view:"window",
-            head: "Report",
-            position: "center",
+            head: "Pathology Report",
             id: "pathology_report_pdf",
-            modal:true,
+            width:"100%",
+            height:"100%",
             body:{
                 rows:[
-                    { view:"pdfbar", id:"toolbar1" },
-                    { view:"pdfviewer", id:"pdf1", toolbar:"toolbar", url:"https://www.therapath.com/pdfs/SampleReport.pdf"}
-                ]
-            }
-        });*/
+                 { id: "pdfviewer", view:"template", template:"<embed src='https://www.therapath.com/pdfs/SampleReport.pdf' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>" },
+                 { view:"button", value:"Close", click: ("$$('pathology_report_pdf').hide();")}
+            ]}
+        });
 
         //Window for inserting and viewing slide comments
         webix.ui({
