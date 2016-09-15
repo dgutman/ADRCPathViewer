@@ -466,13 +466,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         obs.slideInfoObj.fileSize(slide.fileSize);
 
         //activate buttons
-        if(slide.aperioXmlFiles){
+        if(slide.aperioAnnotations){
             $$("aperio_import_btn").enable();
             $$("aperio_files_table").clearAll();
-            $$("aperio_files_table").define("data", slide.aperioXmlFiles);
+            $$("aperio_files_table").define("data", slide.aperioAnnotations);
         }
         else{
-            $$("aperio_import_btn").disable()
+            $$("aperio_import_btn").disable();
         }
 
         //update the share link
