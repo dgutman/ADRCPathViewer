@@ -169,7 +169,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id: "draw_tools_btn", label: "Draw Tools", view: "button"},
                 { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();")},
                 { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")},
-                 { id: "pathology_reports_btn", label: "Pathology", view: "button", click: ("$$('pathology_reports_window').show();")}
+                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: ("$$('pathology_reports_window').show();")}
             ]
         };
 
@@ -525,7 +525,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             $$("pathology_reports_table").define("data", slide.pathologyReports);
         }
         else{
-            $$("aperio_import_btn").disable();
+            $$("pathology_reports_btn").disable();
         }
 
         //update the share link
