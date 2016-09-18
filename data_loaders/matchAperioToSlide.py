@@ -25,4 +25,5 @@ for root, dirs, files in os.walk(XML_DIR):
 				slides[slideId].append({"fileName": filename, "filePath": absFilePath})
 
 for slideId, files in slides.iteritems():
+	print slideId
 	db.update_one({"_id": ObjectId(slideId)}, {"$set": {"aperioAnnotations": files}})
