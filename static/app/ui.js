@@ -266,7 +266,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             head: "Aperio Annotations",
             position: "center",
             id: "aperio_files_window",
-            modal:true,
+            move: true,
             body:{
                 rows:[{view: "datatable", 
                 width:1000,
@@ -294,7 +294,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             head: "Pathology Reports",
             position: "center",
             id: "pathology_reports_window",
-            modal:true,
+            move: true,
             body:{
                 rows:[{view: "datatable", 
                 width:1000,
