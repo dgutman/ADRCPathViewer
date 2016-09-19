@@ -82,6 +82,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             on: {"onChange": filterSlides}
         };
 
+        facets = {
+            cols:[
+                {id: "annotation_filter_chk", view: "checkbox", label: "Annotated", click: filterSlides},
+                {id: "pathology_filter_chk", view: "checkbox", label: "Pathology", click: filterSlides}
+            ]
+        }
+
         thumbPager = {
             view:"pager",
             id: "thumbPager",
@@ -94,7 +101,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //containing the slide group dropdown and the thumbnails panel 
         slidesPanel = { header: "Slide Controls",
                         body:{rows: [ 
-                            dropdown, filter, thumbPager, thumbnailsPanel
+                            dropdown, filter, facets, thumbPager, thumbnailsPanel
                         ]},
                         width: 220
                        }; 
@@ -532,9 +539,23 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         $$("link_to_share").setValue(sharedUrl);
     }
 
-    function filterSlides(keyword){
+    function filterSlides(keyword = null){
+        params = new Array();
+        keyword = $$("thumbnail_search").getValue();
+        aperioAnnotation = $$("annotation_filter_chk").getValue();
+        pathologyReport = $$("pathology_filter_chk").getValue();
+
+        if(keyword != "")
+           params.push("filter[fileName]=" + keyword);
+        if(aperioAnnotation == 1)
+            params.push("facets[aperioAnnotations]=" + true);
+        if(pathologyReport == 1)
+            params.push("facets[pathologyReports]=" + true);
+
+        url = config.BASE_URL +"/slideset/" + currentSlideSet + "?" + params.join("&");
+        
         $$("thumbnails_panel").clearAll();
-        $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet + "?filter[fileName]=" + keyword);
+        $$("thumbnails_panel").load(url);
         $$("thumbnails_panel").setPage(0);
     }
 

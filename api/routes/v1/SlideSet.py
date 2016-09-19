@@ -57,6 +57,9 @@ class SlideSet(Resource):
 
 				if op == "filter" and val != '':
 					filters[field] = { "$regex": str(".*" + val + ".*"), "$options": "i" }
+				if op == "facets" and val != '':
+					val = "true"
+					filters["facets."+field] = True if val == "true" else val
 	  	
 		images = self.slides.find(filters, {'scanProperties': False}).skip(int(start)).limit(int(count))
 		for image in images:

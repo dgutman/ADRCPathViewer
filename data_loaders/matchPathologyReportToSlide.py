@@ -11,7 +11,6 @@ p = re.compile('^(\d+)_.*\.pdf$', re.IGNORECASE)
 slides = {}
 
 for root, dirs, filenames in os.walk(PDF_DIR):
-	#for subroot, sudirs, filenames in os.walk(root):
 	for filename in filenames:
 		m = p.match(filename)
 
