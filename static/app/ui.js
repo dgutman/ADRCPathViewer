@@ -109,6 +109,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //info panel is right panel
         infoPanel = {
                     header: "Slide Info", borderless:true,
+                    collapsed: true,
                     body:{
                         rows:[
                             {view: "template", content: "slide_info_obj", borderless: true},
@@ -176,12 +177,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             height: 30,
             cols: [
                 { id: "apply_filter_btn", label: "Apply Filters", view: "button", click: ("$$('filters_window').show();")},
-                { id: "report_img_btn", label: "Report Bad Image", view: "button", click: reportImage},
-                { id: "show_debug_btn", label: "Show Debug Info", view: "button"},
-                { id: "draw_tools_btn", label: "Draw Tools", view: "button"},
-                { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();")},
+                { id: "report_img_btn", label: "Report Bad Image", view: "button", click: reportImage, disabled: true},
+                { id: "show_debug_btn", label: "Show Debug Info", view: "button", disabled: true},
+                { id: "draw_tools_btn", label: "Draw Tools", view: "button", disabled: true},
+                { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();"), disabled: true},
                 { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")},
-                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: ("$$('pathology_reports_window').show();")}
+                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: ("$$('pathology_reports_window').show();")},
+                { id: "clinical_metadata_btn", label: "Metadata", view: "button", click: ("$$('clinical_metadata_window').show();")}
             ]
         };
 
@@ -257,17 +259,21 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //Window for inserting and viewing slide comments
         webix.ui({
             view:"window",
-            head: "Share Link",
+            head:{
+                view: "toolbar", 
+                margin:-4, 
+                cols:[
+                    {view:"label", label: "Share Link" },
+                    { view:"icon", icon:"times-circle", click:"$$('share_link_window').hide();"}
+                ]
+            },
             position: "center",
             id: "share_link_window",
             body:{
                 view: "form", 
                 width: 400,
                 elements:[
-                    { id: "link_to_share", view:"textarea", labelAlign:"top", height: 50},
-                    { margin:5, cols:[
-                        { view:"button", value:"Close", click: ("$$('share_link_window').hide();") }
-                    ]}
+                    { id: "link_to_share", view:"textarea", labelAlign:"top", height: 50}
                 ]
             }
         });
@@ -275,7 +281,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //Window for inserting and viewing slide comments
         webix.ui({
             view:"window",
-            head: "Aperio Annotations",
+            head:{
+                view: "toolbar", 
+                margin:-4, 
+                cols:[
+                    {view:"label", label: "Aperio Annotations" },
+                    { view:"icon", icon:"times-circle", click:"$$('aperio_files_window').hide();"}
+                ]
+            },
             position: "center",
             id: "aperio_files_window",
             move: true,
@@ -303,7 +316,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //Window for inserting and viewing slide comments
         webix.ui({
             view:"window",
-            head: "Pathology Reports",
+            head:{
+                view: "toolbar", 
+                margin:-4, 
+                cols:[
+                    {view:"label", label: "Pathology Reports" },
+                    { view:"icon", icon:"times-circle", click:"$$('pathology_reports_window').hide();"}
+                ]
+            },
             position: "center",
             id: "pathology_reports_window",
             move: true,
@@ -322,7 +342,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                         file = this.getItem(id.row);
                         var content = "<embed src='"+config.BASE_URL+"/pathology/" + file.filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
                         $$("pdfviewer").define("template", content);
-                        $$("pathology_report_pdf").getHead().define("template", "Viewing pathology report " + file.fileName);
+                        //$$("pathology_report_pdf").getHead().define("template", "Viewing report " + file.fileName);
                         $$('pathology_report_pdf').show();   
                         $$('pathology_reports_window').hide();    
                     } 
@@ -333,15 +353,25 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
 
         webix.ui({
             view:"window",
-            head: "Pathology Report",
+            head:{
+                view: "toolbar", 
+                margin:-4, 
+                cols:[
+                    {view:"label", label: "Pathology Report" },
+                    { view:"icon", icon:"times-circle", click:"$$('pathology_report_pdf').close();"}
+                ]
+            },
             id: "pathology_report_pdf",
-            width:"100%",
-            height:"100%",
-            body:{
-                rows:[
-                 { id: "pdfviewer", view:"template", template:"<embed src='https://www.therapath.com/pdfs/SampleReport.pdf' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>" },
-                 { view:"button", value:"Close", click: ("$$('pathology_report_pdf').hide();")}
-            ]}
+            move: true,
+            position: "center",
+            resize: true,
+            width: 700,
+            height: 800,
+            body:{ 
+                id: "pdfviewer", 
+                view:"template", 
+                template:"<embed src='https://www.therapath.com/pdfs/SampleReport.pdf' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
+            }
         });
 
         //Window for inserting and viewing slide comments
@@ -362,6 +392,35 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                         { view:"button", value:"Cancel", click: ("$$('login_window').hide();")}
                     ]}
                 ]
+            }
+        });
+
+        //Window for inserting and viewing slide comments
+        webix.ui({
+            view:"window",
+            head:{
+                view: "toolbar", 
+                margin:-4, 
+                cols:[
+                    {view:"label", label: "Clinial Metadata" },
+                    { view:"icon", icon:"times-circle", click:"$$('clinical_metadata_window').hide();"}
+                ]
+            },
+            position: "center",
+            id: "clinical_metadata_window",
+            move: true,
+            body:{
+                rows:[{view: "datatable", 
+                width:800,
+                height:450,
+                scroll: "xy",
+                select:"row",
+                id: "clinical_metadata_table",
+                columns:[
+                    { id: "key", header: "Key", width: 250},
+                    { id: "value", header: "Value", fillspace:true}
+                ]
+            }]
             }
         });
 
@@ -446,7 +505,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         webix.ui({
             view:"window",
             move:true,
-            head: "Slide Filters",
+            head:{
+                view: "toolbar", 
+                margin:-4, 
+                cols:[
+                    {view:"label", label: "Slide Filters" },
+                    { view:"icon", icon:"times-circle", click:"$$('filters_window').hide();"}
+                ]
+            },
             position: "center",
             id: "filters_window",
             body:{
@@ -455,8 +521,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 elements:[
                     contrastSlider, brightnessSlider, saturationSlider, hueSlider, invertSlider, blurSlider, grayscaleSlider,
                     { margin:5, cols:[
-                        { view:"button", value:"Reset All", click: resetSliders},
-                        { view:"button", value:"Close", click: ("$$('filters_window').hide();")}
+                        { view:"button", value:"Reset All", click: resetSliders}
                     ]}
                 ]
             }
@@ -538,6 +603,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         }
         else{
             $$("pathology_reports_btn").disable();
+        }
+
+        //activate buttons\
+        if(slide.clinicalMetaData){
+            $$("clinical_metadata_btn").enable();
+            $$("clinical_metadata_table").clearAll();
+            $$("clinical_metadata_table").define("data", slide.clinicalMetaData);
+        }
+        else{
+            $$("clinical_metadata_btn").disable();
         }
 
         //update the share link
