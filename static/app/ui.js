@@ -124,8 +124,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                                                 str += "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
                                             },
                                             error: function(jqXHR){
-                                                resp = JSON.parse(jqXHR.responseText);
-                                                str += resp.message;
+                                                try{
+                                                    resp = JSON.parse(jqXHR.responseText);
+                                                    str += resp.message;
+                                                }
+                                                catch(err){
+                                                    str += "Failed to load macro image";
+                                                }
                                             }
                                         });
                                     }
@@ -514,7 +519,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         obs.slideInfoObj.slideSet(slide.slideSet);
         obs.slideInfoObj.originalResolution(slide.orig_resolution);
         obs.slideInfoObj.fileSize(slide.fileSize);
-
+        
         //activate buttons
         if(slide.aperioAnnotations){
             $$("aperio_import_btn").enable();

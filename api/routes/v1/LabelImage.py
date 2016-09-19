@@ -51,7 +51,6 @@ class LabelImage(Resource):
 		if "label" in osr.associated_images.keys():
 			im = osr.associated_images["label"]
 			im.thumbnail(dim)
-
 			buf = PILBytesIO()
 			im.save(buf, "jpeg", quality=90)
 			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
