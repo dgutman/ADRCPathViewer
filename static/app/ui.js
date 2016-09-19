@@ -182,7 +182,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id: "draw_tools_btn", label: "Draw Tools", view: "button", disabled: true},
                 { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();"), disabled: true},
                 { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")},
-                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: ("$$('pathology_reports_window').show();")},
+                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: openFirstReport},
                 { id: "clinical_metadata_btn", label: "Metadata", view: "button", click: ("$$('clinical_metadata_window').show();")}
             ]
         };
@@ -342,7 +342,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                         file = this.getItem(id.row);
                         var content = "<embed src='"+config.BASE_URL+"/pathology/" + file.filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
                         $$("pdfviewer").define("template", content);
-                        //$$("pathology_report_pdf").getHead().define("template", "Viewing report " + file.fileName);
                         $$('pathology_report_pdf').show();   
                         $$('pathology_reports_window').hide();    
                     } 
@@ -358,12 +357,12 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 margin:-4, 
                 cols:[
                     {view:"label", label: "Pathology Report" },
-                    { view:"icon", icon:"times-circle", click:"$$('pathology_report_pdf').close();"}
+                    { view:"icon", icon:"times-circle", click:"$$('pathology_report_pdf').hide();"}
                 ]
             },
             id: "pathology_report_pdf",
             move: true,
-            position: "center",
+            position: "top",
             resize: true,
             width: 700,
             height: 800,
@@ -402,7 +401,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 view: "toolbar", 
                 margin:-4, 
                 cols:[
-                    {view:"label", label: "Clinial Metadata" },
+                    {view:"label", label: "Clinical Metadata" },
                     { view:"icon", icon:"times-circle", click:"$$('clinical_metadata_window').hide();"}
                 ]
             },
@@ -532,6 +531,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //set the new slide
         slide = newSlide;
         sharedUrl = config.HOST_URL + "/#slide/" + slide.id;
+
+        //close all windows
+        $$('clinical_metadata_window').hide();
+        $$('pathology_reports_window').hide();  
+        $$('pathology_report_pdf').hide(); 
+        $$('aperio_files_window').hide();
+        $$('filters_window').hide();
 
         //udpate the tile source and initialize the viewer
         tileSource = {
@@ -692,6 +698,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 $$("thumbnails_panel").remove(currentItemId);
             }
         });
+    }
+
+    function openFirstReport(){
+        var content = "<embed src='"+config.BASE_URL+"/pathology/" + slide.pathologyReports[0].filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
+        $$("pdfviewer").define("template", content);
+        $$('pathology_report_pdf').show();   
+        //$$('pathology_reports_window').hide();    
     }
 
     return{
