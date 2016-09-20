@@ -1,0 +1,4 @@
+*.pyc
+.*
+static/bower_components/*
+api/app.cfg
