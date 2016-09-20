@@ -52,7 +52,7 @@ def spec():
     swag = swagger(current_app)
     swag['info']['version'] = "1.0"
     swag['info']['title'] = "Digital Slide Archive"
-    swag['info']['base_path'] = "http://digitalslidearchive.emory.edu:5080"
+    swag['info']['base_path'] = "http://digitalslidearchive.emory.edu:5081"
     return jsonify(swag)
 
 # Attach all endpoints to the v1 API

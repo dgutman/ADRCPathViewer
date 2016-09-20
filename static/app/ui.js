@@ -181,9 +181,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id: "show_debug_btn", label: "Show Debug Info", view: "button", disabled: true},
                 { id: "draw_tools_btn", label: "Draw Tools", view: "button", disabled: true},
                 { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();"), disabled: true},
-                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: ("$$('aperio_files_window').show();")},
-                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: openFirstReport},
-                { id: "clinical_metadata_btn", label: "Metadata", view: "button", click: ("$$('clinical_metadata_window').show();")}
+                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: initAperioAnnotationsWindow},
+                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: initPathologyReportsWindow},
+                { id: "clinical_metadata_btn", label: "Metadata", view: "button", click: initMetaDataWindow}
             ]
         };
 
@@ -401,25 +401,42 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 view: "toolbar", 
                 margin:-4, 
                 cols:[
-                    {view:"label", label: "Clinical Metadata" },
-                    { view:"icon", icon:"times-circle", click:"$$('clinical_metadata_window').hide();"}
+                    {view:"label", label: "Slide Metadata" },
+                    { view:"icon", icon:"times-circle", click:"$$('metadata_window').hide();"}
                 ]
             },
             position: "center",
-            id: "clinical_metadata_window",
+            id: "metadata_window",
             move: true,
             body:{
-                rows:[{view: "datatable", 
-                width:800,
-                height:450,
-                scroll: "xy",
-                select:"row",
-                id: "clinical_metadata_table",
-                columns:[
-                    { id: "key", header: "Key", width: 250},
-                    { id: "value", header: "Value", fillspace:true}
+                rows:[
+                    {
+                        cells:[
+                            {   view: "datatable", 
+                                width:800,
+                                height:450,
+                                scroll: "xy",
+                                select:"row",
+                                id: "clinical_metadata_table",
+                                columns:[
+                                    { id: "key", header: "Key", width: 250},
+                                    { id: "value", header: "Value", fillspace:true}
+                                ]
+                            },
+                            {id:"aboutView1", width:800, height:450, template:"<i>Placeholder 1</i>",padding:5},
+                            {id:"aboutView2", width:800, height:450, template:"<i>Placeholder 2</i>",padding:5}
+                        ]
+                    },
+                    {   view:"tabbar",  
+                        type: "bottom", 
+                        multiview:true, 
+                        options: [
+                            { value: 'Clinical', id: 'clinical_metadata_table'},
+                            { value: '??', id: "aboutView1"},
+                            { value: '??', id: "aboutView2"}
+                        ]
+                    }
                 ]
-            }]
             }
         });
 
@@ -533,7 +550,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         sharedUrl = config.HOST_URL + "/#slide/" + slide.id;
 
         //close all windows
-        $$('clinical_metadata_window').hide();
+        $$('metadata_window').hide();
         $$('pathology_reports_window').hide();  
         $$('pathology_report_pdf').hide(); 
         $$('aperio_files_window').hide();
@@ -679,7 +696,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     }
 
     function importAperioAnnotations(filename){
-        //"http://node15.cci.emory.edu/LGG_LiveDev/XML_FILES/TCGA-06-0137-01A-01-BS1.xml"
         url = config.BASE_URL + "/aperio/" + filename;
         aperio.importMarkups(url);
     }
@@ -700,11 +716,47 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         });
     }
 
-    function openFirstReport(){
-        var content = "<embed src='"+config.BASE_URL+"/pathology/" + slide.pathologyReports[0].filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
-        $$("pdfviewer").define("template", content);
-        $$('pathology_report_pdf').show();   
-        //$$('pathology_reports_window').hide();    
+    function initPathologyReportsWindow(){
+        //close all windows
+        $$('metadata_window').hide();
+        $$('pathology_reports_window').hide();  
+        $$('pathology_report_pdf').hide(); 
+        $$('aperio_files_window').hide();
+        $$('filters_window').hide();
+
+        if(slide.pathologyReports.length == 1){
+            var content = "<embed src='"+config.BASE_URL+"/pathology" + slide.pathologyReports[0].filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
+            $$("pdfviewer").define("template", content);
+            $$('pathology_report_pdf').show(); 
+        }  
+        else{
+            $$('pathology_reports_window').show();
+        }
+    }
+
+    function initAperioAnnotationsWindow(){
+        //close all windows
+        $$('metadata_window').hide();
+        $$('pathology_reports_window').hide();  
+        $$('pathology_report_pdf').hide(); 
+        $$('aperio_files_window').hide();
+        $$('filters_window').hide();
+
+        if(slide.aperioAnnotations.length == 1){
+            importAperioAnnotations(slide.aperioAnnotations[0].filePath);
+        }  
+        else{
+            $$('aperio_files_window').show();
+        }    
+    }
+
+    function initMetaDataWindow(){
+        //close all windows
+        $$('pathology_reports_window').hide();  
+        $$('pathology_report_pdf').hide(); 
+        $$('aperio_files_window').hide();
+        $$('filters_window').hide();
+        $$('metadata_window').show();   
     }
 
     return{
