@@ -11,7 +11,7 @@ define(["jquery", "webix"], function($) {
         // $("#imgLabel").attr("src", apiBase + '/v1/labelimage/' + id);
     }
 
-    apiBase = 'http://digitalslidearchive.emory.edu:5080';
+    apiBase = 'http://digitalslidearchive.emory.edu';
 
     header = {
         borderless: true,
@@ -34,8 +34,9 @@ define(["jquery", "webix"], function($) {
     //with a left panel for info and a bigger panel that allows us to switch views between a tab
     //and data table view
     slideListDataTable_Columns = [
+        { id: "id", title: "ID", hidden: true},
         { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + apiBase + "/v1/thumbnail/#id#' height='40' width='80'/>" },
-        { id: "fileName", header: ["File Name", { content: "serverFilter" }], width: 300 },
+        { id: "slideLabel", header: ["Label", { content: "serverFilter" }], width: 300, editor:"text"},
         { id: "slideSet", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
         { id: "width", sort: "server", header: "Width", width: 80 },
         { id: "height", sort: "server", header: "Height", width: 80 },
@@ -54,7 +55,6 @@ define(["jquery", "webix"], function($) {
             group: 5,
             id: "gridPager"
         }, {view:"template", template:"Template1 Template 2"}]}, 
-
         {
             id: "slidelist",
             view: "datatable",
@@ -65,14 +65,33 @@ define(["jquery", "webix"], function($) {
             pager: "gridPager",
             datafetch: 20,
             loadahead: 20,
-            on: { "onItemClick": sldtClicked },
+            editable:true,
+            editaction: "dblclick",
+            on:{
+                onAfterEditStop:function(state, editor){
+                    if (state.value != state.old){
+                        $.ajax({
+                            url: apiBase + "/v1/slide/" + editor.row,
+                            method: "PUT",
+                            contentType: "application/json",
+                            dataType: "json",
+                            data: JSON.stringify({"slideLabel": state.value}),
+                            success: function(slide){
+                                console.log(slide);
+                            },
+                            error: function(jqXHR){
+                                console.log(jqXHR);
+                            }
+                        });
+                    }
+                }
+            }
         }]
     }
 
 
     wbx_SlideDataView = {
         rows: [
-
             {
                 view: "pager",
                 id: "pagerA",
@@ -81,7 +100,8 @@ define(["jquery", "webix"], function($) {
                 template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} (Total Slides #count#)",
                 datafetch: 50,
                 loadahead: 50
-            }, {
+            }, 
+            {
                 view: "dataview",
                 select: true,
 
