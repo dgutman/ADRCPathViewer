@@ -35,7 +35,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             pager: "thumbPager",
             datafetch: 10,
             loadahead: 10,
-            template: "<div class='webix_strong'>#fileName#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
+            template: "<div class='webix_strong'>#slideLabel#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
             datatype: "json",
             type: {height: 170, width: 200},
             on: {
@@ -299,7 +299,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 select:"row",
                 id: "aperio_files_table",
                 columns:[
-                    { id: "fileName", header: "Filename", width: 250},
+                    { id: "slideLabel", header: "Label", width: 250},
                     { id: "filePath", header: "Path", fillspace:true}
                 ],
                 on:{
@@ -334,7 +334,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 select:"row",
                 id: "pathology_reports_table",
                 columns:[
-                    { id: "fileName", header: "Filename", width: 250},
+                    { id: "slideLabel", header: "Label", width: 250},
                     { id: "filePath", header: "Path", fillspace:true}
                 ],
                 on:{
@@ -603,7 +603,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         
         //set observable variables
         obs.slideInfoObj.name(slide.fileName);
-        obs.slideInfoObj.label(slide.fileName);
+        obs.slideInfoObj.label(slide.slideLabel);
         obs.slideInfoObj.slideSet(slide.slideSet);
         obs.slideInfoObj.originalResolution(slide.orig_resolution);
         obs.slideInfoObj.fileSize(slide.fileSize);
@@ -649,7 +649,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         pathologyReport = $$("pathology_filter_chk").getValue();
 
         if(keyword != "")
-           params.push("filter[fileName]=" + keyword);
+           params.push("filter[slideLabel]=" + keyword);
         if(aperioAnnotation == 1)
             params.push("facets[aperioAnnotations]=" + true);
         if(pathologyReport == 1)
