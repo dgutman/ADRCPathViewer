@@ -45,7 +45,7 @@ class SlideSet(Resource):
 		
 		start = request.args.get('start', 0)
 		count = request.args.get('count', 20)
-		filters = {"slideSet": str(id), "bad": {"$exists": False}}
+		filters = {"set": str(id), "bad": {"$exists": False}}
 		tmp = []
 
 		for key in request.args:

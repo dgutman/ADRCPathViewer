@@ -36,13 +36,13 @@ define(["jquery", "webix"], function($) {
     slideListDataTable_Columns = [
         { id: "id", title: "ID", hidden: true},
         { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + apiBase + "/v1/thumbnail/#id#' height='40' width='80'/>" },
-        { id: "slideLabel", header: ["Label", { content: "serverFilter" }], width: 300, editor:"text"},
-        { id: "slideSet", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
+        { id: "label", header: ["Label", { content: "serverFilter" }], width: 300, editor:"text"},
+        { id: "set", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
         { id: "width", sort: "server", header: "Width", width: 80 },
         { id: "height", sort: "server", header: "Height", width: 80 },
-        { id: "fileSize", sort: "server", header: "Size", width: 100 },
-        { id: "slidePath", header: ["Slide Path", { content: "serverFilter" }], width: 400, fillspace: true },
-        { id: "orig_resolution", header: "Ori. Res.", width: 50 },
+        { id: "size", sort: "server", header: "Size", width: 100 },
+        { id: "path", header: ["Slide Path", { content: "serverFilter" }], width: 400, fillspace: true },
+        { id: "originalResolution", header: "Ori. Res.", width: 50 },
         { id: "openSlideSuccess", header: "OpenSlide Success", width: 100 },
     ]
 
@@ -75,7 +75,7 @@ define(["jquery", "webix"], function($) {
                             method: "PUT",
                             contentType: "application/json",
                             dataType: "json",
-                            data: JSON.stringify({"slideLabel": state.value}),
+                            data: JSON.stringify({"label": state.value}),
                             success: function(slide){
                                 console.log(slide);
                             },

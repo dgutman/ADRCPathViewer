@@ -35,7 +35,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             pager: "thumbPager",
             datafetch: 10,
             loadahead: 10,
-            template: "<div class='webix_strong'>#slideLabel#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
+            template: "<div class='webix_strong'>#label#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
             datatype: "json",
             type: {height: 170, width: 200},
             on: {
@@ -299,13 +299,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 select:"row",
                 id: "aperio_files_table",
                 columns:[
-                    { id: "slideLabel", header: "Label", width: 250},
-                    { id: "filePath", header: "Path", fillspace:true}
+                    { id: "name", header: "Name", width: 250},
+                    { id: "path", header: "Path", fillspace:true}
                 ],
                 on:{
                     "onItemClick":function(id, e, trg){ 
                         file = this.getItem(id.row);
-                        importAperioAnnotations(file.filePath);
+                        importAperioAnnotations(file.path);
                         $$('aperio_files_window').hide();         
                     } 
                 }
@@ -334,13 +334,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 select:"row",
                 id: "pathology_reports_table",
                 columns:[
-                    { id: "slideLabel", header: "Label", width: 250},
-                    { id: "filePath", header: "Path", fillspace:true}
+                    { id: "name", header: "Name", width: 250},
+                    { id: "path", header: "Path", fillspace:true}
                 ],
                 on:{
                     "onItemClick":function(id, e, trg){ 
                         file = this.getItem(id.row);
-                        var content = "<embed src='"+config.BASE_URL+"/pathology/" + file.filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
+                        var content = "<embed src='"+config.BASE_URL+"/pathology/" + file.path +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
                         $$("pdfviewer").define("template", content);
                         $$('pathology_report_pdf').show();   
                         $$('pathology_reports_window').hide();    
@@ -602,11 +602,11 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         $$("label_image").refresh();
         
         //set observable variables
-        obs.slideInfoObj.name(slide.fileName);
-        obs.slideInfoObj.label(slide.slideLabel);
-        obs.slideInfoObj.slideSet(slide.slideSet);
-        obs.slideInfoObj.originalResolution(slide.orig_resolution);
-        obs.slideInfoObj.fileSize(slide.fileSize);
+        obs.slideInfoObj.name(slide.name);
+        obs.slideInfoObj.label(slide.label);
+        obs.slideInfoObj.slideSet(slide.set);
+        obs.slideInfoObj.originalResolution(slide.originalResolution);
+        obs.slideInfoObj.fileSize(slide.size);
         
         //activate buttons
         if(slide.aperioAnnotations){
@@ -649,7 +649,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         pathologyReport = $$("pathology_filter_chk").getValue();
 
         if(keyword != "")
-           params.push("filter[slideLabel]=" + keyword);
+           params.push("filter[label]=" + keyword);
         if(aperioAnnotation == 1)
             params.push("facets[aperioAnnotations]=" + true);
         if(pathologyReport == 1)
@@ -725,7 +725,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         $$('filters_window').hide();
 
         if(slide.pathologyReports.length == 1){
-            var content = "<embed src='"+config.BASE_URL+"/pathology" + slide.pathologyReports[0].filePath +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
+            var content = "<embed src='"+config.BASE_URL+"/pathology" + slide.pathologyReports[0].path +"' width='100%' height='100%' pluginspage='http://www.adobe.com/products/acrobat/readstep2.html'>"
             $$("pdfviewer").define("template", content);
             $$('pathology_report_pdf').show(); 
         }  
@@ -743,7 +743,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         $$('filters_window').hide();
 
         if(slide.aperioAnnotations.length == 1){
-            importAperioAnnotations(slide.aperioAnnotations[0].filePath);
+            importAperioAnnotations(slide.aperioAnnotations[0].path);
         }  
         else{
             $$('aperio_files_window').show();

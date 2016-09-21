@@ -44,7 +44,7 @@ class LabelImage(Resource):
         """
 
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = image["slidePath"]
+		path = image["path"]
 		osr = OpenSlide(path)
 		dim = (int(self.config["macro_width"]), int(self.config["macro_height"]))
 

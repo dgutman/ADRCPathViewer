@@ -31,7 +31,7 @@ class SlideSetList(Resource):
           	description: No slide sets where found
         """
 
-		groups = self.slides.distinct('slideSet')
+		groups = self.slides.distinct('set')
 		data = []
 
 		for index, group in enumerate(groups):

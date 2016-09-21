@@ -51,7 +51,7 @@ class Thumbnail(Resource):
 
 		thumbSize = request.args.get("size", "small")
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = image["slidePath"]
+		path = image["path"]
 		filename = os.path.splitext(os.path.basename(path))[0] + "." + str(thumbSize) + ".jpg"
 
 		if not self.gfs.exists(filename=filename):

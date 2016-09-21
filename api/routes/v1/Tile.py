@@ -55,7 +55,7 @@ class Tile(Resource):
 			return Response(dumps(resp), status=404, mimetype='application/json')
 
 		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = image["slidePath"]
+		path = image["path"]
 		slide = get_slide(path)
 		
 		try:

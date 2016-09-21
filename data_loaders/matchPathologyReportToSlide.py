@@ -18,13 +18,13 @@ for root, dirs, filenames in os.walk(PDF_DIR):
 			searchTerm = "EUH_" + m.groups(0)[0]
 			absFilePath = os.path.join(root, filename)
 	            
-			slide = db.find_one({"fileName": {"$regex": searchTerm}}, {"scanProperties": False})
+			slide = db.find_one({"name": {"$regex": searchTerm}}, {"scanProperties": False})
 
 			if slide:
 				slideId = str(slide["_id"])
 				if slideId not in slides: slides[slideId] = []
 
-				slides[slideId].append({"fileName": filename, "filePath": absFilePath})
+				slides[slideId].append({"name": filename, "path": absFilePath})
 
 for slideId, files in slides.iteritems():
 	print slideId
