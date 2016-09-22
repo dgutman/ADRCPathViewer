@@ -12,6 +12,7 @@ define("config", function(){
 	//Options 2: specific slidesets
 	//  SLIDE_SET = ["WINSHIP_BIOBANK"]
 	var SLIDE_SETS = BASE_URL +  "/slidesetlist";
+	var DEFAULT_SLIDE_SET = "ADRC_GS";
 
 	//define the set of buttons for controlling the slide
 	//Available buttons objects are:
@@ -34,6 +35,7 @@ define("config", function(){
 		BASE_URL: BASE_URL,
 		HOST_URL: HOST_URL,
 		SLIDE_SETS: SLIDE_SETS,
+		DEFAULT_SLIDE_SET: DEFAULT_SLIDE_SET,
 		BUTTONS: BUTTONS
 	}
 });

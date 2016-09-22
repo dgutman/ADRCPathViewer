@@ -54,7 +54,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             placeholder:"Select Slide Set",
             id: "slideset_list",
             options: config.SLIDE_SETS,
-            value: "",
             on:{
                 "onChange": function(){
                     currentSlideSet = this.getText();
@@ -63,13 +62,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
                     $$("thumbnails_panel").setPage(0);
                 },
-                "onAfterRender": function(data){
-                    if(config.SLIDE_SETS instanceof Array){
-                        currentSlideSet = config.SLIDE_SETS[0].id;
-                        $$("slideset_list").define("value", currentSlideSet);
-                        $$("thumbnails_panel").clearAll();
-                        $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
-                    }
+                "onAfterRender": function(){
+                    currentSlideSet = config.DEFAULT_SLIDE_SET;
+                    $$("thumbnails_panel").clearAll();
+                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
                 }
             }
         };
