@@ -1,2 +1,4 @@
 *.pyc
-.DS_Store
+.*
+static/bower_components/*
+api/app.cfg

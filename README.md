@@ -1,82 +1,54 @@
 ADRCPathViewer
 =====================
-This is a development workspace for a pathology viewer for the ADRC @ Emory using the DSA CodeBase. The repo contains two parts. The web service which used Python Flask and OpenSlide to serve whole-slide images, serve static pages and endpoints to the database. The web applications which contains the viewer.
+This is a development workspace for a pathology viewer for the ADRC @ Emory using the DSA CodeBase. The repo contains two parts. The web service which used Python Flask-Restful and OpenSlide to serve whole-slide images, serve static pages and endpoints to the database.
 
 Prerequisites
 =====================
-virtualenv: to create a virtual python enviroment for the ADRC project
+The following packages are required to run the API
 
-    pip install virtualenv
+* OpenSlide and its dependencies (follow the instruction in this [link](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation))
+* openslide-python
+* flask_restful
+* flask_cache
+* bson
+* collections
+* threading
+* ConfigParser
+* pymongo
 
-openslide: to serve whole-slide images. Follow the instructions [here](https://github.com/DigitalSlideArchive/digital_slide_archive/wiki/VIPS-and-OpenSlide-Installation) to install openslide
-
-Instuctions
+Installation
 =====================
-Make a parent directory for our ADRC project. Move into the directory after you create it:
-
-    mkdir ADRC_ROOT
-
-    cd ADRC_ROOT
-
-Clone the ADRC repo
+First clone the repo
 
     git clone https://github.com/dgutman/ADRCPathViewer.git
 
-Create the flask environment for testing using python virtualenv
+Setup the client side (static HTML pages)
 
-    virtualenv adrc_env
+    cd [APP_ROOT_DIR]/static
 
-Activate the environment
+Run bower to install web app dependices
 
-    source adrc_env/bin/activate
+    bower install
 
-Within the environment install Flask, bson, Pillow, gunicorn, openslide-python, pymongo and wheel
+Run the API using the instructions below
 
-    pip install bson Pillow gunicorn openslide-python pymongo wheel
+Instuctions
+=====================
+ To start the API execute the following command (run.py is located in the application root directory)
 
-Browse to `ADRC_ROOT/app/webservice`
+     ./run.py
 
-    cd ADRC_ROOT/app/webservice
+To access the API in your browser
 
-Run the web service using gunicorn on port 8001, in the foreground
+    http://[yourdomain]:[port]/[version]/[resource]/[params]
 
-    gunicorn --bind 0.0.0.0:8001 wsgi
+Example 1: to get list of all unique slide collections
 
-Or you can run gunicorn in the background
+    http://yourdomain.com:5000/v1/slidesetlist
 
-    gunicorn --bind 0.0.0.0:8001 wsgi &
+Ecample 2: to get list of slides for one collection (BRCA)
 
-Configure Nginx
-==========================
-If you want you can setup Nginx to proxy requests to the ADRC web service.
-
-Create a new server block configuration file in Nginx `sites-available` directory
-
-    sudo vi /etc/nginx/sites-available/adrc
-
-Tell Nginx to listen on port 8000 and to route the traffic to the web service running on port 8001. To do so copy the following into adrc server block file
-
-    server {
-        listen 0.0.0.0:8000;
-
-        location / {
-                proxy_pass http://0.0.0.0:8001;
-        }
-    }
-
-To enable the Nginx server block configuration we've just created, link the file to the sites-enabled directory:
-
-    sudo ln -s /etc/nginx/sites-available/adrc /etc/nginx/sites-enabled
-
-Test the server block syntax by typing
-
-    sudo nginx -t
-
-If there are no issues in the syntax restart Nginx
-
-    sudo service nginx restart
-
-You should now be able to go to your server's domain name (domain_name:8000) or IP address in your web browser and see the ADRC application.
+    http://yourdomain.com:5000/v1/slideset/BRCA
 
 Application configurations
 ===========================
@@ -92,7 +64,7 @@ You make changes to the application configurations in `app.cfg`, some of the set
 
 `ws_port`: web service port
 
-`static_dir`: location of static pages relative to the directory where the blueprint is located
+`static_dir`: location of static pages relative to the directory where the blueprint is located or an absolute path
 
 `slides_dir`: location of the whole-slide images
 
@@ -105,10 +77,3 @@ You make changes to the application configurations in `app.cfg`, some of the set
 `slide_cache_size`: 1000 (default)
 
 `deepzoom_format`: jpeg (default)
-
-
-
-
-
-## I am in the process of migrating the build step to use bower
-In the static directory, once bower is installed, you can type bower install and it will grab the proper files
