@@ -8,6 +8,6 @@ export PYTHONPATH=/home/dgutman/osdTester:$PYTHONPATH
 exec gunicorn -b 0.0.0.0:5080 \
 	--workers=16 \
 	--log-level debug \
-	--name dsa_dev \
+	--name dsa \
 	--chdir /home/mkhali8/dev/ADRCPathViewer/api wsgi
 
