@@ -6,7 +6,7 @@ define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs",  "
 		prefixUrl: "bower_components/openseadragon/built-openseadragon/openseadragon/images/",
 		navigatorPosition: "BOTTOM_RIGHT",
 		showNavigator: true,
-		tileSources: "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi"
+		//tileSources: "http://node15.cci.emory.edu/cgi-bin/iipsrv.fcgi?DeepZoom=/PYRAMIDS/PYRAMIDS/CDSA/GBM_Frozen/intgen.org_GBM.tissue_images.3.0.0/TCGA-06-0137-01A-01-BS1.svs.dzi.tif.dzi"
 	});
 
 	viewer.scalebar({
