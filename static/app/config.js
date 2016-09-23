@@ -1,10 +1,10 @@
 define("config", function(){
 
 	//This is the base URL for the API
-	var BASE_URL = "http://digitalslidearchive.emory.edu/v1";
+	var BASE_URL = "http://digitalslidearchive.emory.edu:5081/v1";
 
 	//this is the URL for the site
-	var HOST_URL = "http://digitalslidearchive.emory.edu";
+	var HOST_URL = "http://digitalslidearchive.emory.edu:5081";
 
 	//SLIDE_SETS will tell the app which slidesets to make available for the user
 	//Options 1: All slidesets:
@@ -12,7 +12,7 @@ define("config", function(){
 	//Options 2: specific slidesets
 	//  SLIDE_SET = ["WINSHIP_BIOBANK"]
 	var SLIDE_SETS = BASE_URL +  "/slidesetlist";
-	var DEFAULT_SLIDE_SET = "ADRC_GS";
+	var DEFAULT_SLIDE_SET = "WINSHIP_BIOBANK_SEPT16";
 
 	//define the set of buttons for controlling the slide
 	//Available buttons objects are:
