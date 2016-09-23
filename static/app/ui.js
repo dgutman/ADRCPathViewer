@@ -38,6 +38,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             template: "<div class='webix_strong'>#label#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
             datatype: "json",
             type: {height: 170, width: 200},
+            ready: function(){
+                slide = this.getItem(this.getFirstId());
+                initSlide(slide);
+            },
             on: {
                 "onItemClick": function(id, e, node) {
                     currentItemId = id;

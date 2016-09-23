@@ -2,3 +2,4 @@
 .*
 static/bower_components/*
 api/app.cfg
+api/dsa.sh
