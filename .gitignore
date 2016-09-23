@@ -1,6 +1,2 @@
-*.pyc
 .*
-static/bower_components/*
-static/app/config.js
-api/app.cfg
-api/dsa.sh
+bower_components/*
