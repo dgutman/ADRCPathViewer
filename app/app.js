@@ -27,7 +27,7 @@ are looking for, then go to the module and add the variable
 you want to return to the return object
  */
 
-define(["ui", "routes", "webix"], function(ui, routes) {
+define(["ui", "routes", "jquery", "webix"], function(ui, routes, $) {
 	webix.ready(function(){
 		ui.build();
 		routes.init();

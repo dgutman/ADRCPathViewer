@@ -1,18 +1,18 @@
 define("config", function(){
 
 	//This is the base URL for the API
-	var BASE_URL = "http://digitalslidearchive.emory.edu:5081/v1";
+	var BASE_URL = "http://candygram.neurology.emory.edu:8080/api/v1";
 
 	//this is the URL for the site
-	var HOST_URL = "http://digitalslidearchive.emory.edu:5081";
+	var HOST_URL = "http://digitalslidearchive.emory.edu/girder";
 
 	//SLIDE_SETS will tell the app which slidesets to make available for the user
 	//Options 1: All slidesets:
 	//  SLIDE_SETS = BASE_URL +  "/slidesetlist" which gets all slidesets
 	//Options 2: specific slidesets
 	//  SLIDE_SET = ["WINSHIP_BIOBANK"]
-	var SLIDE_SETS = BASE_URL +  "/slidesetlist";
-	var DEFAULT_SLIDE_SET = "WINSHIP_BIOBANK_SEPT16";
+	var SLIDE_SETS = BASE_URL +  "/folder?parentType=collection&parentId=57bf445df8c2ef5eae32d35e";
+	var DEFAULT_SLIDE_SET = "acc";
 
 	//define the set of buttons for controlling the slide
 	//Available buttons objects are:

@@ -35,16 +35,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             pager: "thumbPager",
             datafetch: 10,
             loadahead: 10,
-            template: "<div class='webix_strong'>#label#</div><img src='"+ config.BASE_URL +"/thumbnail/#id#'/>",
+            template: "<div class='webix_strong'>#name#</div><img src='"+ config.BASE_URL +"/item/#_id#/tiles/thumbnail'/>",
             datatype: "json",
             type: {height: 170, width: 200},
             ready: function(){
                 slide = this.getItem(this.getFirstId());
+                console.log(slide);
                 initSlide(slide);
             },
             on: {
                 "onItemClick": function(id, e, node) {
-                    currentItemId = id;
+                    //currentItemId = id;
                     slide = this.getItem(id);
                     initSlide(slide);
                 }
@@ -54,40 +55,54 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //dropdown for slide groups
         //Data is pulled from DAS webservice
         dropdown = { 
-            view:"combo",  
+            view:"combo",
             placeholder:"Select Slide Set",
             id: "slideset_list",
-            options: config.SLIDE_SETS,
+            options:{
+                body:{
+                    template:"#name#",
+                    url: config.SLIDE_SETS
+                }
+            },
             on:{
-                "onChange": function(){
-                    currentSlideSet = this.getText();
-                    $$("thumbnail_search").setValue("");
-                    $$("thumbnails_panel").clearAll();
-                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
-                    $$("thumbnails_panel").setPage(0);
+                "onChange": function(id){
+                    var item = this.getPopup().getBody().getItem(id);
+                    var samples = $$("samples_list").getPopup().getList();
+                    var url = config.BASE_URL + "/folder?parentType=folder&parentId=" + item._id;
+                    samples.clearAll();
+                    samples.load(url);
                 },
                 "onAfterRender": function(){
-                    currentSlideSet = config.DEFAULT_SLIDE_SET;
-                    $$("thumbnails_panel").clearAll();
-                    $$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
                 }
             }
         };
 
-        //filter slides
-        filter = {
-            view: "search",
-            id: "thumbnail_search",
-            placeholder: "Search",
-            on: {"onChange": filterSlides}
+        samples_dropdown = { 
+            view:"combo",
+            placeholder:"Select Sample",
+            id: "samples_list",
+            options:{
+                body:{
+                    template:"#name#",
+                    url: config.BASE_URL + "/folder?parentType=folder&parentId=57ca039af8c2ef024e986371"
+                }
+            },
+            on:{
+                "onChange": function(id){
+                    var item = this.getPopup().getBody().getItem(id);
+                    var thumbs = $$("thumbnails_panel");
+                    var url = config.BASE_URL + "/item?folderId=" + item._id;
+                    console.log(item);
+                    thumbs.clearAll();
+                    thumbs.load(url);
+                },
+                "onAfterRender": function(){
+                    //currentSlideSet = config.DEFAULT_SLIDE_SET;
+                    //$$("thumbnails_panel").clearAll();
+                    //$$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
+                }
+            }
         };
-
-        facets = {
-            cols:[
-                {id: "annotation_filter_chk", view: "checkbox", label: "Annotated", click: filterSlides},
-                {id: "pathology_filter_chk", view: "checkbox", label: "Pathology", click: filterSlides}
-            ]
-        }
 
         thumbPager = {
             view:"pager",
@@ -101,7 +116,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //containing the slide group dropdown and the thumbnails panel 
         slidesPanel = { header: "Slide Controls",
                         body:{rows: [ 
-                            dropdown, filter, facets, thumbPager, thumbnailsPanel
+                            dropdown, samples_dropdown, thumbPager, thumbnailsPanel
                         ]},
                         width: 220
                        }; 
@@ -547,99 +562,30 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     function initSlide(newSlide){
         //set the new slide
         slide = newSlide;
-        sharedUrl = config.HOST_URL + "/#slide/" + slide.id;
+        var tiles = null;
+        console.log(slide);
 
-        //close all windows
-        $$('metadata_window').hide();
-        $$('pathology_reports_window').hide();  
-        $$('pathology_report_pdf').hide(); 
-        $$('aperio_files_window').hide();
-        $$('filters_window').hide();
+        $.ajax({
+            url: config.BASE_URL + "/item/" + slide._id + "/tiles",
+            method: "GET",
+            async: false,
+            success: function(data){
+                tiles = data;
+            }
+        });
 
         //udpate the tile source and initialize the viewer
         tileSource = {
-            width: slide.width,
-            height: slide.height,
-            tileWidth: 256,
-            tileHeight: 256,
+            width: tiles.sizeX,
+            height: tiles.sizeY,
+            tileWidth: tiles.tileWidth,
+            tileHeight: tiles.tileHeight,
             getTileUrl: function(level, x, y){
-                return config.BASE_URL +"/tile/"+ slide.id + "/" + level + "/" + x + "/" + y;
+                return config.BASE_URL + "/item/" + slide._id + "/tiles/zxy/"+ level +"/" + x + "/" + y;
             }
         }
 
         viewer.open(tileSource);
-
-        //set viewer zoom level if the slide has this property
-        viewer.addHandler("open", function() {
-            if(typeof slide.zoom != "undefined"){    
-                viewer.viewport.zoomBy(slide.zoom);
-            }
-            if(typeof slide.pan != "undefined"){      
-                viewer.viewport.panTo(slide.pan);
-            }
-        });
-
-        viewer.addHandler('zoom', function(event) {
-            tmpUrl = sharedUrl + "/" + viewer.viewport.getZoom();
-            currentZoom = viewer.viewport.getZoom();
-            
-            if(currentCenter != null)
-                 tmpUrl += "/" + currentCenter.x + "/" + currentCenter.y;
-
-            $$("link_to_share").setValue(tmpUrl);
-        });
-
-        viewer.addHandler('pan', function(event) {
-            center = viewer.viewport.getCenter();
-            tmpUrl = sharedUrl + "/" + currentZoom + "/" + center.x + "/" + center.y;
-            currentCenter = center;
-
-            $$("link_to_share").setValue(tmpUrl);
-        });
-
-        //update the maco and label images
-        $$("macro_image").refresh();
-        $$("label_image").refresh();
-        
-        //set observable variables
-        obs.slideInfoObj.name(slide.name);
-        obs.slideInfoObj.label(slide.label);
-        obs.slideInfoObj.slideSet(slide.set);
-        obs.slideInfoObj.originalResolution(slide.originalResolution);
-        obs.slideInfoObj.fileSize(slide.size);
-        
-        //activate buttons
-        if(slide.aperioAnnotations){
-            $$("aperio_import_btn").enable();
-            $$("aperio_files_table").clearAll();
-            $$("aperio_files_table").define("data", slide.aperioAnnotations);
-        }
-        else{
-            $$("aperio_import_btn").disable();
-        }
-
-        //activate buttons
-        if(slide.pathologyReports){
-            $$("pathology_reports_btn").enable();
-            $$("pathology_reports_table").clearAll();
-            $$("pathology_reports_table").define("data", slide.pathologyReports);
-        }
-        else{
-            $$("pathology_reports_btn").disable();
-        }
-
-        //activate buttons\
-        if(slide.clinicalMetaData){
-            $$("clinical_metadata_btn").enable();
-            $$("clinical_metadata_table").clearAll();
-            $$("clinical_metadata_table").define("data", slide.clinicalMetaData);
-        }
-        else{
-            $$("clinical_metadata_btn").disable();
-        }
-
-        //update the share link
-        $$("link_to_share").setValue(sharedUrl);
     }
 
     function filterSlides(keyword = null){
