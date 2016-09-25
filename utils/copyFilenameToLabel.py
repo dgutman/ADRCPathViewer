@@ -1,7 +1,7 @@
 import pymongo, sys, os, re
 from bson.objectid import ObjectId
 
-DB_NAME = "UberSliderSorter"
+DB_NAME = "masterSlideList"
 DB_COLL = "RawSlideData"
 
 client = pymongo.MongoClient('localhost',27017)
@@ -11,7 +11,7 @@ slides = db.find()
 
 for slide in slides:
 	label = ""
-	if "fileName" in slide:
-		label = slide["fileName"]
+	if "name" in slide:
+		label = slide["name"]
 		
-	db.update_one({"_id": ObjectId(slide["_id"])}, {"$set": {"slideLabel": label}})
+	db.update_one({"_id": ObjectId(slide["_id"])}, {"$set": {"label": label}})
