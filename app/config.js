@@ -6,37 +6,21 @@ define("config", function(){
 	//this is the URL for the site
 	var HOST_URL = "http://digitalslidearchive.emory.edu/girder";
 
-	//SLIDE_SETS will tell the app which slidesets to make available for the user
-	//Options 1: All slidesets:
-	//  SLIDE_SETS = BASE_URL +  "/slidesetlist" which gets all slidesets
-	//Options 2: specific slidesets
-	//  SLIDE_SET = ["WINSHIP_BIOBANK"]
-	var SLIDE_SETS = BASE_URL +  "/folder?parentType=collection&parentId=57bf445df8c2ef5eae32d35e";
-	var DEFAULT_SLIDE_SET = "acc";
+	//Girder collection name
+	var COLLECTION_NAME = "57bf445df8c2ef5eae32d35e";
 
-	//define the set of buttons for controlling the slide
-	//Available buttons objects are:
-	//  { id: "apply_filter_btn", value: "Apply Filters"},
-    //  { id: "report_img_btn", value: "Report Bad Image"},
-    //  { id: "show_debug_btn", value: "Show Debug Info"},
-    //  { id: "draw_tools_btn", value: "Draw Tools"},
-    //  { id: "comment_btn", value: "Comment"},
-    //  { id: "aperio_import_btn", value: "AperioXML"}
-	var BUTTONS = [
-				{ id: "apply_filter_btn", label: "Apply Filters", view: "button"},
-                { id: "report_img_btn", label: "Report Bad Image", view: "button"},
-                { id: "show_debug_btn", label: "Show Debug Info", view: "button"},
-                { id: "draw_tools_btn", label: "Draw Tools", view: "button"},
-                { id: "comment_btn", label: "Comment", view: "button"},
-                { id: "aperio_import_btn", label: "AperioXML", view: "button"}
-    ];
+	//Default folder ID that is under the COLLECTION_NAME
+	var DEFAULT_FOLDER_ID = "57c9d356f8c2ef024e9810dc";
+
+	//Default folder ID that is under the COLLECTION_NAME
+	var DEFAULT_PATIENT_ID = "57cedc1df8c2ef024e98f932";
 
 	return {
 		BASE_URL: BASE_URL,
 		HOST_URL: HOST_URL,
-		SLIDE_SETS: SLIDE_SETS,
-		DEFAULT_SLIDE_SET: DEFAULT_SLIDE_SET,
-		BUTTONS: BUTTONS
+		COLLECTION_NAME: COLLECTION_NAME,
+		DEFAULT_FOLDER_ID: DEFAULT_FOLDER_ID,
+		DEFAULT_PATIENT_ID: DEFAULT_PATIENT_ID
 	}
 });
 

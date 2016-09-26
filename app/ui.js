@@ -61,7 +61,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             options:{
                 body:{
                     template:"#name#",
-                    url: config.SLIDE_SETS
+                    url: config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_NAME
                 }
             },
             on:{
@@ -73,6 +73,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     samples.load(url);
                 },
                 "onAfterRender": function(){
+                    var samples = $$("samples_list").getPopup().getList();
+                    var url = config.BASE_URL + "/folder?parentType=folder&parentId=" + config.DEFAULT_FOLDER_ID;
+                    samples.clearAll();
+                    samples.load(url);
                 }
             }
         };
@@ -92,14 +96,14 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     var item = this.getPopup().getBody().getItem(id);
                     var thumbs = $$("thumbnails_panel");
                     var url = config.BASE_URL + "/item?folderId=" + item._id;
-                    console.log(item);
                     thumbs.clearAll();
                     thumbs.load(url);
                 },
                 "onAfterRender": function(){
-                    //currentSlideSet = config.DEFAULT_SLIDE_SET;
-                    //$$("thumbnails_panel").clearAll();
-                    //$$("thumbnails_panel").load(config.BASE_URL +"/slideset/" + currentSlideSet);
+                    var thumbs = $$("thumbnails_panel");
+                    var url = config.BASE_URL + "/item?folderId=" + config.DEFAULT_PATIENT_ID;
+                    thumbs.clearAll();
+                    thumbs.load(url);
                 }
             }
         };
@@ -124,65 +128,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         //info panel is right panel
         infoPanel = {
                     header: "Slide Info", borderless:true,
-                    collapsed: true,
+                    collapsed: false,
                     body:{
                         rows:[
-                            {view: "template", content: "slide_info_obj", borderless: true},
-                            {id: "macro_image", view: "template", borderless: true, template: 
-                                function(){
-                                    str = "<b>Macro image:</b><br/>";
-                                    if(slide != null){
-                                        $.ajax({
-                                            url: config.BASE_URL + "/macroimage/" + slide.id,
-                                            async: false,
-                                            type: "GET",
-                                            success: function(){
-                                                str += "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
-                                            },
-                                            error: function(jqXHR){
-                                                try{
-                                                    resp = JSON.parse(jqXHR.responseText);
-                                                    str += resp.message;
-                                                }
-                                                catch(err){
-                                                    str += "Failed to load macro image";
-                                                }
-                                            }
-                                        });
-                                    }
-                                    else{
-                                        str += "Macro image not loaded!";
-                                    }
-
-                                    return str;
-                                },
-                                
-                            },
-                            {id: "label_image", view: "template", borderless: true, template: 
-                                function(){
-                                    str = "<b>Label image:</b><br/>";
-                                    if(slide != null){
-                                        $.ajax({
-                                            url: config.BASE_URL + "/labelimage/" + slide.id,
-                                            async: false,
-                                            type: "GET",
-                                            success: function(){
-                                                str += "<img src='" + config.BASE_URL + "/labelimage/" + slide.id + "'/>";
-                                            },
-                                            error: function(jqXHR){
-                                                resp = JSON.parse(jqXHR.responseText);
-                                                str += resp.message;
-                                            }
-                                        });
-                                    }
-                                    else{
-                                        str += "Label image not loaded!";
-                                    }
-
-                                    return str;
-                                }
-                            },
-                            {view: "template", template: "",  borderless:true}
+                            {view: "template", content: "slide_info_obj", borderless: true},  
                         ]
                     },
                     width:250};
@@ -198,7 +147,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();"), disabled: true},
                 { id: "aperio_import_btn", label: "AperioXML", view: "button", click: initAperioAnnotationsWindow},
                 { id: "pathology_reports_btn", label: "Pathology", view: "button", click: initPathologyReportsWindow},
-                { id: "clinical_metadata_btn", label: "Metadata", view: "button", click: initMetaDataWindow}
+                { id: "metadata_btn", label: "Metadata", view: "button", click: initMetaDataWindow}
             ]
         };
 
@@ -580,8 +529,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             height: tiles.sizeY,
             tileWidth: tiles.tileWidth,
             tileHeight: tiles.tileHeight,
+            minLevel: 0,
+            maxLevel: tiles.levels - 1,
             getTileUrl: function(level, x, y){
-                return config.BASE_URL + "/item/" + slide._id + "/tiles/zxy/"+ level +"/" + x + "/" + y;
+                return config.BASE_URL + "/item/" + slide._id + "/tiles/zxy/" + level + "/" + x + "/" + y;
             }
         }
 
