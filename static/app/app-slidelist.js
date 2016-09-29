@@ -1,18 +1,4 @@
-define(["jquery", "webix"], function($) {
-
-    function sldtClicked(id) {
-        console.log("The slide data table was clicked at" + id);
-        itemData = $$("slidelist").getItem(id);
-        console.log(itemData);
-        $("#imgThumb").attr("src", apiBase + '/v1/thumbnail/' + id);
-
-        //The below links only work if Logged in..
-        // $("#imgMacro").attr("src", apiBase + '/v1/macroimage/' + id);
-        // $("#imgLabel").attr("src", apiBase + '/v1/labelimage/' + id);
-    }
-
-    apiBase = 'http://digitalslidearchive.emory.edu';
-
+define(["jquery", "config", "webix"], function($, config) {
     header = {
         borderless: true,
         cols: [{
@@ -35,7 +21,7 @@ define(["jquery", "webix"], function($) {
     //and data table view
     slideListDataTable_Columns = [
         { id: "id", title: "ID", hidden: true},
-        { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + apiBase + "/v1/thumbnail/#id#' height='40' width='80'/>" },
+        { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + config.BASE_URL + "/thumbnail/#id#' height='40' width='80'/>" },
         { id: "label", header: ["Label", { content: "serverFilter" }], width: 300, editor:"text"},
         { id: "set", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
         { id: "width", sort: "server", header: "Width", width: 80 },
@@ -59,7 +45,7 @@ define(["jquery", "webix"], function($) {
             id: "slidelist",
             view: "datatable",
             columns: slideListDataTable_Columns,
-            url: apiBase + "/v1/slides",
+            url: config.BASE_URL + "/slides",
             select: true,
             navigation: true,
             pager: "gridPager",
@@ -71,7 +57,7 @@ define(["jquery", "webix"], function($) {
                 onAfterEditStop:function(state, editor){
                     if (state.value != state.old){
                         $.ajax({
-                            url: apiBase + "/v1/slide/" + editor.row,
+                            url: config.BASE_URL + "/slide/" + editor.row,
                             method: "PUT",
                             contentType: "application/json",
                             dataType: "json",
@@ -105,11 +91,11 @@ define(["jquery", "webix"], function($) {
                 view: "dataview",
                 select: true,
 
-                template: "<img src='" + apiBase + "/v1/thumbnail/#id#'  ><div class='webix_strong'>#fileName#</div>Size: #width# x #height#",
+                template: "<img src='" + config.BASE_URL + "/thumbnail/#id#'  ><div class='webix_strong'>#fileName#</div>Size: #width# x #height#",
                 type: {
                     height: 150
                 },
-                url: apiBase + "/v1/slides",
+                url: config.BASE_URL + "/slides",
                 pager: "pagerA"
             }
         ]
