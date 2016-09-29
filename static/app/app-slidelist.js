@@ -1,5 +1,8 @@
 define(["jquery", "config", "webix"], function($, config) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
     header = {
         borderless: true,
         cols: [{
