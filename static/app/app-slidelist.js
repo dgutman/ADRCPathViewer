@@ -14,6 +14,7 @@ define(["jquery", "config", "webix"], function($, config) {
             ]
         }]
     };
+    
     ///I may want to add back in the menu instead of {}----  
 
     //Top LEvel will have three panels
