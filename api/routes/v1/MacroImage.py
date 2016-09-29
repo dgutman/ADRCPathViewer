@@ -24,7 +24,7 @@ class MacroImage(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]] 	
 
-	@requires_auth
+	#@requires_auth
 	def get(self, id):
 		"""
         Get slide macro image
