@@ -40,12 +40,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             type: {height: 170, width: 200},
             ready: function(){
                 slide = this.getItem(this.getFirstId());
-                console.log(slide);
                 initSlide(slide);
             },
             on: {
                 "onItemClick": function(id, e, node) {
-                    //currentItemId = id;
                     slide = this.getItem(id);
                     initSlide(slide);
                 }
@@ -131,7 +129,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     collapsed: false,
                     body:{
                         rows:[
-                            {view: "template", content: "slide_info_obj", borderless: true},  
+                            {id: "slide_info", view: "template", template: "#name#", data: {}, borderless: true},  
                         ]
                     },
                     width:250};
@@ -145,9 +143,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id: "show_debug_btn", label: "Show Debug Info", view: "button", disabled: true},
                 { id: "draw_tools_btn", label: "Draw Tools", view: "button", disabled: true},
                 { id: "comment_btn", label: "Comment", view: "button", click: ("$$('comments_window').show();"), disabled: true},
-                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: initAperioAnnotationsWindow},
-                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: initPathologyReportsWindow},
-                { id: "metadata_btn", label: "Metadata", view: "button", click: initMetaDataWindow}
+                { id: "aperio_import_btn", label: "AperioXML", view: "button", click: initAperioAnnotationsWindow, disabled: true},
+                { id: "pathology_reports_btn", label: "Pathology", view: "button", click: initPathologyReportsWindow, disabled: true},
+                { id: "metadata_btn", label: "Metadata", view: "button", click: initMetaDataWindow, disabled: true}
             ]
         };
 
@@ -161,7 +159,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 { id:"1",value:"TCGA Resources", submenu:[
                     {value:"TCGA Analytical Tools", href: "https://tcga-data.nci.nih.gov/docs/publications/tcga/", target:"_blank"},
                 ]},
-                { id:"2",value:"Slide List", href: "slidelist.html", target:"_blank"},
                 { id:"3",value:"Help", submenu:[
                     {value:"About the CDSA"},
                     {value:"Repository Stats"}
@@ -537,6 +534,9 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         }
 
         viewer.open(tileSource);
+
+        $$("slide_info").define("data", slide.meta);
+        $$("slide_info").refresh();
     }
 
     function filterSlides(keyword = null){
