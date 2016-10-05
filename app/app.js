@@ -29,7 +29,7 @@ you want to return to the return object
 
 define(["ui", "routes", "jquery", "webix"], function(ui, routes, $) {
 	webix.ready(function(){
-		ui.build();
+		ui.init();
 		routes.init();
 	});
 });
