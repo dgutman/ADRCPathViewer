@@ -17,13 +17,21 @@ require = {
         "ant": "lib/dsa-annotation",
         "antctrl": "lib/dsa-annotation-control",
         "config": "app/config",
-        "ui": "app/ui",
         "zoomer": "app/zoomer",
+        "slide": "app/slide",
         "aperio": "app/aperio",
         "obs": "app/observables",
         "routes": "app/routes",
         "app": "app/app"
     },
+
+    packages: [
+        {
+            name: "ui",
+            location: "app/ui"
+        }
+    ],
+
     shim: {
     	"osdhelper": ["osd"],
     	"osdhook": ["osd"],
