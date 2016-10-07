@@ -1,28 +1,17 @@
-define("slide", ["config", "zoomer", "jquery"], function(config, zoomer, $){
+define("slide", ["config", "zoomer", "jquery", "aperio", "webix"], function(config, zoomer, $, aperio){
 
 	var slide = {
-		id: null,
-		
-		init: function(id){
-			this.id = id;
+
+		init: function(item){
+			$.extend(this, item);
 			zoomer.viewer.open(this.getTileSource());
-			
 			return this;
 		},
 
 		getTileSource: function(){
-			var slideId = this.id;
-			var tiles = null;
+			var slideId = this._id;
+			var tiles = this.getTiles();
         	
-        	$.ajax({
-	            url: config.BASE_URL + "/item/" + this.id + "/tiles",
-	            method: "GET",
-	            async: false,
-	            success: function(data){
-	                tiles = data;
-	            }
-	        });
-
 	        //udpate the tile source and initialize the viewer
 	        tileSource = {
 	            width: tiles.sizeX,
@@ -37,8 +26,45 @@ define("slide", ["config", "zoomer", "jquery"], function(config, zoomer, $){
 	        }
 
 	        return tileSource;
+		},
+
+		getTiles: function(){
+			var tiles = null;
+        	
+        	$.ajax({
+	            url: config.BASE_URL + "/item/" + this._id + "/tiles",
+	            method: "GET",
+	            async: false,
+	            success: function(data){
+	                tiles = data;
+	            }
+	        });
+
+	        return tiles;
+		},
+
+		getFiles: function(){
+			var files = null;
+			var url = config.BASE_URL + "/item/" + this._id + "/files";
+
+			webix.ajax().sync().get(url, function(text, data, xmlHttpRequest){
+				files = JSON.parse(text);
+			});
+
+			return files;
+		},
+
+		getAnnotationFile: function(){
+			var filename = null;
+
+			$.each(this.getFiles(), function(key, file){
+				if(file.mimeType == "application/xml")
+					filename = file.name;
+			});
+
+			return filename;
 		}
 	}
 
-	return slide
+	return slide;
 });

@@ -1,4 +1,4 @@
-define("ui/slidenav", ["config", "zoomer", "slide", "webix"], function(config, zoomer, slide){
+define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"], function(config, zoomer, slide, $, aperio){
 
     viewer = zoomer.viewer;
 
@@ -14,13 +14,12 @@ define("ui/slidenav", ["config", "zoomer", "slide", "webix"], function(config, z
         type: {height: 170, width: 200},
         ready: function(){
             item = this.getItem(this.getFirstId());
-            slide.init(item._id)
-
+            slide.init(item);
         },
         on: {
             "onItemClick": function(id, e, node) {
                 item = this.getItem(id);
-                slide.init(item._id)
+                slide.init(item);
             }
         }
     };
@@ -34,7 +33,7 @@ define("ui/slidenav", ["config", "zoomer", "slide", "webix"], function(config, z
         options:{
             body:{
                 template:"#name#",
-                url: config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_NAME
+                url: config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_ID
             }
         },
         on:{
@@ -101,7 +100,24 @@ define("ui/slidenav", ["config", "zoomer", "slide", "webix"], function(config, z
         width: 220
     };
 
+    buttons = {
+        height: 30,
+        cols: [
+            { id: "apply_filter_btn", label: "Apply Filters", view: "button", click: ("$$('filters_window').show();")},
+            { id: "aperio_import_btn", label: "AperioXML", view: "button", click: showAnnotations}
+        ]
+    };
+
+    function showAnnotations(){
+        var filename = slide.getAnnotationFile();
+        if(filename != null){
+            var url = config.XML_BASE_URL + slide.meta.location.replace("/SLIDES", "") + "/" + filename;
+            aperio.importMarkups(url);
+        }
+    };
+
     return{
-        view: slidesPanel
+        view: slidesPanel,
+        buttons: buttons
     }
 }); 
