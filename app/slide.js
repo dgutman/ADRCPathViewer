@@ -9,9 +9,12 @@ define("slide", ["config", "zoomer", "jquery", "aperio", "webix"], function(conf
 		},
 
 		getTileSource: function(){
+
 			var slideId = this._id;
 			var tiles = this.getTiles();
-        	
+        	var path = this.meta.location.replace("/SLIDES/", "") + "/" + this.name;
+        	console.log(tiles);
+
 	        //udpate the tile source and initialize the viewer
 	        tileSource = {
 	            width: tiles.sizeX,
@@ -23,7 +26,7 @@ define("slide", ["config", "zoomer", "jquery", "aperio", "webix"], function(conf
 	            getTileUrl: function(level, x, y){
 	                return config.BASE_URL + "/item/" + slideId + "/tiles/zxy/" + level + "/" + x + "/" + y;
 	            }
-	        }
+	        };
 
 	        return tileSource;
 		},
