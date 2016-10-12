@@ -1,115 +1,127 @@
-define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, zoomer, $, aperio){
+define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, zoomer, $, aperio) {
 
-	var slide = {
-		annotations: [],
-		aBtn: null,
-		mTable: null,
-		aTable: null,
-		iTable: null,
+    var slide = {
+        annotations: [],
+        aBtn: null,
+        mTable: null,
+        aTable: null,
+        iTable: null,
 
-		init: function(item){
-			$.extend(this, item);
-			zoomer.viewer.open(this.getTileSource());
-			
-			this.aBtn = $$("aperio_import_btn");
-			this.aTable = $$("aperio_files_table");
-			this.mTable = $$("clinical_metadata_table");
-			this.iTable = $$("image_metadata_table");
+        init: function(item) {
+            $.extend(this, item);
+            zoomer.viewer.open(this.getTileSource());
 
-			this.getAnnotationFiles();
-			this.keyvalue();
-			this.initDataViews();
+            this.aBtn = $$("aperio_import_btn");
+            this.aTable = $$("aperio_files_table");
+            this.mTable = $$("clinical_metadata_table");
+            this.iTable = $$("image_metadata_table");
 
-			pubsub.publish("SLIDE", this);
-			console.log(this);
-			return this;
-		},
+            this.getAnnotationFiles();
+            this.keyvalue();
+            this.initDataViews();
 
-		getTileSource: function(){
+            pubsub.publish("SLIDE", this);
+            console.log(this);
+            return this;
+        },
 
-			var slideId = this._id;
-			var tiles = this.getTiles();
+        getTileSource: function() {
 
-	        //udpate the tile source and initialize the viewer
-	        tileSource = {
-	            width: tiles.sizeX,
-	            height: tiles.sizeY,
-	            tileWidth: tiles.tileWidth,
-	            tileHeight: tiles.tileHeight,
-	            minLevel: 0,
-	            maxLevel: tiles.levels - 1,
-	            getTileUrl: function(level, x, y){
-	                return config.BASE_URL + "/item/" + slideId + "/tiles/zxy/" + level + "/" + x + "/" + y;
-	            }
-	        };
+            var slideId = this._id;
+            var tiles = this.getTiles();
 
-	        return tileSource;
-		},
+            //udpate the tile source and initialize the viewer
+            tileSource = {
+                width: tiles.sizeX,
+                height: tiles.sizeY,
+                tileWidth: tiles.tileWidth,
+                tileHeight: tiles.tileHeight,
+                minLevel: 0,
+                maxLevel: tiles.levels - 1,
+                getTileUrl: function(level, x, y) {
+                    return config.BASE_URL + "/item/" + slideId + "/tiles/zxy/" + level + "/" + x + "/" + y;
+                }
+            };
 
-		getTiles: function(){
-			var tiles = null;
-        	
-        	$.ajax({
-	            url: config.BASE_URL + "/item/" + this._id + "/tiles",
-	            method: "GET",
-	            async: false,
-	            success: function(data){
-	                tiles = data;
-	            }
-	        });
+            return tileSource;
+        },
 
-	        return tiles;
-		},
+        getTiles: function() {
+            var tiles = null;
 
-		getFiles: function(){
-			var files = null;
-			var url = config.BASE_URL + "/item/" + this._id + "/files";
+            $.ajax({
+                url: config.BASE_URL + "/item/" + this._id + "/tiles",
+                method: "GET",
+                async: false,
+                success: function(data) {
+                    tiles = data;
+                }
+            });
 
-			webix.ajax().sync().get(url, function(text, data, xmlHttpRequest){
-				files = JSON.parse(text);
-			});
+            return tiles;
+        },
 
-			return files;
-		},
+        getFiles: function() {
+            var files = null;
+            var url = config.BASE_URL + "/item/" + this._id + "/files";
 
-		getAnnotationFiles: function(){
-			var tmp = new Array();
-			var loc = this.meta.location.replace("/SLIDES", "");
+            webix.ajax().sync().get(url, function(text, data, xmlHttpRequest) {
+                files = JSON.parse(text);
+            });
 
-			$.each(this.getFiles(), function(key, file){
-				if(file.mimeType == "application/xml"){
-					file.url = config.XML_BASE_URL + loc + "/" + file.name;
-					tmp.push(file);
-				}
-			});
+            return files;
+        },
 
-			this.annotations = tmp;
-			return this.annotations;
-		},
+        getAnnotationFiles: function() {
+            var tmp = new Array();
+            var loc = this.meta.location.replace("/SLIDES", "");
 
-		keyvalue: function(){
-			var metadata = {image: [], clinical: []};
-		
-			metadata.image.push({key: "Name", value: this.name});
-			metadata.image.push({key: "Size", value: this.size});
+            $.each(this.getFiles(), function(key, file) {
+                if (file.mimeType == "application/xml") {
+                    file.url = config.XML_BASE_URL + loc + "/" + file.name;
+                    tmp.push(file);
+                }
+            });
 
-			$.each(this.meta, function(key, value){
-				metadata.image.push({key: key, value: value});
-			});
+            this.annotations = tmp;
+            return this.annotations;
+        },
 
-			this.metadata = metadata;
-		},
+        keyvalue: function() {
+            var metadata = {
+                image: [],
+                clinical: []
+            };
 
-    	initDataViews: function(){
-    		this.annotations.length > 0 ? this.aBtn.enable() : this.aBtn.disable();
-			this.aTable.clearAll();
+            metadata.image.push({
+                key: "Name",
+                value: this.name
+            });
+            metadata.image.push({
+                key: "Size",
+                value: this.size
+            });
+
+            $.each(this.meta, function(key, value) {
+                metadata.image.push({
+                    key: key,
+                    value: value
+                });
+            });
+
+            this.metadata = metadata;
+        },
+
+        initDataViews: function() {
+            this.annotations.length > 0 ? this.aBtn.enable() : this.aBtn.disable();
+            this.aTable.clearAll();
             this.aTable.define("data", this.annotations);
 
-    		this.iTable.clearAll();
+            this.iTable.clearAll();
             this.iTable.define("data", this.metadata.image);
-    	}
+        }
 
-	}
+    }
 
-	return slide;
+    return slide;
 });
