@@ -38,6 +38,6 @@ require = {
     	"osdhook": ["osd"],
         "scalebar": ["osd"],
         "ant": ["osd"],
-        "antctrl": ["switch", "mousetrap"]
+        "antctrl": ["jquery","switch", "mousetrap"]
     }
 };

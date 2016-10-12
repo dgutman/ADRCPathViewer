@@ -1,11 +1,27 @@
 define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, zoomer, $, aperio){
 
 	var slide = {
+		annotations: [],
+		aBtn: null,
+		mTable: null,
+		aTable: null,
+		iTable: null,
 
 		init: function(item){
 			$.extend(this, item);
 			zoomer.viewer.open(this.getTileSource());
+			
+			this.aBtn = $$("aperio_import_btn");
+			this.aTable = $$("aperio_files_table");
+			this.mTable = $$("clinical_metadata_table");
+			this.iTable = $$("image_metadata_table");
+
+			this.getAnnotationFiles();
+			this.keyvalue();
+			this.initDataViews();
+
 			pubsub.publish("SLIDE", this);
+			console.log(this);
 			return this;
 		},
 
@@ -56,24 +72,43 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
 			return files;
 		},
 
-		getAnnotationFile: function(){
-			var filename = null;
+		getAnnotationFiles: function(){
+			var tmp = new Array();
+			var loc = this.meta.location.replace("/SLIDES", "");
 
 			$.each(this.getFiles(), function(key, file){
-				if(file.mimeType == "application/xml")
-					filename = file.name;
+				if(file.mimeType == "application/xml"){
+					file.url = config.XML_BASE_URL + loc + "/" + file.name;
+					tmp.push(file);
+				}
 			});
 
-			return filename;
+			this.annotations = tmp;
+			return this.annotations;
 		},
 
-		showAnnotations: function (){
-	        var filename = this.getAnnotationFile();
-	        if(filename != null){
-	            var url = config.XML_BASE_URL + this.meta.location.replace("/SLIDES", "") + "/" + filename;
-	            aperio.importMarkups(url);
-	        }
+		keyvalue: function(){
+			var metadata = {image: [], clinical: []};
+		
+			metadata.image.push({key: "Name", value: this.name});
+			metadata.image.push({key: "Size", value: this.size});
+
+			$.each(this.meta, function(key, value){
+				metadata.image.push({key: key, value: value});
+			});
+
+			this.metadata = metadata;
+		},
+
+    	initDataViews: function(){
+    		this.annotations.length > 0 ? this.aBtn.enable() : this.aBtn.disable();
+			this.aTable.clearAll();
+            this.aTable.define("data", this.annotations);
+
+    		this.iTable.clearAll();
+            this.iTable.define("data", this.metadata.image);
     	}
+
 	}
 
 	return slide;
