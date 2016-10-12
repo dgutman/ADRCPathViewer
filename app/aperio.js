@@ -1,4 +1,4 @@
-define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, ant){
+define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, ant) {
 
     function importMarkups(url) {
         //first clear the annotation state
@@ -6,18 +6,18 @@ define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, an
 
         $.get(url).done(function(response) {
             cur_aperio_xml = response;
-        
+
             //for every annotation create a layers and add markups
             $('Annotation', response).each(function() {
                 color = this.getAttribute("LineColor").toString(16);
                 color = rgb2hex(color);
-            
+
                 //we treat every region as a layer in DSA
                 $('Region', this).each(function() {
                     getRegionMarkups(this, color);
                 });
-            }); 
-        });  //end of get xml
+            });
+        }); //end of get xml
     } //end of aperiocontroller function
 
     /**
@@ -35,7 +35,7 @@ define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, an
 
     function getRegionMarkups(vertices, color) {
         var markups = {};
-        
+
         //each set of vertices represents a markup
         $('Vertices', vertices).each(function() {
             var points = [];
@@ -69,7 +69,7 @@ define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, an
         });
     }
 
-    return{
+    return {
         importMarkups: importMarkups
     }
 });

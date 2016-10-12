@@ -1,111 +1,140 @@
-define("ui/filters", ["webix"], function(){
+define("ui/filters", ["webix"], function() {
 
-	//Window for slide filters
-    var contrastSlider = { 
-        view:"slider", 
+    //Window for slide filters
+    var contrastSlider = {
+        view: "slider",
         type: "alt",
-        label:"Contrast", 
-        value: 100, 
+        label: "Contrast",
+        value: 100,
         max: 100,
-        id:"contrast_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        id: "contrast_slider",
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    var brightnessSlider = { 
-        view:"slider", 
+    var brightnessSlider = {
+        view: "slider",
         type: "alt",
-        label:"Brightness", 
+        label: "Brightness",
         value: 100,
         max: 100,
         id: "brightness_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    var saturationSlider = { 
-        view:"slider", 
+    var saturationSlider = {
+        view: "slider",
         type: "alt",
-        label:"Saturation", 
+        label: "Saturation",
         value: 100,
         max: 100,
         id: "saturation_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    var hueSlider = { 
-        view:"slider", 
+    var hueSlider = {
+        view: "slider",
         type: "alt",
-        label:"Hue Rotate", 
+        label: "Hue Rotate",
         value: 0,
         max: 360,
         id: "hue_rotate_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    var invertSlider = { 
-        view:"slider", 
+    var invertSlider = {
+        view: "slider",
         type: "alt",
-        label:"Invert", 
+        label: "Invert",
         value: 0,
         max: 100,
         id: "invert_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    var blurSlider = { 
-        view:"slider", 
+    var blurSlider = {
+        view: "slider",
         type: "alt",
-        label:"Blur", 
+        label: "Blur",
         value: 0,
         max: 10,
-        id:"blur_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        id: "blur_slider",
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    var grayscaleSlider = { 
-        view:"slider", 
+    var grayscaleSlider = {
+        view: "slider",
         type: "alt",
-        label:"Grayscale", 
+        label: "Grayscale",
         value: 0,
         max: 100,
-        id:"grayscale_slider",
-        title:webix.template("Selected: #value#"),
-        on: {"onSliderDrag": apply, "onChange": apply}
+        id: "grayscale_slider",
+        title: webix.template("Selected: #value#"),
+        on: {
+            "onSliderDrag": apply,
+            "onChange": apply
+        }
     };
 
-    function init(){
+    function init() {
         webix.ui({
-            view:"window",
-            move:true,
-            head:{
-                view: "toolbar", 
-                margin:-4, 
-                cols:[
-                    {view:"label", label: "Slide Filters" },
-                    { view:"icon", icon:"times-circle", click:"$$('filters_window').hide();"}
-                ]
+            view: "window",
+            move: true,
+            head: {
+                view: "toolbar",
+                margin: -4,
+                cols: [{
+                    view: "label",
+                    label: "Slide Filters"
+                }, {
+                    view: "icon",
+                    icon: "times-circle",
+                    click: "$$('filters_window').hide();"
+                }]
             },
             position: "center",
             id: "filters_window",
-            body:{
-                view: "form", 
+            body: {
+                view: "form",
                 width: 400,
-                elements:[
-                    contrastSlider, brightnessSlider, saturationSlider, hueSlider, invertSlider, blurSlider, grayscaleSlider,
-                    { margin:5, cols:[
-                        { view:"button", value:"Reset All", click: reset}
-                    ]}
+                elements: [
+                    contrastSlider, brightnessSlider, saturationSlider, hueSlider, invertSlider, blurSlider, grayscaleSlider, {
+                        margin: 5,
+                        cols: [{
+                            view: "button",
+                            value: "Reset All",
+                            click: reset
+                        }]
+                    }
                 ]
             }
         });
     }
 
-    function reset(){
+    function reset() {
         $$("contrast_slider").setValue(100);
         $$("brightness_slider").setValue(100);
         $$("saturation_slider").setValue(100);
@@ -117,20 +146,20 @@ define("ui/filters", ["webix"], function(){
         apply();
     }
 
-    function apply(){
+    function apply() {
         var css = 'contrast(' + $$("contrast_slider").getValue() + '%) ' +
-                  'brightness(' + $$("brightness_slider").getValue() + '%) ' +
-                  'hue-rotate(' + $$("hue_rotate_slider").getValue() + ') ' +
-                  'saturate(' + $$("saturation_slider").getValue() + '%) ' +
-                  'invert(' + $$("invert_slider").getValue() + '%) ' +
-                  'grayscale(' + $$("grayscale_slider").getValue() + '%) ' +
-                  'blur(' + $$("blur_slider").getValue() + 'px)';
+            'brightness(' + $$("brightness_slider").getValue() + '%) ' +
+            'hue-rotate(' + $$("hue_rotate_slider").getValue() + ') ' +
+            'saturate(' + $$("saturation_slider").getValue() + '%) ' +
+            'invert(' + $$("invert_slider").getValue() + '%) ' +
+            'grayscale(' + $$("grayscale_slider").getValue() + '%) ' +
+            'blur(' + $$("blur_slider").getValue() + 'px)';
 
         $('.magic').css('-webkit-filter', css);
         $('.openseadragon-canvas').css('-webkit-filter', css);
     }
 
-    return{
+    return {
         init: init
     }
 });

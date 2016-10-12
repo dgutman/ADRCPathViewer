@@ -1,42 +1,50 @@
-define("ui/annotations", function(){
+define("ui/annotations", function() {
 
-	var annotations = {
-     	view:"window",
-       	head:{
-        	view: "toolbar", 
-            margin:-4, 
-            cols:[
-            	{view:"label", label: "Aperio Annotations" },
-                { view:"icon", icon:"times-circle", click:"$$('aperio_files_window').hide();"}
-            ]
-      	},
+    var annotations = {
+        view: "window",
+        head: {
+            view: "toolbar",
+            margin: -4,
+            cols: [{
+                view: "label",
+                label: "Aperio Annotations"
+            }, {
+                view: "icon",
+                icon: "times-circle",
+                click: "$$('aperio_files_window').hide();"
+            }]
+        },
         position: "center",
         id: "aperio_files_window",
         move: true,
-        body:{
-        	rows:[
-        		{	view: "datatable", 
-            		width:1000,
-            		scroll: "xy",
-           	 		select:"row",
-            		id: "aperio_files_table",
-           	 		columns:[
-            			{ id: "name", header: "Name", width: 250},
-                		{ id: "url", header: "URL", fillspace:true}
-           			],
-           			on:{
-            			"onItemClick":function(id, e, trg){ 
-                			file = this.getItem(id.row);
-                    		//importAperioAnnotations(file.path);
-                   			$$('aperio_files_window').hide();         
-           				} 
-            		}
-        		}
-        	]
+        body: {
+            rows: [{
+                view: "datatable",
+                width: 1000,
+                scroll: "xy",
+                select: "row",
+                id: "aperio_files_table",
+                columns: [{
+                    id: "name",
+                    header: "Name",
+                    width: 250
+                }, {
+                    id: "url",
+                    header: "URL",
+                    fillspace: true
+                }],
+                on: {
+                    "onItemClick": function(id, e, trg) {
+                        file = this.getItem(id.row);
+                        //importAperioAnnotations(file.path);
+                        $$('aperio_files_window').hide();
+                    }
+                }
+            }]
         }
-	}
+    }
 
-	return {
-		view: annotations
-	}
+    return {
+        view: annotations
+    }
 });

@@ -1,4 +1,4 @@
-define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"], function(config, zoomer, slide, $, aperio){
+define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"], function(config, zoomer, slide, $, aperio) {
 
     viewer = zoomer.viewer;
 
@@ -9,10 +9,13 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"],
         pager: "thumbPager",
         datafetch: 10,
         loadahead: 10,
-        template: "<div class='webix_strong'>#name#</div><img src='"+ config.BASE_URL +"/item/#_id#/tiles/thumbnail'/>",
+        template: "<div class='webix_strong'>#name#</div><img src='" + config.BASE_URL + "/item/#_id#/tiles/thumbnail'/>",
         datatype: "json",
-        type: {height: 170, width: 200},
-        ready: function(){
+        type: {
+            height: 170,
+            width: 200
+        },
+        ready: function() {
             item = this.getItem(this.getFirstId());
             slide.init(item);
         },
@@ -26,25 +29,25 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"],
 
     //dropdown for slide groups
     //Data is pulled from DAS webservice
-    dropdown = { 
-        view:"combo",
-        placeholder:"Select Slide Set",
+    dropdown = {
+        view: "combo",
+        placeholder: "Select Slide Set",
         id: "slideset_list",
-        options:{
-            body:{
-                template:"#name#",
+        options: {
+            body: {
+                template: "#name#",
                 url: config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_ID
             }
         },
-        on:{
-            "onChange": function(id){
+        on: {
+            "onChange": function(id) {
                 var item = this.getPopup().getBody().getItem(id);
                 var samples = $$("samples_list").getPopup().getList();
                 var url = config.BASE_URL + "/folder?parentType=folder&parentId=" + item._id;
                 samples.clearAll();
                 samples.load(url);
             },
-            "onAfterRender": function(){
+            "onAfterRender": function() {
                 var samples = $$("samples_list").getPopup().getList();
                 var url = config.BASE_URL + "/folder?parentType=folder&parentId=" + config.DEFAULT_FOLDER_ID;
                 samples.clearAll();
@@ -53,25 +56,25 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"],
         }
     };
 
-    samples_dropdown = { 
-        view:"combo",
-        placeholder:"Select Sample",
+    samples_dropdown = {
+        view: "combo",
+        placeholder: "Select Sample",
         id: "samples_list",
-        options:{
-            body:{
-                template:"#name#",
+        options: {
+            body: {
+                template: "#name#",
                 url: config.BASE_URL + "/folder?parentType=folder&parentId=57ca039af8c2ef024e986371"
             }
         },
-        on:{
-            "onChange": function(id){
+        on: {
+            "onChange": function(id) {
                 var item = this.getPopup().getBody().getItem(id);
                 var thumbs = $$("thumbnails_panel");
                 var url = config.BASE_URL + "/item?folderId=" + item._id;
                 thumbs.clearAll();
                 thumbs.load(url);
             },
-            "onAfterRender": function(){
+            "onAfterRender": function() {
                 var thumbs = $$("thumbnails_panel");
                 var url = config.BASE_URL + "/item?folderId=" + config.DEFAULT_PATIENT_ID;
                 thumbs.clearAll();
@@ -81,26 +84,26 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"],
     };
 
     thumbPager = {
-        view:"pager",
+        view: "pager",
         id: "thumbPager",
-        animate:true,
-        size:10,
-        group:4
+        animate: true,
+        size: 10,
+        group: 4
     };
 
     //slides panel is the left panel, contains two rows 
     //containing the slide group dropdown and the thumbnails panel 
-    slidesPanel = { 
+    slidesPanel = {
         header: "Slide Controls",
-        body:{
-            rows: [ 
+        body: {
+            rows: [
                 dropdown, samples_dropdown, thumbPager, thumbnailsPanel
             ]
         },
         width: 220
     };
 
-    return{
+    return {
         view: slidesPanel
     }
-}); 
+});

@@ -1,6 +1,6 @@
 require = {
     urlArgs: "bust=" + (+new Date),
-	paths: {
+    paths: {
         "pubsub": "bower_components/PubSubJS/src/pubsub",
         "hasher": "bower_components/hasher/dist/js/hasher.min",
         "signals": "bower_components/js-signals/dist/signals.min",
@@ -26,18 +26,16 @@ require = {
         "app": "app/app"
     },
 
-    packages: [
-        {
-            name: "ui",
-            location: "app/ui"
-        }
-    ],
+    packages: [{
+        name: "ui",
+        location: "app/ui"
+    }],
 
     shim: {
-    	"osdhelper": ["osd"],
-    	"osdhook": ["osd"],
+        "osdhelper": ["osd"],
+        "osdhook": ["osd"],
         "scalebar": ["osd"],
         "ant": ["osd"],
-        "antctrl": ["jquery","switch", "mousetrap"]
+        "antctrl": ["jquery", "switch", "mousetrap"]
     }
 };
