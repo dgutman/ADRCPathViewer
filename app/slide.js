@@ -1,10 +1,11 @@
-define("slide", ["config", "zoomer", "jquery", "aperio", "webix"], function(config, zoomer, $, aperio){
+define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, zoomer, $, aperio){
 
 	var slide = {
 
 		init: function(item){
 			$.extend(this, item);
 			zoomer.viewer.open(this.getTileSource());
+			pubsub.publish("SLIDE", this);
 			return this;
 		},
 
@@ -12,8 +13,6 @@ define("slide", ["config", "zoomer", "jquery", "aperio", "webix"], function(conf
 
 			var slideId = this._id;
 			var tiles = this.getTiles();
-        	var path = this.meta.location.replace("/SLIDES/", "") + "/" + this.name;
-        	console.log(tiles);
 
 	        //udpate the tile source and initialize the viewer
 	        tileSource = {
@@ -66,7 +65,15 @@ define("slide", ["config", "zoomer", "jquery", "aperio", "webix"], function(conf
 			});
 
 			return filename;
-		}
+		},
+
+		showAnnotations: function (){
+	        var filename = this.getAnnotationFile();
+	        if(filename != null){
+	            var url = config.XML_BASE_URL + this.meta.location.replace("/SLIDES", "") + "/" + filename;
+	            aperio.importMarkups(url);
+	        }
+    	}
 	}
 
 	return slide;

@@ -1,6 +1,7 @@
 require = {
     urlArgs: "bust=" + (+new Date),
 	paths: {
+        "pubsub": "bower_components/PubSubJS/src/pubsub",
         "hasher": "bower_components/hasher/dist/js/hasher.min",
         "signals": "bower_components/js-signals/dist/signals.min",
         "crossroads": "bower_components/crossroads/dist/crossroads.min",
@@ -36,11 +37,7 @@ require = {
     	"osdhelper": ["osd"],
     	"osdhook": ["osd"],
         "scalebar": ["osd"],
-        "ant": ["osd", "jquery"],
-        "antctrl": ["jquery", "switch", "mousetrap"],
-        "crossroads": ["signals"],
-        "switch": ["jquery"],
-        "app": ["ui", "webix", "routes"],
-        "routes": ["crossroads", "hasher", "zoomer", "config", "osd"]
+        "ant": ["osd"],
+        "antctrl": ["switch", "mousetrap"]
     }
 };

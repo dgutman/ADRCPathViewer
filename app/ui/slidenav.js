@@ -100,24 +100,7 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery","aperio", "webix"],
         width: 220
     };
 
-    buttons = {
-        height: 30,
-        cols: [
-            { id: "apply_filter_btn", label: "Apply Filters", view: "button", click: ("$$('filters_window').show();")},
-            { id: "aperio_import_btn", label: "AperioXML", view: "button", click: showAnnotations}
-        ]
-    };
-
-    function showAnnotations(){
-        var filename = slide.getAnnotationFile();
-        if(filename != null){
-            var url = config.XML_BASE_URL + slide.meta.location.replace("/SLIDES", "") + "/" + filename;
-            aperio.importMarkups(url);
-        }
-    };
-
     return{
-        view: slidesPanel,
-        buttons: buttons
+        view: slidesPanel
     }
 }); 
