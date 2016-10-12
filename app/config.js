@@ -10,10 +10,10 @@ define("config", function() {
     var XML_BASE_URL = "http://digitalslidearchive.emory.edu:8001"
 
     //Girder collection name
-    var COLLECTION_ID = "57f3f0be2f9b2e54ae836abb";
+    var COLLECTION_ID = "57bf33482f9b2e0602411e63";
 
     //Default folder ID that is under the COLLECTION_NAME
-    var DEFAULT_FOLDER_ID = "57f7aea62f9b2e676afb5388";
+    var DEFAULT_FOLDER_ID = "57da66ce2f9b2e0e105e9d8b";
 
     //Default folder ID that is under the COLLECTION_NAME
     var DEFAULT_PATIENT_ID = "57f7aea82f9b2e676afb538c";
