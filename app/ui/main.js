@@ -26,6 +26,7 @@ define("ui/main", ["ui/header", "ui/filters", "ui/slidenav", "ui/toolbar", "ui/m
                 }
             ]
         });
+
     }
 
     return {

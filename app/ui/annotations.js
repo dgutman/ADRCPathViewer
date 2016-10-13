@@ -1,4 +1,4 @@
-define("ui/annotations", function() {
+define("ui/annotations", ["aperio"], function(aperio) {
 
     var annotations = {
         view: "window",
@@ -36,7 +36,7 @@ define("ui/annotations", function() {
                 on: {
                     "onItemClick": function(id, e, trg) {
                         file = this.getItem(id.row);
-                        //importAperioAnnotations(file.path);
+                        aperio.importMarkups(file.url);
                         $$('aperio_files_window').hide();
                     }
                 }

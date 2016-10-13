@@ -21,7 +21,6 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
             this.initDataViews();
 
             pubsub.publish("SLIDE", this);
-            console.log(this);
             return this;
         },
 
@@ -74,14 +73,20 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
 
         getAnnotationFiles: function() {
             var tmp = new Array();
-            var loc = this.meta.location.replace("/SLIDES", "");
 
-            $.each(this.getFiles(), function(key, file) {
-                if (file.mimeType == "application/xml") {
-                    file.url = config.XML_BASE_URL + loc + "/" + file.name;
-                    tmp.push(file);
-                }
-            });
+            try{
+                var loc = this.meta.location.replace("/SLIDES", "");
+
+                $.each(this.getFiles(), function(key, file) {
+                    if (file.mimeType == "application/xml") {
+                        file.url = config.XML_BASE_URL + loc + "/" + file.name;
+                        tmp.push(file);
+                    }
+                });
+            }
+            catch(err){
+                console.log(err);
+            }
 
             this.annotations = tmp;
             return this.annotations;
