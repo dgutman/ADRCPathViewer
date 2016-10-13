@@ -35,8 +35,7 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"]
         id: "slideset_list",
         options: {
             body: {
-                template: "#name#",
-                url: config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_ID
+                template: "#name#"
             }
         },
         on: {
@@ -47,11 +46,25 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"]
                 samples.clearAll();
                 samples.load(url);
             },
-            "onAfterRender": function() {
-                var samples = $$("samples_list").getPopup().getList();
-                var url = config.BASE_URL + "/folder?parentType=folder&parentId=" + config.DEFAULT_FOLDER_ID;
-                samples.clearAll();
-                samples.load(url);
+            "onAfterRender": function() {;
+                url = config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_ID;
+
+                webix.ajax().get(url, function(text, data){
+                    var firstList = $$("slideset_list").getPopup().getList();
+                    firstListData = JSON.parse(text);
+                    firstList.clearAll();
+                    firstList.parse(firstListData);
+                    $$("slideset_list").setValue(firstListData[0].id);
+
+                    url = config.BASE_URL + "/folder?parentType=folder&parentId=" + firstListData[0]._id;
+                    webix.ajax().get(url, function(text, data){
+                        var secondList = $$("samples_list").getPopup().getList();
+                        secondListData = JSON.parse(text);
+                        secondList.clearAll();
+                        secondList.parse(secondListData);
+                        $$("samples_list").setValue(secondListData[0].id);
+                    });
+                });
             }
         }
     };
@@ -62,8 +75,7 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"]
         id: "samples_list",
         options: {
             body: {
-                template: "#name#",
-                url: config.BASE_URL + "/folder?parentType=folder&parentId=57ca039af8c2ef024e986371"
+                template: "#name#"
             }
         },
         on: {
@@ -71,12 +83,6 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"]
                 var item = this.getPopup().getBody().getItem(id);
                 var thumbs = $$("thumbnails_panel");
                 var url = config.BASE_URL + "/item?folderId=" + item._id;
-                thumbs.clearAll();
-                thumbs.load(url);
-            },
-            "onAfterRender": function() {
-                var thumbs = $$("thumbnails_panel");
-                var url = config.BASE_URL + "/item?folderId=" + config.DEFAULT_PATIENT_ID;
                 thumbs.clearAll();
                 thumbs.load(url);
             }
