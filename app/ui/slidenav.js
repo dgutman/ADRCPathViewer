@@ -1,4 +1,4 @@
-define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"], function(config, zoomer, slide, $, aperio) {
+define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "requests", "webix"], function(config, zoomer, slide, $, aperio, requests) {
 
     viewer = zoomer.viewer;
 
@@ -46,24 +46,32 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "webix"]
                 samples.clearAll();
                 samples.load(url);
             },
-            "onAfterRender": function() {;
-                url = config.BASE_URL + "/folder?parentType=collection&parentId=" + config.COLLECTION_ID;
-
-                webix.ajax().get(url, function(text, data){
-                    var firstList = $$("slideset_list").getPopup().getList();
-                    firstListData = JSON.parse(text);
-                    firstList.clearAll();
-                    firstList.parse(firstListData);
-                    $$("slideset_list").setValue(firstListData[0].id);
-
-                    url = config.BASE_URL + "/folder?parentType=folder&parentId=" + firstListData[0]._id;
-                    webix.ajax().get(url, function(text, data){
-                        var secondList = $$("samples_list").getPopup().getList();
-                        secondListData = JSON.parse(text);
-                        secondList.clearAll();
-                        secondList.parse(secondListData);
-                        $$("samples_list").setValue(secondListData[0].id);
+            "onAfterRender": function() {
+                $.ajax({
+                    url: config.BASE_URL + "/resource/lookup?path=/collection/" + config.COLLECTION_NAME,
+                    method: "GET"
+                }).then(function(collection){
+                    return $.ajax({
+                        url: config.BASE_URL + "/folder?parentType=collection&parentId=" + collection._id,
+                        method: "GET"
                     });
+                }).then(function(folders){
+                    var foldersMenu = $$("slideset_list").getPopup().getList();
+                    foldersMenu.clearAll();
+                    foldersMenu.parse(folders);
+                    $$("slideset_list").setValue(folders[0].id);
+
+                    return $.ajax({
+                        url: config.BASE_URL + "/folder?parentType=folder&parentId=" + folders[0]._id,
+                        method: "GET"
+                    });
+                }).done(function(data){
+                    var sFoldersMenu = $$("samples_list").getPopup().getList();
+                    sFoldersMenu.clearAll();
+                    sFoldersMenu.parse(data);
+                    $$("samples_list").setValue(data[0].id);
+                }).fail(function(data){
+                    console.log(data);
                 });
             }
         }

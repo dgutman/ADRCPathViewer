@@ -11,6 +11,7 @@ define("config", function() {
 
     //Girder collection name
     var COLLECTION_ID = "57bf33482f9b2e0602411e63";
+    var COLLECTION_NAME = "TCGA";
 
     //Default folder ID that is under the COLLECTION_NAME
     var DEFAULT_FOLDER_ID = "57da66ce2f9b2e0e105e9d8b";
@@ -24,6 +25,7 @@ define("config", function() {
         XML_BASE_URL: XML_BASE_URL,
         COLLECTION_ID: COLLECTION_ID,
         DEFAULT_FOLDER_ID: DEFAULT_FOLDER_ID,
-        DEFAULT_PATIENT_ID: DEFAULT_PATIENT_ID
+        DEFAULT_PATIENT_ID: DEFAULT_PATIENT_ID,
+        COLLECTION_NAME: COLLECTION_NAME
     }
 });

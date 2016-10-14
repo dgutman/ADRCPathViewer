@@ -18,6 +18,7 @@ require = {
         "ant": "lib/dsa-annotation",
         "antctrl": "lib/dsa-annotation-control",
         "config": "app/config",
+        "requests": "app/requests",
         "zoomer": "app/zoomer",
         "slide": "app/slide",
         "aperio": "app/aperio",
