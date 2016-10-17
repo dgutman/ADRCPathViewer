@@ -6,17 +6,28 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
         mTable: null,
         aTable: null,
         iTable: null,
+        lBox: null,
+        files: null,
 
-        init: function(item) {
+        init: function(item, zoom, coords) {
             $.extend(this, item);
-            zoomer.viewer.open(this.getTileSource());
+            var itemId = this._id;
 
+            this.zoom = zoom;
+            this.pan = coords;
             this.aBtn = $$("aperio_import_btn");
             this.aTable = $$("aperio_files_table");
             this.mTable = $$("clinical_metadata_table");
             this.iTable = $$("image_metadata_table");
+            this.lBox = $$("link_to_share");
 
-            this.getAnnotationFiles();
+            $.ajax({
+                context: this,
+                url: config.BASE_URL + "/item/" + itemId + "/tiles", 
+                success: this.initViewer
+            });
+
+            this.getFiles();
             this.keyvalue();
             this.initDataViews();
 
@@ -24,12 +35,14 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
             return this;
         },
 
-        getTileSource: function() {
+        initViewer: function(tiles){
+            console.log("TILES: ", tiles);
+            itemId = this._id;
+            this.tiles = tiles;
+            zoom = this.zoom;
+            pan = this.pan;
+            sharedUrl = config.HOST_URL + "/#item/" + this._id;
 
-            var slideId = this._id;
-            var tiles = this.getTiles();
-
-            //udpate the tile source and initialize the viewer
             tileSource = {
                 width: tiles.sizeX,
                 height: tiles.sizeY,
@@ -38,58 +51,56 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
                 minLevel: 0,
                 maxLevel: tiles.levels - 1,
                 getTileUrl: function(level, x, y) {
-                    return config.BASE_URL + "/item/" + slideId + "/tiles/zxy/" + level + "/" + x + "/" + y;
+                    return config.BASE_URL + "/item/" + itemId + "/tiles/zxy/" + level + "/" + x + "/" + y;
                 }
             };
 
-            return tileSource;
-        },
-
-        getTiles: function() {
-            var tiles = null;
-
-            $.ajax({
-                url: config.BASE_URL + "/item/" + this._id + "/tiles",
-                method: "GET",
-                async: false,
-                success: function(data) {
-                    tiles = data;
+            zoomer.viewer.open(tileSource);
+            
+            //set viewer zoom level if the slide has this property
+            zoomer.viewer.addHandler("open", function() {
+                console.log(zoom);
+                if(typeof zoom != "undefined"){    
+                    zoomer.viewer.viewport.zoomBy(zoom);
+                }
+                if(typeof pan != "undefined"){     
+                    console.log("PAN TO:", pan); 
+                    zoomer.viewer.viewport.panTo(pan);
                 }
             });
 
-            return tiles;
+            viewer.addHandler('zoom', function(event) {
+                tmpUrl = sharedUrl + "/" + zoomer.viewer.viewport.getZoom();
+                currentZoom = zoomer.viewer.viewport.getZoom();
+                currentCenter = zoomer.viewer.viewport.getCenter()
+                tmpUrl += "/" + currentCenter.x + "/" + currentCenter.y;
+                $$("link_to_share").setValue(tmpUrl);
+            });
+
+            viewer.addHandler('pan', function(event) {
+                currentCenter = zoomer.viewer.viewport.getCenter()
+                currentZoom = zoomer.viewer.viewport.getZoom();
+                tmpUrl = sharedUrl + "/" + currentZoom + "/" + currentCenter.x + "/" + currentCenter.y;
+                $$("link_to_share").setValue(tmpUrl);
+            });
         },
 
         getFiles: function() {
-            var files = null;
-            var url = config.BASE_URL + "/item/" + this._id + "/files";
+            var obj = this;
 
-            webix.ajax().sync().get(url, function(text, data, xmlHttpRequest) {
-                files = JSON.parse(text);
-            });
+            $.get(config.BASE_URL + "/item/" + this._id + "/files")
+             .then(function(files){
+                this.files = files;
+                console.log("FILES: ", this.files);
 
-            return files;
-        },
-
-        getAnnotationFiles: function() {
-            var tmp = new Array();
-
-            try{
-                var loc = this.meta.location.replace("/SLIDES", "");
-
-                $.each(this.getFiles(), function(key, file) {
+                $.each(files, function(key, file) {
                     if (file.mimeType == "application/xml") {
-                        file.url = config.XML_BASE_URL + loc + "/" + file.name;
-                        tmp.push(file);
+                        obj.annotations.push(file);
                     }
                 });
-            }
-            catch(err){
-                console.log(err);
-            }
+             });
 
-            this.annotations = tmp;
-            return this.annotations;
+             console.log("ANNOTATIONS: ", this.annotations);
         },
 
         keyvalue: function() {

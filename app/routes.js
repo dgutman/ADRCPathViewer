@@ -1,35 +1,23 @@
-define("routes", ["crossroads", "hasher", "zoomer", "config", "jquery", "ui", "osd"], function(crossroads, hasher, zoomer, config, $, ui, osd) {
+define("routes", ["crossroads", "hasher", "config", "jquery", "ui", "osd", "slide"], function(crossroads, hasher, config, $, ui, osd, slide) {
 
     function init() {
-        crossroads.addRoute("/slideset/{setId}", function(setId) {
-            $$("thumbnails_panel").clearAll();
-            $$("thumbnails_panel").load(config.BASE_URL + "/slideset/" + setId);
-        });
-
-        crossroads.addRoute("/slide/{slideId}", function(slideId) {
-            $.get(config.BASE_URL + "/slide/" + slideId, function(slide) {
-                $$("thumbnails_panel").clearAll();
-                $$("thumbnails_panel").load(config.BASE_URL + "/slideset/" + slide.set);
-                ui.initSlide(slide);
+        crossroads.addRoute("/item/{id}", function(id) {
+            $.get(config.BASE_URL + "/item/" + id, function(item) {
+                console.log("SLIDE: ", item);
+                slide.init(item);
             });
         });
 
-        crossroads.addRoute("/slide/{slideId}/{zoom}", function(slideId, zoom) {
-            $.get(config.BASE_URL + "/slide/" + slideId, function(slide) {
-                $$("thumbnails_panel").clearAll();
-                $$("thumbnails_panel").load(config.BASE_URL + "/slideset/" + slide.set);
-                slide.zoom = parseFloat(zoom);
-                ui.initSlide(slide);
+        crossroads.addRoute("/item/{id}/{zoom}", function(id, zoom) {
+            $.get(config.BASE_URL + "/item/" + id, function(item) {
+                slide.init(item, parseInt(zoom));
             });
         });
 
-        crossroads.addRoute("/slide/{slideId}/{zoom}/{x}/{y}", function(slideId, zoom, x, y) {
-            $.get(config.BASE_URL + "/slide/" + slideId, function(slide) {
-                $$("thumbnails_panel").clearAll();
-                $$("thumbnails_panel").load(config.BASE_URL + "/slideset/" + slide.set);
-                slide.zoom = parseFloat(zoom);
-                slide.pan = new osd.Point(parseFloat(x), parseFloat(y));
-                ui.initSlide(slide);
+        crossroads.addRoute("/item/{id}/{zoom}/{x}/{y}", function(id, zoom, x, y) {
+            $.get(config.BASE_URL + "/item/" + id, function(item) {
+                var coords = new osd.Point(parseFloat(x), parseFloat(y));
+                slide.init(item, parseInt(zoom), coords);
             });
         });
 
