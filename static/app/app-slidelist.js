@@ -20,6 +20,7 @@ define(["jquery", "config", "webix"], function($, config) {
     //Top is a View Bar
     //with a left panel for info and a bigger panel that allows us to switch views between a tab
     //and data table view
+
     slideListDataTable_Columns = [
         { id: "id", title: "ID", hidden: true},
         { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + config.BASE_URL + "/thumbnail/#id#' height='40' width='80'/>" },
