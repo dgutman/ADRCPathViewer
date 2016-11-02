@@ -16,7 +16,6 @@ define(["jquery", "config", "webix"], function($, config) {
     };
     
     ///I may want to add back in the menu instead of {}----  
-
     //Top LEvel will have three panels
     //Top is a View Bar
     //with a left panel for info and a bigger panel that allows us to switch views between a tab
