@@ -25,7 +25,7 @@ define(["jquery", "config", "webix"], function($, config) {
         { id: "id", title: "ID", hidden: true},
         { id: "thumbnail", header: "Thumbnail", width: 100, template: "<img src='" + config.BASE_URL + "/thumbnail/#id#' height='40' width='80'/>" },
         { id: "label", header: ["Label", { content: "serverFilter" }], width: 300, editor:"text"},
-        { id: "set", header: ["Slide Set", { content: "serverSelectFilter" }], width: 200 },
+        { id: "set", header: ["Slide Set", { content: "serverFilter" }], width: 200 },
         { id: "width", sort: "server", header: "Width", width: 80 },
         { id: "height", sort: "server", header: "Height", width: 80 },
         { id: "size", sort: "server", header: "Size", width: 100 },
