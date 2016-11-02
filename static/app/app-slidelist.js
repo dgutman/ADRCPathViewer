@@ -1,4 +1,6 @@
 define(["jquery", "config", "webix"], function($, config) {
+    
+    var slide = null;
 
     header = {
         borderless: true,
@@ -72,6 +74,10 @@ define(["jquery", "config", "webix"], function($, config) {
                             }
                         });
                     }
+                },
+                onItemClick: function(id){
+                    slide = this.getItem(id);
+                    $$("image_preview").refresh();
                 }
             }
         }]
@@ -98,7 +104,13 @@ define(["jquery", "config", "webix"], function($, config) {
                     height: 150
                 },
                 url: config.BASE_URL + "/slides",
-                pager: "pagerA"
+                pager: "pagerA",
+                on: {
+                    onItemClick: function(id){
+                        slide = this.getItem(id);
+                        $$("image_preview").refresh();
+                    }
+                }
             }
         ]
     }
@@ -131,7 +143,15 @@ define(["jquery", "config", "webix"], function($, config) {
         }
     };
 
-    metaImageViewer = { view: "template", "content": "dv_imageReview", width: 200 };
+    metaImageViewer = { view: "template",  width: 200, id: "image_preview",
+        template:function(){
+            if(!$.isEmptyObject(slide)){
+                return "<h5>Slide</h5><img src='"+config.BASE_URL+"/thumbnail/"+slide.id+"'/>" +
+                       "<h5>Macro</h5><img src='"+config.BASE_URL+"/macroimage/"+slide.id+"'/>" +
+                       "<h5>Label</h5><img src='"+config.BASE_URL+"/labelimage/"+slide.id+"'/>";
+            }
+        } 
+    };
 
     RawSlideLayout = {
         container: "main_layout",
@@ -142,7 +162,7 @@ define(["jquery", "config", "webix"], function($, config) {
             header, //here you place any component you like
 
             { view: "resizer" },
-            { cols: [metaImageViewer, mainDataPanel], fillspace: true }
+            { cols: [mainDataPanel, metaImageViewer], fillspace: true }
         ]
     }
 
