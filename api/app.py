@@ -15,4 +15,5 @@ app.config['CACHE_TYPE'] = 'memcached'
 cache.init_app(app)
 
 # Attach api v1 to the app
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 app.register_blueprint(v1)
