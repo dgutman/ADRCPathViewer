@@ -4,6 +4,7 @@ from flask_restful.utils import cors
 from flask import Blueprint, current_app, jsonify
 from SlideSetList import SlideSetList
 from SlideSet import SlideSet
+from Auth import Auth
 from DeepZoom import DeepZoom
 from Thumbnail import Thumbnail
 from MacroImage import MacroImage
@@ -36,6 +37,7 @@ dz_params = {'db': connect(config), 'config': config, 'opts': opts}
 # Add CORS decorator for all endpoints
 v1 = Blueprint('v1', __name__)
 api = Api(v1, prefix="/v1")
+
 
 @v1.after_request
 def after_request(response):
@@ -122,4 +124,9 @@ api.add_resource(
 api.add_resource(
 		Static,
 		"/<path:path>",
+		resource_class_kwargs={'config': config})
+
+api.add_resource(
+		Auth,
+		"/auth",
 		resource_class_kwargs={'config': config})

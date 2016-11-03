@@ -1,7 +1,7 @@
 from openslide import OpenSlide, OpenSlideError
 from flask_restful import Resource
 from bson.objectid import ObjectId
-from flask import Response, request
+from flask import Response, session
 from PIL import Image
 import os, gridfs, cStringIO
 from utils.deepzoom import PILBytesIO
@@ -24,7 +24,6 @@ class MacroImage(Resource):
 		self.config = config
 		self.slides = self.db[self.config["db_collection"]] 	
 
-	#@requires_auth
 	def get(self, id):
 		"""
         Get slide macro image
@@ -43,17 +42,21 @@ class MacroImage(Resource):
           	description: Invalid slide Id or macro image not found
         """
 
-		image = self.slides.find_one({'_id': ObjectId(id)})
-		path = image["path"]
-		dim = (int(self.config["macro_width"]), int(self.config["macro_height"]))
-		osr = OpenSlide(path)
-		
-		if "macro" in osr.associated_images.keys():
-			im = osr.associated_images["macro"]
-			im.thumbnail(dim)
-			buf = PILBytesIO()
-			im.save(buf, "jpeg", quality=90)
-			return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
+		if session.get("auth"):
+			image = self.slides.find_one({'_id': ObjectId(id)})
+			path = image["path"]
+			dim = (int(self.config["macro_width"]), int(self.config["macro_height"]))
+			osr = OpenSlide(path)
+			
+			if "macro" in osr.associated_images.keys():
+				im = osr.associated_images["macro"]
+				im.thumbnail(dim)
+				buf = PILBytesIO()
+				im.save(buf, "jpeg", quality=90)
+				return Response(buf.getvalue(), status=200, mimetype='image/jpeg')
+			else:
+				resp = {"status": 404, "message": "Macro image not found this resource"}
+				return Response(dumps(resp), status=404, mimetype='application/json')
 		else:
-			resp = {"status": 404, "message": "Macro image not found this resource"}
-			return Response(dumps(resp), status=404, mimetype='application/json')
+			resp = {"status": 403, "message": "Could not verify your access level for this resource. You have to login with proper credentials"}
+			return Response(dumps(resp), status=403, mimetype='application/json')
