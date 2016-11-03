@@ -52,8 +52,6 @@ class Auth(Resource):
 
 				if user["username"] == u and user["password"] == p:
 					session["auth"] = True
-					print "Authenticated"
-
 					resp = {"status": 200, "message": "success"}
 					return Response(dumps(resp), status=200, mimetype='application/json')
 
