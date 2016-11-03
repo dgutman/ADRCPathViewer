@@ -202,16 +202,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     {value:"About the CDSA"},
                     {value:"Repository Stats"}
                 ]},
-                { id:"4", value:"Login"},
-                { id:"5", value:"Share Link"}
+                { id:"4", value:"Share Link"},
+                { id:"login_btn", value:"Login"}
             ],
             type:{height:55},
             css: "menu",
             on:{ 
                 onItemClick:function(id){
-                    if(id == 4)
+                    if(id == "login_btn")
                         $$("login_window").show();
-                    if(id == 5)
+                    if(id == 4)
                         $$("share_link_window").show();
                 }
             }
@@ -387,9 +387,10 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                     { id: "username", view:"text", label:"Username"},
                     { id: "password", view:"text", type:"password", label:"Password"},
                     { margin:5, cols:[
-                        { view:"button", value:"Login" , type:"form"},
+                        { view:"button", value:"Login" , type:"form", click: authenticate},
                         { view:"button", value:"Cancel", click: ("$$('login_window').hide();")}
-                    ]}
+                    ]},
+                    { id: "login_message", view:"label", value: ""},
                 ]
             }
         });
@@ -757,6 +758,26 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
         $$('aperio_files_window').hide();
         $$('filters_window').hide();
         $$('metadata_window').show();   
+    }
+
+    function authenticate(){
+        data = JSON.stringify({"username": $$("username").getValue(), "password": $$("password").getValue()});
+        url = config.BASE_URL + "/auth";
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: data,
+            success: function(response) {
+                console.log(response);
+                $$('login_window').hide();
+            },
+            error: function(response) {
+                console.log(response);
+                $$('login_message').setValue("Login failed. Please try again.");
+            }
+        });
     }
 
     return{

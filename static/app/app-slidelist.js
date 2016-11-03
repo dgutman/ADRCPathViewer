@@ -99,9 +99,9 @@ define(["jquery", "config", "webix"], function($, config) {
                 view: "dataview",
                 select: true,
 
-                template: "<img src='" + config.BASE_URL + "/thumbnail/#id#'  ><div class='webix_strong'>#fileName#</div>Size: #width# x #height#",
+                template: "<img src='" + config.BASE_URL + "/thumbnail/#id#'  ><div class='webix_strong'>#name#</div>Size: #width# x #height#",
                 type: {
-                    height: 150
+                    height: 200
                 },
                 url: config.BASE_URL + "/slides",
                 pager: "pagerA",
