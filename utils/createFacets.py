@@ -1,7 +1,7 @@
 import pymongo, sys, os, re
 from bson.objectid import ObjectId
 
-DB_NAME = "UberSliderSorter"
+DB_NAME = "masterSlideList"
 DB_COLL = "RawSlideData"
 
 client = pymongo.MongoClient('localhost',27017)

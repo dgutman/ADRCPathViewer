@@ -551,6 +551,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
         //set the new slide
         slide = newSlide;
         sharedUrl = config.HOST_URL + "/#slide/" + slide.id;
+        console.log(slide);
 
         //close all windows
         $$('metadata_window').hide();
@@ -699,7 +700,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
     }
 
     function importAperioAnnotations(filename){
-        url = config.BASE_URL + "/aperio/" + filename;
+        url = config.BASE_URL + "/aperio" + filename;
         aperio.importMarkups(url);
     }
 
