@@ -115,14 +115,16 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
                             {view: "template", content: "slide_info_obj", borderless: true},
                             {id: "macro_image", view: "template", borderless: true, template: 
                                 function(){
+                                    var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
+                                    console.log(credentials);
                                     str = "<b>Macro image:</b><br/>";
                                     if(slide != null){
                                         $.ajax({
-                                            url: config.BASE_URL + "/macroimage/" + slide.id,
+                                            url: config.BASE_URL + "/macroimage/" + slide.id + "?" + credentials,
                                             async: false,
                                             type: "GET",
                                             success: function(){
-                                                str += "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "'/>";
+                                                str += "<img src='" + config.BASE_URL + "/macroimage/" + slide.id + "?" + credentials +"'/>";
                                             },
                                             error: function(jqXHR){
                                                 try{
@@ -145,14 +147,15 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
                             },
                             {id: "label_image", view: "template", borderless: true, template: 
                                 function(){
+                                    var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
                                     str = "<b>Label image:</b><br/>";
                                     if(slide != null){
                                         $.ajax({
-                                            url: config.BASE_URL + "/labelimage/" + slide.id,
+                                            url: config.BASE_URL + "/labelimage/" + slide.id + "?" + credentials,
                                             async: false,
                                             type: "GET",
                                             success: function(){
-                                                str += "<img src='" + config.BASE_URL + "/labelimage/" + slide.id + "'/>";
+                                                str += "<img src='" + config.BASE_URL + "/labelimage/" + slide.id + "?" + credentials +"'/>";
                                             },
                                             error: function(jqXHR){
                                                 resp = JSON.parse(jqXHR.responseText);
