@@ -280,6 +280,30 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
             }
         });
 
+        AperioXMLSelector = {view: "datatable", 
+                width:1000,
+                scroll: "xy",
+                select:"row",
+                id: "aperio_files_table",
+                columns:[
+                    { id: "XMLstatus", header: "Status", width: 50},
+                    { id: "name", header: "Name", width: 250},
+                    { id: "XMLlabel", header: "Label", template:function(obj){return obj['path'].split('/').slice(4);}, fillspace:true},
+                    { id: "path", header: "Path", width: 40 },
+
+                ],
+                on:{
+                    "onItemClick":function(id, e, trg){ 
+                        file = this.getItem(id.row);
+                        webix.message(file.path);
+                        importAperioAnnotations(file.path);
+                       // $$('aperio_files_window').hide();   
+                       $$('aperio_files_window').setPosition(100, 100);      
+                    } 
+                }
+            }
+
+
         //Window for inserting and viewing slide comments
         webix.ui({
             view:"window",
@@ -295,23 +319,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
             id: "aperio_files_window",
             move: true,
             body:{
-                rows:[{view: "datatable", 
-                width:1000,
-                scroll: "xy",
-                select:"row",
-                id: "aperio_files_table",
-                columns:[
-                    { id: "name", header: "Name", width: 250},
-                    { id: "path", header: "Path", fillspace:true}
-                ],
-                on:{
-                    "onItemClick":function(id, e, trg){ 
-                        file = this.getItem(id.row);
-                        importAperioAnnotations(file.path);
-                        $$('aperio_files_window').hide();         
-                    } 
-                }
-            }]
+                cols:[  AperioXMLSelector,{view:"template",template:'LeftView', width:200},]
             }
         });
 
@@ -337,7 +345,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
                 id: "pathology_reports_table",
                 columns:[
                     { id: "name", header: "Name", width: 250},
-                    { id: "path", header: "Path", fillspace:true}
+                    { id: "path", header: "Path", fillspace:true},
+
                 ],
                 on:{
                     "onItemClick":function(id, e, trg){ 
