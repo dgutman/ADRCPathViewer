@@ -23,14 +23,9 @@ def authenticate():
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        cookies = request.environ["HTTP_COOKIE"].split("; ")
-        username, password = None, None
-
-        for cookie in cookies:
-            k, v = cookie.split("=", 1)
-            if k == "dsa_username": username = v
-            if k == "dsa_password": password = v
-
+        username = request.args.get("username", None)
+        password = request.args.get("password", None)
+       
         if not check_auth(username, password):
             return authenticate()
         return f(*args, **kwargs)

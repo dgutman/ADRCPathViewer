@@ -36,6 +36,14 @@ class LabelImage(Resource):
             name: id
             description: MonogDB ObjectId -- Example 57bf3c092f9b2e1595b29730
             type: string
+          - in: query
+            name: username
+            description: Username to access the resource
+            type: string
+          - in: query
+            name: password
+            description: Password to access the resource
+            type: string
         responses:
           200:
             description: Returns the slide label image
