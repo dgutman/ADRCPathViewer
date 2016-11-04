@@ -7,7 +7,7 @@
  *  webix - webix UI
  */
 
-define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(config, obs, zoomer, aperio, $){
+define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"], function(config, obs, zoomer, aperio, $, cookie){
 
     /**
      * build()
@@ -763,6 +763,7 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
     function authenticate(){
         data = JSON.stringify({"username": $$("username").getValue(), "password": $$("password").getValue()});
         url = config.BASE_URL + "/auth";
+
         $.ajax({
             url: url,
             type: "POST",
@@ -771,6 +772,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
             data: data,
             success: function(response) {
                 console.log(response);
+                $.cookie("dsa_username", $$("username").getValue(), {expires: 30});
+                $.cookie("dsa_password", $$("password").getValue(), {expires: 30});
                 $$('login_window').hide();
             },
             error: function(response) {
@@ -778,6 +781,17 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "webix"], function(
                 $$('login_message').setValue("Login failed. Please try again.");
             }
         });
+    }
+
+    function getCredentials() {
+        var name = "dsa_username=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
     }
 
     return{

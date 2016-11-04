@@ -11,6 +11,7 @@ require = {
         "ko": "bower_components/knockout/dist/knockout",
         "webix": "bower_components/webix/codebase/webix",
         "jquery": "bower_components/jquery/dist/jquery",
+        "cookie": "bower_components/jquery.cookie/jquery.cookie",
         "osdhelper": "lib/openseadragon-imaginghelper.min",
         "osdhook": "lib/openseadragon-viewerinputhook.min",
         "scalebar": "lib/openseadragon-scalebar",
