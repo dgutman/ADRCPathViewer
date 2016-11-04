@@ -43,17 +43,12 @@ class Auth(Resource):
 
 		user = request.get_json(force=True)
 
-		if session.get("auth"):
-			resp = {"status": 200, "message": "success"}
-			return Response(dumps(resp), status=200, mimetype='application/json')
-		else:
-			with open(self.config["credentials"], "r") as fh:
-				u, p = fh.readline().rstrip().split(",")
+		with open(self.config["credentials"], "r") as fh:
+			u, p = fh.readline().rstrip().split(",")
 
-				if user["username"] == u and user["password"] == p:
-					session["auth"] = True
-					resp = {"status": 200, "message": "success"}
-					return Response(dumps(resp), status=200, mimetype='application/json')
+			if user["username"] == u and user["password"] == p:
+				resp = {"status": 200, "message": "success"}
+				return Response(dumps(resp), status=200, mimetype='application/json')
 
 		resp = {"status": 400, "message": "failure"}
 		return Response(dumps(resp), status=400, mimetype='application/json')
