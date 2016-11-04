@@ -116,7 +116,6 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
                             {id: "macro_image", view: "template", borderless: true, template: 
                                 function(){
                                     var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
-                                    console.log(credentials);
                                     str = "<b>Macro image:</b><br/>";
                                     if(slide != null){
                                         $.ajax({
