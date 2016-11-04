@@ -1,7 +1,7 @@
 import pymongo, sys, os
 from bson.objectid import ObjectId
 
-DB_NAME = "UberSliderSorter"
+DB_NAME = "masterSlideList"
 DB_COLL = "RawSlideData"
 XML_DIR = "/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files"
 

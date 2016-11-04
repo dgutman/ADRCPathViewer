@@ -9,7 +9,7 @@ class Aperio(Resource):
 		pass
 
 	def get(self, filename):
-		"""
+  		"""
         Get Aperio XML annotation
         ---
         tags:
