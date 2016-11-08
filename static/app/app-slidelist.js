@@ -1,4 +1,4 @@
-define(["jquery", "config", "webix"], function($, config) {
+define(["jquery", "config", "cookie", "webix"], function($, config, cookie) {
     
     var slide = null;
 
@@ -146,9 +146,10 @@ define(["jquery", "config", "webix"], function($, config) {
     metaImageViewer = { view: "template",  width: 200, id: "image_preview",
         template:function(){
             if(!$.isEmptyObject(slide)){
+                var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
                 return "<h5>Slide</h5><img src='"+config.BASE_URL+"/thumbnail/"+slide.id+"'/>" +
-                       "<h5>Macro</h5><img src='"+config.BASE_URL+"/macroimage/"+slide.id+"'/>" +
-                       "<h5>Label</h5><img src='"+config.BASE_URL+"/labelimage/"+slide.id+"'/>";
+                       "<h5>Macro Image</h5><img src='" + config.BASE_URL + "/macroimage/" + slide.id + "?" + credentials +"'/>"+
+                       "<h5>Label Image</h5><img src='" + config.BASE_URL + "/labelimage/" + slide.id + "?" + credentials +"'/>";
             }
         } 
     };
