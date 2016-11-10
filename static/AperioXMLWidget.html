@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset = UTF-8">
+    <title>ISIC</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/webix/codebase/webix.css">
+    
+
+    <script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
+    <script type="text/javascript" src="bower_components/webix/codebase/webix.js"></script>
+    
+
+    <script type="text/javascript" src="webixAperioXMLGrid.js"></script>
+    
+</head>
+
+<body>
+    <!-- <div id="main_layout" style="height:100%"></div> -->
+    <div><h1>This should load an aperioXML window</h1> </div>
+    <div id="main_layout" style="height:100%"></div>
+
+
+<script>
+
+XMLExampleFile = "http://digitalslidearchive.emory.edu/v1/aperio/%2FTCGA_MIRROR%2FTCGA_METADATA%2FAperio_XML_Files%2FbcrTCGA%2Fdiagnostic_block_HE_section_image%2FTCGA-08-0518-01Z-00-DX4.xml"
+
+function getAperioXML_document(xml_filename) {
+    /*
+     this will actually grab the xml document itself from the local filesystem based on the passed filename
+     this expects either a fully qualifier url or a relative path
+     */
+     //TO DO: Make this asynchronous and use modern AJAX request Syntax
+    var result = null;
+    
+    $.ajax({
+        url : xml_filename,
+        type : 'get',
+        dataType : 'xml',
+        async : false,
+        success : function(data) {
+            result = data;
+        }
+    });
+    return result;
+}
+
+
+layoutParamValue = { view: 'template', template:"Info about parameters" }
+
+function display_all_annotations_and_load_first_instance(xml_file_to_show) 
+{
+    console.log(xml_file_to_show);
+    /* while a given subject can have one or more annotations...for now I am going to by default load the first one I can find as I
+     change slidees */
+        $('Annotation', xml_file_to_show).each(function() {
+                    console.log('hi');
+                current_rgn_id = this.getAttribute("Id");
+                linecolor = this.getAttribute("LineColor").toString(16);
+                linecolor = (linecolor.length < 6) ? "0" + linecolor : linecolor;
+                console.log(linecolor);
+                $('Region', this).each(function() {     aperio_vertex_to_osd( this,linecolor);});
+                    });
+}
+
+
+
+function load_aperio_annotation_list( display_on_load)
+    {
+    if ( !  main_layout.dhxWins.isWindow("aperio_xml") ) {   gen_aperio_annotation_box(); }
+//        else{ dhxWins.window("aperio_xml").show(); }
+    
+    try {
+    aperio_xml_filegrid.clearAll();
+        }
+    catch(err)
+        {
+        console.log(err);
+        }
+
+    try
+        {
+    xml_file_list = getAperioXML_list();
+                         /* Now I have queried the php function and gotten a list of active xml files for this subject...
+                             this array has three properties  title/datagroup and filename... */
+                                 /* TO DO-- just generate this window on init... */
+                                 
+                                     /* add a flag regarding loaading the first annotaiton file by default */
+    load_first_annotation = true; /*when a user clicks on a new slide.. the first annotation xml found
+                                                 will be loaded by default... can be toggled... */
+    xml_file_list.forEach( function(x) {
+                var newId = ( new Date()).valueOf();
+                  aperio_xml_filegrid.addRow(newId,[x.title,x.filename])
+
+                if(load_first_annotation)
+                     {
+                load_first_annotation = false;
+                 ; //this is the first xml file found...
+                // alert('should also actually LOAD the annotation!!!??');
+                 console.log(x.filename);
+                 aperioxml_annotation = getAperioXML_document(x.filename);
+                  display_all_annotations_and_load_first_instance(aperioxml_annotation);
+                 /*now call a function to actually load them... */
+                         }
+                   });
+    /*this gets called if annotations are present and then will clear and load the regions into the grid files */
+        }
+        catch(err)
+            {
+            console.log("Aperio XML functio not defined");
+            
+            }
+        
+        
+        }
+
+function gen_aperio_annotation_box(target_win_id) {
+    /* This is inherited code from Dan--- this generates the basic grid/layout needed to render an Aperio XML type document */
+
+    /*target win id hasn't been generated yet... will add this in the future... */
+
+    aperio_win = main_layout.dhxWins.createWindow("aperio_xml", 100, 50, 600, 600);
+    aperio_win.setText("Aperio Annotations Window");
+
+    aperio_win.button("close").hide();
+    aperio_win.button("minmax1").hide();
+    aperio_win.button("park").hide();
+    aperio_win.addUserButton("hide", 0, 'Hide', 'hide');
+    aperio_win.button('hide').attachEvent("onClick", function() {
+        aperio_win.hide()
+    });
+
+    layers_layout = aperio_win.attachLayout('4U');
+
+    mainlayers_div = layers_layout.cells('a');
+    aperio_xml_filegrid = mainlayers_div.attachGrid();
+    aperio_xml_filegrid.setImagePath("dsa-common-files/codebase/imgs/");
+    aperio_xml_filegrid.setHeader("Annotation File,filename");
+    aperio_xml_filegrid.setColTypes("ro,ro");
+    aperio_xml_filegrid.setColSorting("str,ro");
+    aperio_xml_filegrid.setInitWidths("*,0");
+    aperio_xml_filegrid.init();
+    aperio_xml_filegrid.setSkin("dhx_web");
+    mainlayers_div.setText('');
+    /* need to add an onclick handler to this grid box as well... */
+
+    var XMLResponse;
+
+    aperio_xml_filegrid.attachEvent("onRowSelect", function(id, ind) {
+        /* Now load the appropriate XML and clear the other data... */
+        var xml_filename = aperio_xml_filegrid.cellById(id, 1).getValue();
+        aperioxml_annotation = getAperioXML_document(xml_filename);
+        /*this aperioxml_annotation now contains the entire xml document I needed... I may need a callback function for this */
+        /*grid 1 will be renamed.. this currently contains the list of labeled regions... */
+        aperio_win_grid1.clearAll();
+
+        $('Annotation', aperioxml_annotation).each(function() {
+            aperio_win_grid1.addRow(this.getAttribute("Id"), "Annotation " + this.getAttribute("Id"), this.getAttribute("Id"));
+            linecolor = this.getAttribute("LineColor").toString(16);
+            linecolor = (linecolor.length < 6) ? "0" + linecolor : linecolor;
+            /*I need to now load this data into the grid1 spot... */
+            /*line color seems to be in a weird 5 or 6 digit integer format... need to convert this to FF0000 type */
+        });
+
+    });
+
+    sections_div = layers_layout.cells('b');
+    aperio_win_grid1 = sections_div.attachGrid();
+    aperio_win_grid1.setImagePath("dsa-common-files/codebase/imgs/");
+    aperio_win_grid1.setHeader("Annotations");
+    aperio_win_grid1.setColTypes("ro");
+    aperio_win_grid1.setColSorting("str");
+    aperio_win_grid1.init();
+    aperio_win_grid1.setSkin("dhx_web");
+
+    aperio_win_grid1.attachEvent("onRowSelect", function(id, ind) {
+
+        /*should initiate the drawing here as well... */
+
+        aperio_win_grid2.clearAll();
+        aperio_win_grid3.clearAll();
+
+        XMLResponse = aperioxml_annotation;
+        $('Annotation', XMLResponse).each(function() {
+            if (this.getAttribute("Id") == id) {
+                aperio_win_grid2.addRow(1, ["Id:", this.getAttribute("Id")], 1);
+                aperio_win_grid2.addRow(2, ["Name:", this.getAttribute("Name")], 2);
+                aperio_win_grid2.addRow(3, ["ReadOnly:", this.getAttribute("ReadOnly")], 3);
+                aperio_win_grid2.addRow(4, ["NameReadOnly:", this.getAttribute("NameReadOnly")], 4);
+                aperio_win_grid2.addRow(5, ["LineColorReadOnly:", this.getAttribute("LineColorReadOnly")], 5);
+                aperio_win_grid2.addRow(6, ["Incremental:", this.getAttribute("Incremental")], 6);
+                aperio_win_grid2.addRow(7, ["Type:", this.getAttribute("Type")], 7);
+                aperio_win_grid2.addRow(8, ["LineColor:", this.getAttribute("LineColor")], 8);
+                aperio_win_grid2.addRow(9, ["Visible:", this.getAttribute("Visible")], 9);
+                aperio_win_grid2.addRow(10, ["Selected:", this.getAttribute("Selected")], 10);
+                aperio_win_grid2.addRow(11, ["MarkupImagePath:", this.getAttribute("MarkupImagePath")], 11);
+                aperio_win_grid2.addRow(12, ["MacroName:", this.getAttribute("MacroName")], 12);
+                // aperio_win_grid2.addRow(2,["LineColor:",this.getAttribute("LineColor")],2);
+                linecolor = this.getAttribute("LineColor").toString(16);
+                linecolor = (linecolor.length < 6) ? "0" + linecolor : linecolor;
+                XMLResponse2 = this;
+
+                
+
+                $('Region', this).each(function() {
+                    aperio_win_grid3.addRow(this.getAttribute("Id"), ["<img id='eyeImage" + this.getAttribute("Id") + "' src=" + eye_open_url + eye_style + ">", "Layer " + this.getAttribute("Id"), this.getAttribute("Length"), this.getAttribute("Area"), this.getAttribute("Zoom"), red_image, green_image, blue_image], this.getAttribute("Id"));
+
+        /*the line color is contained in the previous atributes.... */
+            
+            console.log(linecolor);
+                console.log(this);
+                console.log('iterating through the regions...');
+                aperio_vertex_to_osd( this,linecolor);
+                });
+                /*besides adding the row... I should.. dRAW THEM!!! */
+
+            }
+        })
+    });
+
+    sections_div.setText('');
+    data_div = layers_layout.cells('c');
+    aperio_win_grid2 = data_div.attachGrid();
+    aperio_win_grid2.setImagePath("dsa-common-files/codebase/imgs/");
+    aperio_win_grid2.setHeader("Parameter,Value");
+    aperio_win_grid2.setColTypes("ro,ro");
+    aperio_win_grid2.setColSorting("str,str");
+    aperio_win_grid2.init();
+    aperio_win_grid2.setSkin("dhx_web");
+    /* aperio_win_grid2.attachEvent("onRowSelect", function(id,ind){
+     alert ("Id: " + id + " Index: " + ind);
+     }); */
+
+    data_div.setText('');
+    layers_div = layers_layout.cells('d');
+    aperio_win_grid3 = layers_div.attachGrid();
+    aperio_win_grid3.setHeader("Visible,Layer,Length,Area,Zoom,Red,Green,Blue");
+    aperio_win_grid3.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro");
+    aperio_win_grid3.setColSorting("str,str,str,str,str,str,str,str");
+    aperio_win_grid3.enableKeyboardSupport(false);
+    aperio_win_grid3.init();
+    aperio_win_grid3.setSkin("dhx_web");
+    aperio_win_grid3.attachEvent("onRowSelect", function(id, ind) {
+    });
+
+    layers_div.setText('');
+
+    aperio_win.hide();
+}
+
+
+</script>
+</body>
+</html>
