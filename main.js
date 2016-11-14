@@ -1,6 +1,8 @@
 require = {
     urlArgs: "bust=" + (+new Date),
     paths: {
+        "d3": "bower_components/d3/d3.min",
+        "svg": "bower_components/svg-overlay/openseadragon-svg-overlay",
         "pubsub": "bower_components/PubSubJS/src/pubsub",
         "hasher": "bower_components/hasher/dist/js/hasher.min",
         "signals": "bower_components/js-signals/dist/signals.min",
@@ -37,6 +39,7 @@ require = {
         "osdhook": ["osd"],
         "scalebar": ["osd"],
         "ant": ["osd"],
-        "antctrl": ["jquery", "switch", "mousetrap"]
+        "antctrl": ["jquery", "switch", "mousetrap"],
+        "svg": ["osd"]
     }
 };

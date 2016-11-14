@@ -1,75 +1,93 @@
 define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, ant) {
 
-    function importMarkups(url) {
-        //first clear the annotation state
-        zoomer.annotationState.clearAnnotations(); //is global for now
+    function transformVertices(vertices, imageWidth) {
+        coordinates = new Array();
+        scaleFactor = 1 / imageWidth;
+        $.each(vertices, function(index, vertex) {
+            vertex = vertex["@attributes"];
+            x = parseFloat(vertex.X) * scaleFactor;
+            y = parseFloat(vertex.Y) * scaleFactor;
+            coordinates.push(x + "," + y);
+        });
 
-        $.get(url).done(function(response) {
-            cur_aperio_xml = response;
-
-            //for every annotation create a layers and add markups
-            $('Annotation', response).each(function() {
-                color = this.getAttribute("LineColor").toString(16);
-                color = rgb2hex(color);
-
-                //we treat every region as a layer in DSA
-                $('Region', this).each(function() {
-                    getRegionMarkups(this, color);
-                });
-            });
-        }); //end of get xml
-    } //end of aperiocontroller function
-
-    /**
-     * Convert RGB to HEX color codes
-     */
-    function rgb2hex(rgb) {
-        rgb = "0".repeat(9 - rgb.length) + rgb;
-        var r = parseInt(rgb.substring(0, 3));
-        var g = parseInt(rgb.substring(3, 3));
-        var b = parseInt(rgb.substring(7, 3));
-
-        var h = b | (g << 8) | (r << 16);
-        return '#' + "0".repeat(6 - h.toString(16).length) + h.toString(16);
+        return coordinates.join(" ")
     }
 
-    function getRegionMarkups(vertices, color) {
-        var markups = {};
+    function xmlToJSON(xml) {
+        var obj = {};
 
-        //each set of vertices represents a markup
-        $('Vertices', vertices).each(function() {
-            var points = [];
+        if (xml.nodeType == 1) { // element
+            // do attributes
+            if (xml.attributes.length > 0) {
+                obj["@attributes"] = {};
+                for (var j = 0; j < xml.attributes.length; j++) {
+                    var attribute = xml.attributes.item(j);
+                    obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+                }
+            }
+        } else if (xml.nodeType == 3) { // text
+            obj = xml.nodeValue;
+        }
 
-            //push the vertix points to points array
-            $('Vertex', this).each(function() {
-                //create openseadragon Point object with the (X, Y) coordinated from Aperio vertix
-                //Aperio uses image coordinates
-                var pt = new osd.Point(Number(this.getAttribute("X")), Number(this.getAttribute("Y")));
+        // do children
+        if (xml.hasChildNodes()) {
+            for (var i = 0; i < xml.childNodes.length; i++) {
+                var item = xml.childNodes.item(i);
+                var nodeName = item.nodeName;
 
-                //convert the Aperio image coordinates to openseadragon viewport coordinates
-                var point = zoomer.viewer.viewport.imageToViewportCoordinates(pt);
-                points.push(point);
+                if (typeof(obj[nodeName]) == "undefined") {
+                    obj[nodeName] = xmlToJSON(item);
+                } else {
+                    if (typeof(obj[nodeName].push) == "undefined") {
+                        var old = obj[nodeName];
+                        obj[nodeName] = [];
+                        obj[nodeName].push(old);
+                    }
+
+                    obj[nodeName].push(xmlToJSON(item));
+                }
+            }
+        }
+
+        return obj;
+    }
+
+    function getAnnotations(file, callback, context) {
+        var annotations = {
+            name: file.name,
+            url: file.url,
+            attributes: {},
+            regions: []
+        };
+
+        $.get(file.url, function(xml) {
+            var json = xmlToJSON(xml);
+            annotations.attributes = json.Annotations.Annotation["@attributes"];
+            var params = json.Annotations.Annotation.Attributes.Attribute["@attributes"]
+
+            $.each(json.Annotations.Annotation.Regions.Region, function(index, region) {
+                vertices = [];
+
+                osdCoords = transformVertices(region.Vertices.Vertex, context.tiles.sizeX);
+
+                /*$.each(region.Vertices.Vertex, function(index, vertex) {
+                    vertices.push({
+                        X: parseFloat(vertex["@attributes"].X),
+                        Y: parseFloat(vertex["@attributes"].Y)
+                    })
+                });*/
+
+                annotations.regions.push({
+                    attributes: region["@attributes"],
+                    coords: osdCoords
+                });
             });
 
-            //create overlay
-            var overlayObj = {
-                type: 'freehand',
-                points: points,
-                color: color,
-                alpha: 1
-            };
-
-            overlay = ant.AnnotationOverlay.fromValueObject(overlayObj);
-
-            //attach the overlay to the viewer
-            overlay.attachTo(zoomer.viewer);
-
-            //add the overlay to the annotations array
-            zoomer.annotationState.annotations.push(overlay);
+            callback(annotations, context);
         });
     }
 
     return {
-        importMarkups: importMarkups
+        getAnnotations: getAnnotations
     }
 });

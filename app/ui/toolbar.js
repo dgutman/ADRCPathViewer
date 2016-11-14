@@ -26,10 +26,7 @@ define("ui/toolbar", ["pubsub", "aperio"], function(pubsub, aperio) {
     }
 
     function loadAnnotations() {
-        if (slide.annotations.length == 1)
-            aperio.importMarkups(slide.annotations[0].url);
-        else
-            $$('aperio_files_window').show();
+        $$('aperio_window').show();
     }
 
     return {

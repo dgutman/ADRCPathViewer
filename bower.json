@@ -30,6 +30,8 @@
     "js-signals": "signals#^1.0.0",
     "hasher": "^1.2.0",
     "jquery": "^3.1.0",
-    "PubSubJS": "pubsub-js#^1.5.3"
+    "PubSubJS": "pubsub-js#^1.5.3",
+    "d3": "^4.3.0",
+    "svg-overlay": "*"
   }
 }

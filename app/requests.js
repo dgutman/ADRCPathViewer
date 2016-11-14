@@ -1,5 +1,5 @@
-define("requests", ["jquery", "config"], function($, config){
+define("requests", ["jquery", "config"], function($, config) {
 
-	
+
 
 });

@@ -1,7 +1,6 @@
 define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, zoomer, $, aperio) {
 
     var slide = {
-        annotations: [],
         aBtn: null,
         mTable: null,
         aTable: null,
@@ -11,7 +10,9 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
 
         init: function(item, zoom, coords) {
             $.extend(this, item);
+            console.log(item);
             var itemId = this._id;
+            this.aperio = [];
 
             this.zoom = zoom;
             this.pan = coords;
@@ -23,7 +24,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
 
             $.ajax({
                 context: this,
-                url: config.BASE_URL + "/item/" + itemId + "/tiles", 
+                url: config.BASE_URL + "/item/" + itemId + "/tiles",
                 success: this.initViewer
             });
 
@@ -35,8 +36,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
             return this;
         },
 
-        initViewer: function(tiles){
-            console.log("TILES: ", tiles);
+        initViewer: function(tiles) {
             itemId = this._id;
             this.tiles = tiles;
             zoom = this.zoom;
@@ -56,15 +56,13 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
             };
 
             zoomer.viewer.open(tileSource);
-            
+
             //set viewer zoom level if the slide has this property
             zoomer.viewer.addHandler("open", function() {
-                console.log(zoom);
-                if(typeof zoom != "undefined"){    
+                if (typeof zoom != "undefined") {
                     zoomer.viewer.viewport.zoomBy(zoom);
                 }
-                if(typeof pan != "undefined"){     
-                    console.log("PAN TO:", pan); 
+                if (typeof pan != "undefined") {
                     zoomer.viewer.viewport.panTo(pan);
                 }
             });
@@ -83,24 +81,43 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
                 tmpUrl = sharedUrl + "/" + currentZoom + "/" + currentCenter.x + "/" + currentCenter.y;
                 $$("link_to_share").setValue(tmpUrl);
             });
+
+            return this;
         },
 
         getFiles: function() {
             var obj = this;
 
-            $.get(config.BASE_URL + "/item/" + this._id + "/files")
-             .then(function(files){
-                this.files = files;
-                console.log("FILES: ", this.files);
+            s1 = {
+              "url": "http://digitalslidearchive.emory.edu/v1/aperio/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files/bcrTCGA/diagnostic_block_HE_section_image/TCGA-12-0620-01Z-00-DX2.xml",
+              "name": "TCGA-12-0620-01Z-00-DX2.xml"
+            };
+            s2 = {
+              "url": "http://digitalslidearchive.emory.edu/v1/aperio/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files/bcrTCGA/diagnostic_block_HE_section_image/TCGA-12-0620-01Z-00-DX2.xml",
+              "name": "TCGA-12-0620-01Z-00-DX2.xml"
+            };
+            s3 = {
+              "url": "http://digitalslidearchive.emory.edu/v1/aperio/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files/bcrTCGA/diagnostic_block_HE_section_image/TCGA-12-0620-01Z-00-DX2.xml",
+              "name": "TCGA-12-0620-01Z-00-DX2.xml"
+            }
 
+            aperio.getAnnotations(s1, this.annotationCollector, this);
+            aperio.getAnnotations(s2, this.annotationCollector, this);
+            aperio.getAnnotations(s3, this.annotationCollector, this);
+
+            $.get(config.BASE_URL + "/item/" + this._id + "/files", function(files) {
+                this.files = files;
                 $.each(files, function(key, file) {
                     if (file.mimeType == "application/xml") {
-                        obj.annotations.push(file);
+                        aperio.getAnnotations(file, this.annotationCollector, this);
                     }
                 });
-             });
+            });
+        },
 
-             console.log("ANNOTATIONS: ", this.annotations);
+        annotationCollector: function(annotation, context) {
+            context.aperio.push(annotation);
+            pubsub.publish("SLIDE", context);
         },
 
         keyvalue: function() {
@@ -129,7 +146,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
         },
 
         initDataViews: function() {
-            this.annotations.length > 0 ? this.aBtn.enable() : this.aBtn.disable();
+            //this.annotations.length > 0 ? this.aBtn.enable() : this.aBtn.disable();
             this.aTable.clearAll();
             this.aTable.define("data", this.annotations);
 

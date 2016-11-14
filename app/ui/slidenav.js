@@ -38,8 +38,8 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "request
             "onChange": function(id) {
                 $$("thumbnail_search").setValue("");
                 var item = this.getPopup().getBody().getItem(id);
-                
-                $.get(config.BASE_URL + "/folder?parentType=folder&parentId=" + item._id, function(data){
+
+                $.get(config.BASE_URL + "/folder?limit=500&parentType=folder&parentId=" + item._id, function(data) {
                     var sFoldersMenu = $$("samples_list").getPopup().getList();
                     sFoldersMenu.clearAll();
                     sFoldersMenu.parse(data);
@@ -48,22 +48,22 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "request
             },
             "onAfterRender": function() {
                 $.get(config.BASE_URL + "/resource/lookup?path=/collection/" + config.COLLECTION_NAME)
-                 .then(function(collection){
-                    return $.get(config.BASE_URL + "/folder?parentType=collection&parentId=" + collection._id);
-                }).then(function(folders){
-                    var foldersMenu = $$("slideset_list").getPopup().getList();
-                    foldersMenu.clearAll();
-                    foldersMenu.parse(folders);
-                    $$("slideset_list").setValue(folders[0].id);
-                    return $.get(config.BASE_URL + "/folder?parentType=folder&parentId=" + folders[0]._id);
-                }).done(function(data){
-                    var sFoldersMenu = $$("samples_list").getPopup().getList();
-                    sFoldersMenu.clearAll();
-                    sFoldersMenu.parse(data);
-                    $$("samples_list").setValue(data[0].id);
-                }).fail(function(data){
-                    console.log(data);
-                });
+                    .then(function(collection) {
+                        return $.get(config.BASE_URL + "/folder?parentType=collection&parentId=" + collection._id);
+                    }).then(function(folders) {
+                        var foldersMenu = $$("slideset_list").getPopup().getList();
+                        foldersMenu.clearAll();
+                        foldersMenu.parse(folders);
+                        $$("slideset_list").setValue(folders[0].id);
+                        return $.get(config.BASE_URL + "/folder?parentType=folder&parentId=" + folders[0]._id);
+                    }).done(function(data) {
+                        var sFoldersMenu = $$("samples_list").getPopup().getList();
+                        sFoldersMenu.clearAll();
+                        sFoldersMenu.parse(data);
+                        $$("samples_list").setValue(data[0].id);
+                    }).fail(function(data) {
+                        console.log(data);
+                    });
             }
         }
     };
@@ -80,7 +80,7 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "request
         on: {
             "onChange": function(id) {
                 $$("thumbnail_search").setValue("");
-                if(id){
+                if (id) {
                     var item = this.getPopup().getBody().getItem(id);
                     var thumbs = $$("thumbnails_panel");
                     var url = config.BASE_URL + "/item?folderId=" + item._id;
@@ -99,11 +99,13 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "request
         group: 4
     };
 
-     filter = {
+    filter = {
         view: "search",
         id: "thumbnail_search",
         placeholder: "Search",
-        on: {"onChange": searchItems}
+        on: {
+            "onChange": searchItems
+        }
     };
 
     //slides panel is the left panel, contains two rows 
@@ -118,11 +120,11 @@ define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "request
         width: 220
     };
 
-    function searchItems(keyword = null){
+    function searchItems(keyword = null) {
         url = config.BASE_URL + "/item?text=" + keyword;
         folderId = $$("samples_list").getValue();
 
-        if(folderId){
+        if (folderId) {
             item = $$("samples_list").getPopup().getList().getItem(folderId);
             url = config.BASE_URL + "/item?folderId=" + item._id + "&text=" + keyword;
         }
