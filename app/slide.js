@@ -1,4 +1,4 @@
-define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, zoomer, $, aperio) {
+define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, viewer, $, aperio) {
 
     var slide = {
         aBtn: null,
@@ -55,32 +55,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
                 }
             };
 
-            zoomer.viewer.open(tileSource);
-
-            //set viewer zoom level if the slide has this property
-            zoomer.viewer.addHandler("open", function() {
-                if (typeof zoom != "undefined") {
-                    zoomer.viewer.viewport.zoomBy(zoom);
-                }
-                if (typeof pan != "undefined") {
-                    zoomer.viewer.viewport.panTo(pan);
-                }
-            });
-
-            viewer.addHandler('zoom', function(event) {
-                tmpUrl = sharedUrl + "/" + zoomer.viewer.viewport.getZoom();
-                currentZoom = zoomer.viewer.viewport.getZoom();
-                currentCenter = zoomer.viewer.viewport.getCenter()
-                tmpUrl += "/" + currentCenter.x + "/" + currentCenter.y;
-                $$("link_to_share").setValue(tmpUrl);
-            });
-
-            viewer.addHandler('pan', function(event) {
-                currentCenter = zoomer.viewer.viewport.getCenter()
-                currentZoom = zoomer.viewer.viewport.getZoom();
-                tmpUrl = sharedUrl + "/" + currentZoom + "/" + currentCenter.x + "/" + currentCenter.y;
-                $$("link_to_share").setValue(tmpUrl);
-            });
+            viewer.open(tileSource);
 
             return this;
         },

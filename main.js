@@ -8,8 +8,6 @@ require = {
         "signals": "bower_components/js-signals/dist/signals.min",
         "crossroads": "bower_components/crossroads/dist/crossroads.min",
         "osd": "bower_components/openseadragon/built-openseadragon/openseadragon/openseadragon",
-        "switch": "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min",
-        "mousetrap": "https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min",
         "signals": "bower_components/js-signals/dist/signals.min",
         "ko": "bower_components/knockout/dist/knockout",
         "webix": "bower_components/webix/codebase/webix",
@@ -17,10 +15,8 @@ require = {
         "osdhelper": "lib/openseadragon-imaginghelper.min",
         "osdhook": "lib/openseadragon-viewerinputhook.min",
         "scalebar": "lib/openseadragon-scalebar",
-        "ant": "lib/dsa-annotation",
-        "antctrl": "lib/dsa-annotation-control",
+        "xj": "lib/xml2json.min",
         "config": "app/config",
-        "requests": "app/requests",
         "zoomer": "app/zoomer",
         "slide": "app/slide",
         "aperio": "app/aperio",
@@ -38,8 +34,6 @@ require = {
         "osdhelper": ["osd"],
         "osdhook": ["osd"],
         "scalebar": ["osd"],
-        "ant": ["osd"],
-        "antctrl": ["jquery", "switch", "mousetrap"],
         "svg": ["osd"]
     }
 };

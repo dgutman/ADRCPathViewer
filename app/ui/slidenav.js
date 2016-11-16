@@ -1,6 +1,4 @@
-define("ui/slidenav", ["config", "zoomer", "slide", "jquery", "aperio", "requests", "webix"], function(config, zoomer, slide, $, aperio, requests) {
-
-    viewer = zoomer.viewer;
+define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function(config, slide, $, aperio) {
 
     var thumbnailsPanel = {
         view: "dataview",

@@ -1,88 +1,67 @@
-define("aperio", ["jquery", "zoomer", "osd", "ant"], function($, zoomer, osd, ant) {
+define("aperio", ["jquery", "xj"], function($, xj) {
 
     function transformVertices(vertices, imageWidth) {
         coordinates = new Array();
         scaleFactor = 1 / imageWidth;
         $.each(vertices, function(index, vertex) {
-            vertex = vertex["@attributes"];
-            x = parseFloat(vertex.X) * scaleFactor;
-            y = parseFloat(vertex.Y) * scaleFactor;
+            x = parseFloat(vertex._X) * scaleFactor;
+            y = parseFloat(vertex._Y) * scaleFactor;
             coordinates.push(x + "," + y);
         });
 
         return coordinates.join(" ")
     }
 
-    function xmlToJSON(xml) {
-        var obj = {};
+    function xmlToJSON(xml, imageWidth) {
+        var annotations = new Array();
 
-        if (xml.nodeType == 1) { // element
-            // do attributes
-            if (xml.attributes.length > 0) {
-                obj["@attributes"] = {};
-                for (var j = 0; j < xml.attributes.length; j++) {
-                    var attribute = xml.attributes.item(j);
-                    obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-                }
-            }
-        } else if (xml.nodeType == 3) { // text
-            obj = xml.nodeValue;
-        }
+        var x2js = new xj({
+            arrayAccessFormPaths : [
+                   "Annotations.Annotation",
+                   "Annotations.Annotation.Regions.Region",
+                   "Annotations.Annotation.Attributes.Attribute"
+                ]
+            });
 
-        // do children
-        if (xml.hasChildNodes()) {
-            for (var i = 0; i < xml.childNodes.length; i++) {
-                var item = xml.childNodes.item(i);
-                var nodeName = item.nodeName;
+            var obj = x2js.xml2json( xml );
+            
+            $.each(obj.Annotations.Annotation, function(index, annotation) {
+                var tmp = {
+                    _Attributes: annotation.Attributes.Attribute,
+                    _Id: annotation._Id,
+                    _Name: annotation._Name,
+                    _ReadOnly: annotation._ReadOnly,
+                    _NameReadOnly: annotation._NameReadOnly,
+                    _LineColorReadOnly: annotation._LineColorReadOnly,
+                    _Incremental: annotation._Incremental,
+                    _Type: annotation._Type,
+                    _LineColor: annotation._LineColor,
+                    _Visible: annotation._Visible,
+                    _Selected: annotation._Selected,
+                    _MarkupImagePath: annotation._MarkupImagePath,
+                    _MacroName: annotation._MacroName,
+                    _Regions: new Array()
+                };
 
-                if (typeof(obj[nodeName]) == "undefined") {
-                    obj[nodeName] = xmlToJSON(item);
-                } else {
-                    if (typeof(obj[nodeName].push) == "undefined") {
-                        var old = obj[nodeName];
-                        obj[nodeName] = [];
-                        obj[nodeName].push(old);
-                    }
+                $.each(annotation.Regions.Region, function(index, region) {
+                    region._Coords = transformVertices(region.Vertices.Vertex, imageWidth);
+                    delete region.Attributes;
+                    delete region.Vertices;
+                    tmp._Regions.push(region);
+                });
 
-                    obj[nodeName].push(xmlToJSON(item));
-                }
-            }
-        }
+                annotations.push(tmp);
+            });
 
-        return obj;
+        return annotations;
     }
 
     function getAnnotations(file, callback, context) {
-        var annotations = {
-            name: file.name,
-            url: file.url,
-            attributes: {},
-            regions: []
-        };
-
         $.get(file.url, function(xml) {
-            var json = xmlToJSON(xml);
-            annotations.attributes = json.Annotations.Annotation["@attributes"];
-            var params = json.Annotations.Annotation.Attributes.Attribute["@attributes"]
-
-            $.each(json.Annotations.Annotation.Regions.Region, function(index, region) {
-                vertices = [];
-
-                osdCoords = transformVertices(region.Vertices.Vertex, context.tiles.sizeX);
-
-                /*$.each(region.Vertices.Vertex, function(index, vertex) {
-                    vertices.push({
-                        X: parseFloat(vertex["@attributes"].X),
-                        Y: parseFloat(vertex["@attributes"].Y)
-                    })
-                });*/
-
-                annotations.regions.push({
-                    attributes: region["@attributes"],
-                    coords: osdCoords
-                });
-            });
-
+            annotations = xmlToJSON(xml, context.tiles.sizeX);
+            annotations._Name = file.name;
+            annotations._Url = file.url;
+            console.log("NEW", annotations);
             callback(annotations, context);
         });
     }

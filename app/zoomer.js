@@ -1,4 +1,4 @@
-define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs", "ant", "antctrl"],
+define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs"],
     function(osd, helper, hook, scalebar, $, obs, ant, antctrl) {
 
         var viewer = osd({
@@ -24,13 +24,18 @@ define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs", "a
             barThickness: 2
         });
 
-        annotationState = new ant.AnnotationState();
-        annotationState.setSeadragonViewer(viewer);
-        antctrl.annotation_setup_code(annotationState);
-
         imgHelper = viewer.activateImagingHelper({
             onImageViewChanged: onImageViewChanged
         });
+
+        viewer.addHandler('zoom', function(event) {
+        
+        });
+
+        viewer.addHandler('pan', function(event) {
+        
+        });
+
         viewer.addHandler('open', onImageOpen);
         viewer.addHandler('close', onImageClose);
         viewer.addHandler('open-failed', function(evt) {
@@ -81,8 +86,6 @@ define("zoomer", ["osd", "osdhelper", "osdhook", "scalebar", "jquery", "obs", "a
             osdCanvas = null;
         }
 
-        return {
-            viewer: viewer,
-            annotationState: annotationState
-        }
-    });
+        return viewer;
+
+});

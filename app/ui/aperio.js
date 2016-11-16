@@ -1,57 +1,75 @@
-define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, zoomer, svg) {
+define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, viewer, svg) {
 
     pubsub.subscribe("SLIDE", function(msg, slide) {
         console.log(slide.aperio);
-        $$("aperio_file_list").clearAll();
-        $$("aperio_file_list").parse(slide.aperio);
-        $$("aperio_file_list").refresh();
+        $$("file_list").clearAll();
+        $$("file_list").parse(slide.aperio);
+        $$("file_list").refresh();
     });
 
-    var layoutAnnotationFileList = {
+    var fileList = {
         view: "list",
         height: 200,
-        id: "aperio_file_list",
-        template: "#name#",
+        id: "file_list",
+        template: "#_Name#",
+        select: true,
+        on: {
+            onItemClick: function(id){
+                $(".boundaryClass").remove();
+                $$("annotation_list").clearAll();
+                $$("annotation_list").parse(this.getItem(id));
+                $$("annotation_list").refresh();
+            }
+        }
+    };
+
+     var annotationList = {
+        view: "list",
+        height: 200,
+        width: "auto",
+        id: "annotation_list",
+        template: "Annotation #_Id#",
         select: true,
         on: {
             onItemClick: function(id){
                 $(".boundaryClass").remove();
                 $$("region_list").clearAll();
-                $$("region_list").parse(this.getItem(id).regions);
+                $$("region_list").parse(this.getItem(id)._Regions);
                 $$("region_list").refresh();
-
-                $$("file_attributes").clearAll();
-                $$("file_attributes").parse(this.getItem(id).attributes);
-                $$("file_attributes").refresh();
             }
         }
     };
 
-    var layoutAnnotationList = {
+    var regionList = {
         view: "list",
         height: 200,
         width: "auto",
         id: "region_list",
-        template: "Region #attributes.Id#",
+        template: "Region #_Id#",
         select: true,
         on: {
             onItemClick: function(id){
                 $(".boundaryClass").remove();
-                d3.select(zoomer.viewer.svgOverlay().node()).append("polygon")
-                  .attr("points", this.getItem(id).coords)
+                d3.select(viewer.svgOverlay().node()).append("polygon")
+                  .attr("points", this.getItem(id)._Coords)
                   .style('fill', "blue")
                   .attr('opacity', 0.2)
                   .attr('class', 'boundaryClass')
                   .attr('stroke', 'blue')
                   .attr('stroke-width', 0.001);
+
+                $$("region_attributes").clearAll();
+                $$("region_attributes").parse(this.getItem(id));
+                $$("region_attributes").refresh();
             }
         }
     };
 
 
-    var layoutParameterList = {
+    var parameterList = {
         view: "datatable",
         width: "auto",
+        id: "region_keyvalue",
         columns: [{
             'id': "Parameter"
         }, {
@@ -63,35 +81,35 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, zoom
 
 
     var ROIColumns = [{
-        id: "Id"
+        id: "_Id"
     }, {
-        id: "Name"
+        id: "_Name"
     }, {
-        id: "ReadOnly", header: "Read Only"
+        id: "_ReadOnly", header: "Read Only"
     }, {
-        id: "NameReadOnly"
+        id: "_NameReadOnly"
     }, {
-        id: "LineColorReadOnly"
+        id: "_LineColorReadOnly"
     }, {
-        id: "Incremental"
+        id: "_Incremental"
     }, {
-        id: "Type"
+        id: "_Type"
     }, {
-        id: "LineColor"
+        id: "_LineColor"
     }, {
-        id: "Visible"
+        id: "_Visible"
     }, {
-        id: "Selected"
+        id: "_Selected"
     }, {
-        id: "MarkupImagePath"
+        id: "_MarkupImagePath"
     }, {
-        id: "MacroName"
+        id: "_MacroName"
     }];
 
     var layoutROIInfo = {
         view: "datatable",
         width: "auto",
-        id: "file_attributes",
+        id: "region_attributes",
         columns: ROIColumns
     };
 
@@ -107,7 +125,7 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, zoom
             margin: -4,
             cols: [{
                 view: "label",
-                label: "This window can be closed"
+                label: "Aperio Annotations"
             }, {
                 view: "icon",
                 icon: "question-circle",
@@ -120,11 +138,9 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, zoom
         },
         height: 500,
         width: "auto",
-        moveable: true,
         body: {
-            view: "layout",
             rows: [{
-                    cols: [layoutAnnotationFileList, layoutAnnotationList, layoutParameterList]
+                    cols: [fileList, annotationList, regionList, parameterList]
                 },
                 layoutROIInfo
             ]
