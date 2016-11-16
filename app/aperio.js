@@ -23,9 +23,9 @@ define("aperio", ["jquery", "xj"], function($, xj) {
                 ]
             });
 
-            var obj = x2js.xml2json( xml );
+        var obj = x2js.xml2json( xml );
             
-            $.each(obj.Annotations.Annotation, function(index, annotation) {
+        $.each(obj.Annotations.Annotation, function(index, annotation) {
                 var tmp = {
                     _Attributes: annotation.Attributes.Attribute,
                     _Id: annotation._Id,
@@ -51,7 +51,7 @@ define("aperio", ["jquery", "xj"], function($, xj) {
                 });
 
                 annotations.push(tmp);
-            });
+        });
 
         return annotations;
     }
@@ -61,7 +61,6 @@ define("aperio", ["jquery", "xj"], function($, xj) {
             annotations = xmlToJSON(xml, context.tiles.sizeX);
             annotations._Name = file.name;
             annotations._Url = file.url;
-            console.log("NEW", annotations);
             callback(annotations, context);
         });
     }

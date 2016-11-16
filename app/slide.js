@@ -10,9 +10,8 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
 
         init: function(item, zoom, coords) {
             $.extend(this, item);
-            console.log(item);
             var itemId = this._id;
-            this.aperio = [];
+            this.aperio = {id: "root", value: "Files", open: true, data:[]};
 
             this.zoom = zoom;
             this.pan = coords;
@@ -91,7 +90,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
         },
 
         annotationCollector: function(annotation, context) {
-            context.aperio.push(annotation);
+            context.aperio.data.push(annotation);
             pubsub.publish("SLIDE", context);
         },
 

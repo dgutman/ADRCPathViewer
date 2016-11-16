@@ -1,10 +1,9 @@
 define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, viewer, svg) {
 
     pubsub.subscribe("SLIDE", function(msg, slide) {
-        console.log(slide.aperio);
         $$("file_list").clearAll();
         $$("file_list").parse(slide.aperio);
-        $$("file_list").refresh();
+        $$("file_list").refresh();     
     });
 
     var fileList = {
