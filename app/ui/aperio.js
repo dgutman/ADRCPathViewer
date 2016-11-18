@@ -3,8 +3,20 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, view
     pubsub.subscribe("SLIDE", function(msg, slide) {
         $$("file_list").clearAll();
         $$("file_list").parse(slide.aperio);
-        $$("file_list").refresh();     
+        $$("file_list").refresh(); 
+
+        $$("annotation_tree").clearAll();
+        $$("annotation_tree").parse(slide.aperio);
+        $$("annotation_tree").refresh();    
+        console.log(slide.aperio); 
     });
+
+    var annotationTree = {
+        view:"tree",
+        template:"{common.icon()} {common.checkbox()} {common.folder()} <span>#_Name#</span>", 
+        select:true,
+        id: "annotation_tree",
+    };
 
     var fileList = {
         view: "list",
@@ -139,7 +151,7 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, view
         width: "auto",
         body: {
             rows: [{
-                    cols: [fileList, annotationList, regionList, parameterList]
+                    cols: [annotationTree, fileList, annotationList, regionList, parameterList]
                 },
                 layoutROIInfo
             ]

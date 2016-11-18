@@ -40,14 +40,14 @@ define("aperio", ["jquery", "xj"], function($, xj) {
                     _Selected: annotation._Selected,
                     _MarkupImagePath: annotation._MarkupImagePath,
                     _MacroName: annotation._MacroName,
-                    _Regions: new Array()
+                    data: new Array()
                 };
 
                 $.each(annotation.Regions.Region, function(index, region) {
                     region._Coords = transformVertices(region.Vertices.Vertex, imageWidth);
                     delete region.Attributes;
                     delete region.Vertices;
-                    tmp._Regions.push(region);
+                    tmp.data.push(region);
                 });
 
                 annotations.push(tmp);
