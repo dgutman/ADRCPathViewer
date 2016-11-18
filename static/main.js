@@ -1,6 +1,7 @@
 require = {
     urlArgs: "bust=" + (+new Date),
 	paths: {
+        "pubsub": "bower_components/PubSubJS/src/pubsub",
         "hasher": "bower_components/hasher/dist/js/hasher.min",
         "signals": "bower_components/js-signals/dist/signals.min",
         "crossroads": "bower_components/crossroads/dist/crossroads.min",
@@ -18,13 +19,18 @@ require = {
         "ant": "lib/dsa-annotation",
         "antctrl": "lib/dsa-annotation-control",
         "config": "app/config",
-        "ui": "app/ui",
         "zoomer": "app/zoomer",
         "aperio": "app/aperio",
         "obs": "app/observables",
         "routes": "app/routes",
         "app": "app/app"
     },
+
+    packages: [{
+        name: "ui",
+        location: "app/ui"
+    }],
+
     shim: {
     	"osdhelper": ["osd"],
     	"osdhook": ["osd"],

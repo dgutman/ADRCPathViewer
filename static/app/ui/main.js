@@ -1,13 +1,4 @@
-/**
- * ui module
- * 
- * dependencies:
- *  config - site wide JS configuration file
- *  obs
- *  webix - webix UI
- */
-
-define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"], function(config, obs, zoomer, aperio, $, cookie){
+define("ui/main", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "ui/aperio", "webix"], function(config, obs, zoomer, aperio, $, cookie, aperioWindow){
 
     /**
      * build()
@@ -238,6 +229,8 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
             container: "main_layout",
             rows:[header, body]
         });
+
+        webix.ui(aperioWindow.view);
 
         //Window for inserting and viewing slide comments
         webix.ui({
@@ -755,12 +748,13 @@ define("ui", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "webix"],
         $$('aperio_files_window').hide();
         $$('filters_window').hide();
 
-        if(slide.aperioAnnotations.length == 1){
+        $$('aperio_window').show();
+        /*if(slide.aperioAnnotations.length == 1){
             importAperioAnnotations(slide.aperioAnnotations[0].path);
         }  
         else{
             $$('aperio_files_window').show();
-        }    
+        }  */  
     }
 
     function initMetaDataWindow(){
