@@ -4,68 +4,26 @@ define("aperio", ["jquery", "xj"], function($, xj) {
         coordinates = new Array();
         scaleFactor = 1 / imageWidth;
         $.each(vertices, function(index, vertex) {
-            x = parseFloat(vertex._X) * scaleFactor;
-            y = parseFloat(vertex._Y) * scaleFactor;
+            x = parseFloat(vertex.X) * scaleFactor;
+            y = parseFloat(vertex.Y) * scaleFactor;
             coordinates.push(x + "," + y);
         });
 
         return coordinates.join(" ")
     }
 
-    function xmlToJSON(xml, imageWidth) {
-        var annotations = new Array();
-
-        var x2js = new xj({
-            arrayAccessFormPaths : [
-                   "Annotations.Annotation",
-                   "Annotations.Annotation.Regions.Region",
-                   "Annotations.Annotation.Attributes.Attribute"
-                ]
-            });
-
-        var obj = x2js.xml2json( xml );
-            
-        $.each(obj.Annotations.Annotation, function(index, annotation) {
-                var tmp = {
-                    _Attributes: annotation.Attributes.Attribute,
-                    _Id: annotation._Id,
-                    _Name: annotation._Name,
-                    _ReadOnly: annotation._ReadOnly,
-                    _NameReadOnly: annotation._NameReadOnly,
-                    _LineColorReadOnly: annotation._LineColorReadOnly,
-                    _Incremental: annotation._Incremental,
-                    _Type: annotation._Type,
-                    _LineColor: annotation._LineColor,
-                    _Visible: annotation._Visible,
-                    _Selected: annotation._Selected,
-                    _MarkupImagePath: annotation._MarkupImagePath,
-                    _MacroName: annotation._MacroName,
-                    data: new Array()
-                };
-
-                $.each(annotation.Regions.Region, function(index, region) {
-                    region._Coords = transformVertices(region.Vertices.Vertex, imageWidth);
-                    delete region.Attributes;
-                    delete region.Vertices;
-                    tmp.data.push(region);
-                });
-
-                annotations.push(tmp);
-        });
-
-        return annotations;
-    }
-
-    function getAnnotations(file, callback, context) {
-        $.get(file.url, function(xml) {
-            annotations = xmlToJSON(xml, context.tiles.sizeX);
-            annotations._Name = file.name;
-            annotations._Url = file.url;
-            callback(annotations, context);
-        });
+    function rgb2hex (rgb) {
+        rgb = "0".repeat(9 - rgb.length) + rgb;
+        var r = parseInt(rgb.substring(0,3));
+        var g = parseInt(rgb.substring(3,3));
+        var b = parseInt(rgb.substring(7,3));
+    
+        var h = b | (g << 8) | (r << 16);
+        return '#' + "0".repeat(6 - h.toString(16).length) + h.toString(16);
     }
 
     return {
-        getAnnotations: getAnnotations
+        transformVertices: transformVertices,
+        rgb2hex: rgb2hex
     }
 });

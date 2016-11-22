@@ -1,81 +1,106 @@
-define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, viewer, svg) {
-
+define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub, d3, viewer, svg, aperio) {
+ 
+    var imageWidth = 1;
     pubsub.subscribe("SLIDE", function(msg, slide) {
         $$("file_list").clearAll();
         $$("file_list").parse(slide.aperio);
-        $$("file_list").refresh(); 
+        $$("file_list").refresh();
 
-        $$("annotation_tree").clearAll();
-        $$("annotation_tree").parse(slide.aperio);
-        $$("annotation_tree").refresh();    
-        console.log(slide.aperio); 
+        if(typeof slide.tiles !== "undefined"){
+            imageWidth = slide.tiles.sizeX;
+            $$("aperio_xml_tree").refresh();
+        }
     });
 
-    var annotationTree = {
+    webix.DataDriver.AperioXML = webix.extend({
+        records:"/*/Annotation",
+        child:function(obj){
+            if(obj.$level == 1)
+                return obj.Regions;
+            if(obj.$level == 2)
+                return obj.Region;
+        }
+    }, webix.DataDriver.xml);
+
+    var aperioXmlTree = {
         view:"tree",
-        template:"{common.icon()} {common.checkbox()} {common.folder()} <span>#_Name#</span>", 
-        select:true,
-        id: "annotation_tree",
+        type:"lineTree",
+        threeState: true,
+        select: true,
+        url:"http://digitalslidearchive.emory.edu/v1/aperio/home/mkhali8/test.xml",
+        datatype:"AperioXML",
+        id: "aperio_xml_tree",
+        ready:function(){
+            this.openAll();
+        },
+        template:function(obj, common){
+           var icons = common.icon(obj, common) + common.checkbox(obj, common) + common.folder(obj, common);
+           var text = "";
+
+            if(obj.$level == 1){
+                text = "Annotation " + obj.Id;
+                obj.LineColor = aperio.rgb2hex(obj.LineColor);
+            }
+            if(obj.$level == 2){
+                var allheader = [];
+                for(var i = 0; i<obj.RegionAttributeHeaders.AttributeHeader.length; i++)
+                    allheader.push(obj.RegionAttributeHeaders.AttributeHeader[i].Name);
+                text = "Regions";
+            }
+            if(obj.$level == 3){
+                text = "Region " + obj.Id;
+                obj.Coords = aperio.transformVertices(obj.Vertices.Vertex, imageWidth);
+            }
+
+            return icons + text;
+        },
+        on:{
+            onItemCheck: function(){
+                $(".boundaryClass").remove();
+                $$("region_attributes").clearAll();
+
+                var regionAttr = [];
+                $.each(this.getChecked(), function(index, id){
+                    var tree = $$("aperio_xml_tree");
+                    item = tree.getItem(id);
+
+                    if(item.$level == 3){  
+                        var annotationId = tree.getParentId(tree.getParentId(id));
+                        strokeColor = tree.getItem(annotationId).LineColor;
+
+                        regionAttr.push(item);
+                        d3.select(viewer.svgOverlay().node()).append("polygon")
+                          .attr("points",item.Coords)
+                          .style('fill', "blue")
+                          .attr('opacity', 0.2)
+                          .attr('class', 'boundaryClass')
+                          .attr('stroke', strokeColor)
+                          .attr('stroke-width', 0.003);
+                        };
+                });
+              
+                $$("region_attributes").parse(regionAttr); 
+            },
+            onItemClick: function(id){
+                console.log(this.getItem(id));
+            }
+        }
     };
 
     var fileList = {
         view: "list",
         height: 200,
         id: "file_list",
-        template: "#_Name#",
+        template: "#name#",
         select: true,
         on: {
             onItemClick: function(id){
+                $$("aperio_xml_tree").clearAll();
+                $$("aperio_xml_tree").load(this.getItem(id).url);
                 $(".boundaryClass").remove();
-                $$("annotation_list").clearAll();
-                $$("annotation_list").parse(this.getItem(id));
-                $$("annotation_list").refresh();
             }
         }
     };
-
-     var annotationList = {
-        view: "list",
-        height: 200,
-        width: "auto",
-        id: "annotation_list",
-        template: "Annotation #_Id#",
-        select: true,
-        on: {
-            onItemClick: function(id){
-                $(".boundaryClass").remove();
-                $$("region_list").clearAll();
-                $$("region_list").parse(this.getItem(id)._Regions);
-                $$("region_list").refresh();
-            }
-        }
-    };
-
-    var regionList = {
-        view: "list",
-        height: 200,
-        width: "auto",
-        id: "region_list",
-        template: "Region #_Id#",
-        select: true,
-        on: {
-            onItemClick: function(id){
-                $(".boundaryClass").remove();
-                d3.select(viewer.svgOverlay().node()).append("polygon")
-                  .attr("points", this.getItem(id)._Coords)
-                  .style('fill', "blue")
-                  .attr('opacity', 0.2)
-                  .attr('class', 'boundaryClass')
-                  .attr('stroke', 'blue')
-                  .attr('stroke-width', 0.001);
-
-                $$("region_attributes").clearAll();
-                $$("region_attributes").parse(this.getItem(id));
-                $$("region_attributes").refresh();
-            }
-        }
-    };
-
 
     var parameterList = {
         view: "datatable",
@@ -90,31 +115,30 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, view
 
     };
 
-
     var ROIColumns = [{
-        id: "_Id"
+        id: "Id"
     }, {
-        id: "_Name"
+        id: "Name"
     }, {
-        id: "_ReadOnly", header: "Read Only"
+        id: "ReadOnly", header: "Read Only"
     }, {
-        id: "_NameReadOnly"
+        id: "NameReadOnly"
     }, {
-        id: "_LineColorReadOnly"
+        id: "LineColorReadOnly"
     }, {
-        id: "_Incremental"
+        id: "Incremental"
+    }, { 
+        id: "Type"
     }, {
-        id: "_Type"
+        id: "LineColor"
     }, {
-        id: "_LineColor"
+        id: "Visible"
     }, {
-        id: "_Visible"
+        id: "Selected"
     }, {
-        id: "_Selected"
+        id: "MarkupImagePath"
     }, {
-        id: "_MarkupImagePath"
-    }, {
-        id: "_MacroName"
+        id: "MacroName"
     }];
 
     var layoutROIInfo = {
@@ -129,7 +153,7 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, view
         id: "aperio_window",
         move: true,
         resize: true,
-        position:"center",
+        //position:"center",
         modal: true,
         head: {
             view: "toolbar",
@@ -147,11 +171,11 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg"], function(pubsub, d3, view
                 click: "$$('aperio_window').hide();"
             }]
         },
-        height: 500,
-        width: "auto",
+        height: 400,
+        width: 700,
         body: {
             rows: [{
-                    cols: [annotationTree, fileList, annotationList, regionList, parameterList]
+                    cols: [fileList, aperioXmlTree, parameterList]
                 },
                 layoutROIInfo
             ]

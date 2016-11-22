@@ -1,4 +1,4 @@
-define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], function(pubsub, config, viewer, $, aperio) {
+define("slide", ["pubsub", "config", "zoomer", "jquery", "webix"], function(pubsub, config, viewer, $) {
 
     var slide = {
         aBtn: null,
@@ -11,7 +11,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
         init: function(item, zoom, coords) {
             $.extend(this, item);
             var itemId = this._id;
-            this.aperio = {id: "root", value: "Files", open: true, data:[]};
+            this.aperio = [];
 
             this.zoom = zoom;
             this.pan = coords;
@@ -54,6 +54,7 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
                 }
             };
 
+            pubsub.publish("SLIDE", this);
             viewer.open(tileSource);
 
             return this;
@@ -73,25 +74,19 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "aperio", "webix"], fun
             s3 = {
               "url": "http://digitalslidearchive.emory.edu/v1/aperio/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files/bcrTCGA/diagnostic_block_HE_section_image/TCGA-12-0620-01Z-00-DX2.xml",
               "name": "TCGA-12-0620-01Z-00-DX2.xml"
-            }
+            };
 
-            aperio.getAnnotations(s1, this.annotationCollector, this);
-            aperio.getAnnotations(s2, this.annotationCollector, this);
-            aperio.getAnnotations(s3, this.annotationCollector, this);
+            this.aperio.push(s1);
+            this.aperio.push(s2);
+            this.aperio.push(s3);
 
             $.get(config.BASE_URL + "/item/" + this._id + "/files", function(files) {
                 this.files = files;
                 $.each(files, function(key, file) {
                     if (file.mimeType == "application/xml") {
-                        aperio.getAnnotations(file, this.annotationCollector, this);
                     }
                 });
             });
-        },
-
-        annotationCollector: function(annotation, context) {
-            context.aperio.data.push(annotation);
-            pubsub.publish("SLIDE", context);
         },
 
         keyvalue: function() {
