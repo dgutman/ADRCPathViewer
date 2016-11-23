@@ -56,27 +56,40 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
         },
         on:{
             onItemCheck: function(){
-                $(".boundaryClass").remove();
+                $(".annotation_overlay").remove();
                 $$("region_attributes").clearAll();
-
                 var regionAttr = [];
+
                 $.each(this.getChecked(), function(index, id){
                     var tree = $$("aperio_xml_tree");
                     item = tree.getItem(id);
 
                     if(item.$level == 3){  
                         var annotationId = tree.getParentId(tree.getParentId(id));
-                        strokeColor = tree.getItem(annotationId).LineColor;
-
+                        item.LineColor = tree.getItem(annotationId).LineColor;
+                        item.AnnotationId = tree.getItem(annotationId).Id;
                         regionAttr.push(item);
+                        var overlayId = "region_overlay_" + item.AnnotationId + "_" + item.Id;
+                        var overlayClass = "annotation_overlay";
+
                         d3.select(viewer.svgOverlay().node()).append("polygon")
                           .attr("points",item.Coords)
-                          .style('fill', "blue")
-                          .attr('opacity', 0.2)
-                          .attr('class', 'boundaryClass')
-                          .attr('stroke', strokeColor)
-                          .attr('stroke-width', 0.003);
-                        };
+                          .style('fill', "white")
+                          .style('fill-opacity', 0)
+                          .attr('opacity', 1)
+                          .attr('class', overlayClass)
+                          .attr('id', overlayId)
+                          .attr('stroke', item.LineColor)
+                          .attr('stroke-width', 0.001);
+                      
+                        (function(region){
+                            $("#"+overlayId).hover(function(){
+                                $(this).css({stroke: "red", "stroke-width": 0.002});
+                            }, function(){
+                                $(this).css({stroke: region.LineColor, "stroke-width": 0.001});
+                            });
+                        })(item); 
+                    }
                 });
               
                 $$("region_attributes").parse(regionAttr); 
@@ -118,27 +131,15 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
     var ROIColumns = [{
         id: "Id"
     }, {
-        id: "Name"
+        id: "AnnotationId", header: "Annotation ID"
     }, {
-        id: "ReadOnly", header: "Read Only"
+        id: "AreaMicrons", header: "Area Microns"
     }, {
-        id: "NameReadOnly"
+        id: "LengthMicrons", header: "Length Microns"
     }, {
-        id: "LineColorReadOnly"
+        id: "NegativeROA", header: "Negative ROA"
     }, {
-        id: "Incremental"
-    }, { 
-        id: "Type"
-    }, {
-        id: "LineColor"
-    }, {
-        id: "Visible"
-    }, {
-        id: "Selected"
-    }, {
-        id: "MarkupImagePath"
-    }, {
-        id: "MacroName"
+        id: "Zoom", fillspace:true
     }];
 
     var layoutROIInfo = {
@@ -153,8 +154,6 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
         id: "aperio_window",
         move: true,
         resize: true,
-        //position:"center",
-        modal: true,
         head: {
             view: "toolbar",
             margin: -4,
