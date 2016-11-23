@@ -85,6 +85,9 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
                         (function(region){
                             $("#"+overlayId).hover(function(){
                                 $(this).css({stroke: "red", "stroke-width": 0.002});
+                                webix.message("Region: " + region.Id + 
+                                              "<br/>Area (Microns): " + region.AreaMicrons + 
+                                              "<br/>Length (Microns):" + region.LengthMicrons);
                             }, function(){
                                 $(this).css({stroke: region.LineColor, "stroke-width": 0.001});
                             });
