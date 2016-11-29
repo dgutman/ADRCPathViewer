@@ -108,8 +108,28 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
 
     //slides panel is the left panel, contains two rows 
     //containing the slide group dropdown and the thumbnails panel 
+    var wideIcon = "<span class='aligned wide webix_icon fa-plus-circle'></span>";
+    var narrowIcon = "<span class='aligned narrow webix_icon fa-minus-circle'></span>"
+      
     slidesPanel = {
+        id: "slidenav_panel",
         header: "Slide Controls",
+        header: "Slides " + wideIcon + narrowIcon,
+        headerAlt: "Expand the view",
+        onClick:{
+            wide:function(event, id){      
+              $$("viewer_panel").config.width = 1;
+              $$(id).config.width = null; 
+              $$("root").resize()
+              return false;
+            }, 
+            narrow:function(event, id){
+              $$(id).config.width = 220;
+              $$("viewer_panel").config.width = null; 
+              $$("root").resize()
+              return false;
+            }
+        },
         body: {
             rows: [
                 dropdown, samples_dropdown, filter, thumbPager, thumbnailsPanel

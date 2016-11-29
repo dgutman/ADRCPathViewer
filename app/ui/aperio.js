@@ -98,7 +98,15 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
                 $$("region_attributes").parse(regionAttr); 
             },
             onItemClick: function(id){
-                console.log(this.getItem(id));
+                item = this.getItem(id);
+                var attr = [];
+                $.each(item, function(key, val){
+                    attr.push({"key": key, "value":val});
+
+                });
+
+                $$("region_keyvalue").clearAll();
+                $$("region_keyvalue").parse(attr);
             }
         }
     };
@@ -123,9 +131,9 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
         width: "auto",
         id: "region_keyvalue",
         columns: [{
-            'id': "Parameter"
+            'id': "key"
         }, {
-            'id': "Value"
+            'id': "value", fillspace:true
         }],
         autoConfig: true
 
@@ -149,6 +157,7 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
         view: "datatable",
         width: "auto",
         id: "region_attributes",
+        select: true,
         columns: ROIColumns
     };
 

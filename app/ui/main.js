@@ -4,6 +4,7 @@ define("ui/main", ["ui/header", "ui/filters", "ui/slidenav", "ui/toolbar", "ui/m
         filters.init();
 
         viewerPanel = {
+            id: "viewer_panel",
             rows: [toolbar.buttons, {
                 view: "template",
                 content: "image_viewer"
@@ -44,6 +45,7 @@ define("ui/main", ["ui/header", "ui/filters", "ui/slidenav", "ui/toolbar", "ui/m
 
         webix.ui({
             container: "main_layout",
+            id: "root",
             rows: [
                 header.view, {
                     cols: [
