@@ -4,9 +4,6 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
         view: "dataview",
         id: "thumbnails_panel",
         select: true,
-        pager: "thumbPager",
-        datafetch: 10,
-        loadahead: 10,
         template: "<div class='webix_strong'>#name#</div><img src='" + config.BASE_URL + "/item/#_id#/tiles/thumbnail'/>",
         datatype: "json",
         type: {
@@ -21,7 +18,7 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
         }
     };
 
-    //dropdown for slide groups
+    //dropdown for slide groups 
     //Data is pulled from DAS webservice
     dropdown = {
         view: "combo",
@@ -41,12 +38,17 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
                     var sFoldersMenu = $$("samples_list").getPopup().getList();
                     sFoldersMenu.clearAll();
                     sFoldersMenu.parse(data);
-                    $$("samples_list").setValue(data[0].id);
                 });
+
+                var url = config.BASE_URL + "/dsa_endpoints/cohort/" + item._id + "/slides";
+                $$("thumbnails_panel").clearAll();
+                $$("thumbnails_panel").load(url);
             },
             "onAfterRender": function() {
+                //get the ID of the COLLECTION_NAME
                 $.get(config.BASE_URL + "/resource/lookup?path=/collection/" + config.COLLECTION_NAME)
                     .then(function(collection) {
+                        //get the folders (cohorts) for that collection
                         return $.get(config.BASE_URL + "/folder?parentType=collection&parentId=" + collection._id);
                     }).then(function(folders) {
                         var foldersMenu = $$("slideset_list").getPopup().getList();
@@ -58,7 +60,6 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
                         var sFoldersMenu = $$("samples_list").getPopup().getList();
                         sFoldersMenu.clearAll();
                         sFoldersMenu.parse(data);
-                        $$("samples_list").setValue(data[0].id);
                     }).fail(function(data) {
                         console.log(data);
                     });
@@ -87,14 +88,6 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
                 }
             }
         }
-    };
-
-    thumbPager = {
-        view: "pager",
-        id: "thumbPager",
-        animate: true,
-        size: 10,
-        group: 4
     };
 
     filter = {
@@ -132,7 +125,7 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
         },
         body: {
             rows: [
-                dropdown, samples_dropdown, filter, thumbPager, thumbnailsPanel
+                dropdown, samples_dropdown, filter, thumbnailsPanel
             ]
         },
         width: 220
