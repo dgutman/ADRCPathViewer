@@ -1,9 +1,18 @@
 define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function(config, slide, $, aperio) {
 
+    webix.locale.pager = {
+        prev: "<",
+        next: ">",
+        page: "3"
+    };
+
     var thumbnailsPanel = {
         view: "dataview",
         id: "thumbnails_panel",
         select: true,
+        pager: "thumbPager",
+        datafetch: 10,
+        loadahead: 10,
         template: "<div class='webix_strong'>#name#</div><img src='" + config.BASE_URL + "/item/#_id#/tiles/thumbnail'/>",
         datatype: "json",
         type: {
@@ -16,6 +25,15 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
                 slide.init(item);
             }
         }
+    };
+
+    thumbPager = {
+        view:"pager",
+        id: "thumbPager",
+        template: "{common.prev()} {common.page()} #size# #limit# #count# {common.next()}",
+        animate:true,
+        size:10,
+        group:4
     };
 
     //dropdown for slide groups 
@@ -42,6 +60,7 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
 
                 var url = config.BASE_URL + "/dsa_endpoints/cohort/" + item._id + "/slides";
                 $$("thumbnails_panel").clearAll();
+                $$("thumbnails_panel").setPage(0);
                 $$("thumbnails_panel").load(url);
             },
             "onAfterRender": function() {
@@ -125,7 +144,7 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
         },
         body: {
             rows: [
-                dropdown, samples_dropdown, filter, thumbnailsPanel
+                dropdown, samples_dropdown, filter, thumbPager, thumbnailsPanel
             ]
         },
         width: 220
@@ -143,6 +162,10 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
         var thumbs = $$("thumbnails_panel");
         thumbs.clearAll();
         thumbs.load(url);
+    }
+
+    function hello(){
+        console.log("hello");
     }
 
     return {
