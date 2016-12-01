@@ -2,6 +2,8 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
  
     var imageWidth = 1;
     pubsub.subscribe("SLIDE", function(msg, slide) {
+        $$("region_keyvalue").clearAll();
+        $$("region_attributes").clearAll();
         $$("file_list").clearAll();
         $$("file_list").parse(slide.aperio);
         $$("file_list").refresh();
@@ -120,6 +122,8 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
         select: true,
         on: {
             onItemClick: function(id){
+                $$("region_keyvalue").clearAll();
+                $$("region_attributes").clearAll();
                 $$("aperio_xml_tree").clearAll();
                 $$("aperio_xml_tree").load(this.getItem(id).url);
                 $(".boundaryClass").remove();
