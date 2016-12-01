@@ -1,11 +1,5 @@
 define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function(config, slide, $, aperio) {
 
-    webix.locale.pager = {
-        prev: "<",
-        next: ">",
-        page: "3"
-    };
-
     var thumbnailsPanel = {
         view: "dataview",
         id: "thumbnails_panel",
@@ -30,7 +24,7 @@ define("ui/slidenav", ["config", "slide", "jquery", "aperio", "webix"], function
     thumbPager = {
         view:"pager",
         id: "thumbPager",
-        template: "{common.prev()} {common.page()} #size# #limit# #count# {common.next()}",
+        template: "{common.prev()}{common.page()}/#limit#{common.next()}(#count# slides)",
         animate:true,
         size:10,
         group:4

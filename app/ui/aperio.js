@@ -5,10 +5,11 @@ define("ui/aperio", ["pubsub", "d3", "zoomer", "svg", "aperio"], function(pubsub
         $$("file_list").clearAll();
         $$("file_list").parse(slide.aperio);
         $$("file_list").refresh();
+        $(".annotation_overlay").remove();
 
         if(typeof slide.tiles !== "undefined"){
             imageWidth = slide.tiles.sizeX;
-            $$("aperio_xml_tree").refresh();
+            $$("aperio_xml_tree").clearAll();
         }
     });
 
