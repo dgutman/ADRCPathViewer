@@ -22,6 +22,7 @@ require = {
         "aperio": "app/aperio",
         "obs": "app/observables",
         "routes": "app/routes",
+        "data": "app/data",
         "app": "app/app"
     },
 

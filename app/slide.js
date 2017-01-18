@@ -1,4 +1,4 @@
-define("slide", ["pubsub", "config", "zoomer", "jquery", "webix"], function(pubsub, config, viewer, $) {
+define("slide", ["pubsub", "config", "zoomer", "jquery", "data", "webix"], function(pubsub, config, viewer, $, data) {
 
     var slide = {
         aBtn: null,
@@ -62,8 +62,19 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "webix"], function(pubs
 
         getFiles: function() {
             var obj = this;
+            var key = this.name.split(".")[0];
+            var f = this.aperio;
 
-            s1 = {
+            if(key in data){
+                $.each(data[key], function(index, file){
+                    s = {"name": key, "url": "http://digitalslidearchive.emory.edu:8005" + file};
+                    f.push(s);
+                    //console.log(index, file);
+                });
+            }
+
+            this.aperio = f;
+            /*s1 = {
               "url": "http://digitalslidearchive.emory.edu/v1/aperio/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files/bcrTCGA/diagnostic_block_HE_section_image/TCGA-12-0620-01Z-00-DX2.xml",
               "name": "TCGA-12-0620-01Z-00-DX2.xml"
             };
@@ -74,11 +85,11 @@ define("slide", ["pubsub", "config", "zoomer", "jquery", "webix"], function(pubs
             s3 = {
               "url": "http://digitalslidearchive.emory.edu/v1/aperio/TCGA_MIRROR/TCGA_METADATA/Aperio_XML_Files/bcrTCGA/diagnostic_block_HE_section_image/TCGA-12-0620-01Z-00-DX2.xml",
               "name": "TCGA-12-0620-01Z-00-DX2.xml"
-            };
+            };*/
 
-            this.aperio.push(s1);
+            /*this.aperio.push(s1);
             this.aperio.push(s2);
-            this.aperio.push(s3);
+            this.aperio.push(s3);*/
 
             $.get(config.BASE_URL + "/item/" + this._id + "/files", function(files) {
                 this.files = files;
