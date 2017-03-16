@@ -32,7 +32,7 @@ define(["jquery", "config", "cookie", "webix"], function($, config, cookie) {
         { id: "height", sort: "server", header: "Height", width: 80 },
         { id: "size", sort: "server", header: "Size", width: 100 },
         { id: "path", header: ["Slide Path", { content: "serverFilter" }], width: 400, fillspace: true },
-        { id: "originalResolution", header: "Ori. Res.", width: 50 },
+        { id: "originalResolution", header: "Orig Res.", width: 50 },
         { id: "openSlideSuccess", header: "OpenSlide Success", width: 100 },
     ]
 
@@ -40,7 +40,8 @@ define(["jquery", "config", "cookie", "webix"], function($, config, cookie) {
         rows: [  { cols: [{
             view: "pager",
             template: "{common.first()} {common.prev()} {common.pages()} {common.next()} {common.last()} (Total Slides #count#)",
-            container: "paging",
+            // container: "paging",
+            width: 800,
             size: 20,
             group: 5,
             id: "gridPager"
@@ -158,16 +159,18 @@ define(["jquery", "config", "cookie", "webix"], function($, config, cookie) {
         container: "main_layout",
 
         id: "mylayout",
-        type: "space",
+        // type: "space",
         rows: [
             header, //here you place any component you like
 
             { view: "resizer" },
-            { cols: [mainDataPanel, metaImageViewer], fillspace: true }
+            { cols: [mainDataPanel, metaImageViewer]}  //, fillspace: true 
         ]
     }
 
     webix.ready(function() {
         webix.ui(RawSlideLayout);
+
+        webix.event(window, "resize", function(){ $$("mylayout").resize(); })
     });
 });

@@ -300,6 +300,7 @@ define("ui/main", ["config", "obs", "zoomer", "aperio", "jquery", "cookie", "ui/
         //Window for inserting and viewing slide comments
         webix.ui({
             view:"window",
+            id: "wbxMainUI",
             head:{
                 view: "toolbar", 
                 margin:-4, 
