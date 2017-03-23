@@ -147,8 +147,7 @@ define(["jquery", "config", "cookie", "webix"], function($, config, cookie) {
     metaImageViewer = { view: "template",  width: 200, id: "image_preview",
         template:function(){
             if(!$.isEmptyObject(slide)){
-                //var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
-                var credentials = "username=admin&password=bmiBl0wz!";
+                var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
                 // + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
                 
 
