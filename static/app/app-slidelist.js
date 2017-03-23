@@ -148,7 +148,7 @@ define(["jquery", "config", "cookie", "webix"], function($, config, cookie) {
         template:function(){
             if(!$.isEmptyObject(slide)){
                 var credentials = "username=" + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
-                // + $.cookie("dsa_username") + "&password=" + $.cookie("dsa_password");
+
                 
 
                 return "<h5>Slide</h5><img src='"+config.BASE_URL+"/thumbnail/"+slide.id+"'/>" +
